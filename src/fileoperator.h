@@ -2,6 +2,7 @@
 #define FILEOPERATOR_H
 
 #include <QWidget>
+#include "sndfile.h"
 
 class FileOperator : public QWidget
 {
