@@ -1,0 +1,82 @@
+
+
+-8.11.2006
+*) BeatDetection hinzugefuegt, funktioniert aber nicht gut
+*) BeatRoot von Simon Dixon vom ofai integriert, toller beat tracker!
+*) Algo a2 verbessert, fast bei a3, aber noch immer etwa 0.5% schlechter...
+
+1.11.2006
+*) Key Detection nimmt jetzt nicht das ganze stück sondern die ersten und letzten x sekunden, normalisiert diese und summiert sie in ein PCP auf.
+Verschiedenste Tests (siehe testresults)
+Ergebnis:
++ Downsamplen auf 22050 bring keine verluste dafür aber schnelleres ergebnis
+- a3 (integrate) algo um das PCP zu generieren ist noch immer der besste. müsste man genau analysieren um zu verbessern
+  versuch mit localmax die eine hoehe von min 10% des maximal wertes haben, sind nicht an a3 herangekommen.
+  nicht nur die spitze zu nehmen sondern auch 6 werte im umfeld bringt laut testergebnissen auch nichts
+  --> noch weiter experimentieren
++ septakkorde dazu schadet nix
++ lowpass bringt viel (>5 % )
+
+
+
+28.10.2006
+*) Genchords: Soundfile: now mixes the channels of a multi-channel file instead of just taking the first
+	(relevant especially for older songs, ex.g. Beatles - Help -> 4% better)
+*) Gesamtzprozentausgabe nun auch ohne berücksichtigung der längen der einzelnen Stücke (gesamtprozent/anzahl der files)
+
+27.10.2006
+*) Labeldiff: Programmierfehler ausgebessert
+*) Genchords: LAbelfile can now print aus the x best chords and their probabilities
+	added option -n num to specify how many chords shall be printed
+	added option -w windowsize. tested different windowsizes 2048 scored best
+	
+
+
+23.10.2006
+*) Genchords: Sounddata: getKey + PCP
+	: Added argument ac_BlockSizeMs. Autocorrelation isn't good on segments that are very long, as
+	the key generatino where the whole song is passed. Now the autocorrelation is done on blocks of ac_BlockSizeMs length
+	and the results are summed up in the PCP.
+*) Genchors: Sounddata: getKey: makes use of guessChord now
+*) Genchords: guessChord: doenst return only one chord  but num chords and their probabilities
+22.10.2006
+*) Genchords: PCPTrack: instead of assuming constant intervals betweend the PCPs we now save the starttime of each PCP
+*) Genchords: PCPTrack: Added Constructor that reads in the starttimes from a labelfile
+*) Genchords: Added option -k (Key), -b (beatfile)
+
+21.10.2006
+*) Script transpose that operates on labelfiles an can transpose the chords, change from b to # notation, and change from short (a, A) to long(AMin, AMaj) notation
+*) Labeldiff: Changed comparison of two chords: respects enharmonic changes, * and / notation
+
+
+20.10.2006
+*) added to Testset: Jack Johnson, Mando Diao, REM, Elton John, Cat Stevens, Bob Dylan
+
+29.06.2006
+*) added to Testset: Beethoven 5. Symphony 8 meas, Tori Amos - Way Down
+
+28.06.2006
+*) added to Tetset: Johnny_Cash_-_I_Walk_The_Line, Tina_Turnern_-_Whats_Love_Got_To-Do_With_It
+~) Found and read some texts about beat detection (statistical methods, autocorrelation)
+
+27.06.2006
+*) added Beatles Songs to Testset
+
+26.06.2006
+*) New function flatkey that return for the Keys left of C in the Quintenzirkel true
+   -> nicer output
+
+25.06.2006
+*) Restructered the whole code.
+*) Added a class Sounddata that handles the fileio and has an element srcbuffer with the whole song
+   
+
+24.06.2006
+*) Added Confusion Matrix ouput to labeldiff
+
+23.06.2006
+*) Created an svn-repository https://ti.tuwien.ac.at/svn/Genchords
+
+22.06.2006
+*) Added support for Stereo-Wav Files
+*) Added support for MP3 using L.A.M.E.

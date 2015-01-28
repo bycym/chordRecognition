@@ -1,0 +1,2 @@
+Optimale Einstellungen:
+genchords -a3 -b1 -ko -v7 [WAVDIR] [OUTPUTDIR]

@@ -2,7 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QDebug>
 
 namespace Ui {
 class MainWindow;
@@ -18,7 +17,7 @@ public:
 
 private slots:
     void on_pushButton_clicked();
-    
+
 private:
     Ui::MainWindow *ui;
 };

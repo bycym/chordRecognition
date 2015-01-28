@@ -1,0 +1,58 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!DOCTYPE KDevPrjSession>
+<KDevPrjSession>
+ <DocsAndViews NumberOfDocuments="8" >
+  <Doc0 NumberOfViews="1" URL="file:/home/zenz/src/Genchords/src/genchords.cpp" >
+   <View0 line="83" Type="Source" />
+  </Doc0>
+  <Doc1 NumberOfViews="1" URL="file:/home/zenz/src/Genchords/src/PCP.h" >
+   <View0 line="12" Type="Source" />
+  </Doc1>
+  <Doc2 NumberOfViews="1" URL="file:/home/zenz/src/Genchords/src/Chordsequence.cpp" >
+   <View0 line="132" Type="Source" />
+  </Doc2>
+  <Doc3 NumberOfViews="1" URL="file:/home/zenz/src/Genchords/src/scripts/chordmix.sh" >
+   <View0 line="148" Type="Source" />
+  </Doc3>
+  <Doc4 NumberOfViews="1" URL="file:/home/zenz/src/Genchords/src/Chordtype.cpp" >
+   <View0 line="98" Type="Source" />
+  </Doc4>
+  <Doc5 NumberOfViews="1" URL="file:/home/zenz/src/Genchords/src/BeatDetection.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc5>
+  <Doc6 NumberOfViews="1" URL="file:/home/zenz/src/Genchords/src/PCP.cpp" >
+   <View0 line="253" Type="Source" />
+  </Doc6>
+  <Doc7 NumberOfViews="1" URL="file:/home/zenz/src/Genchords/src/Key.cpp" >
+   <View0 line="0" Type="Source" />
+  </Doc7>
+ </DocsAndViews>
+ <pluginList>
+  <kdevdebugger>
+   <breakpointList/>
+  </kdevdebugger>
+  <kdevbookmarks>
+   <bookmarks>
+    <bookmark url="/home/zenz/src/Genchords/src/labeldiff.cpp" >
+     <mark line="78" />
+    </bookmark>
+    <bookmark url="/home/zenz/src/Genchords/src/Chordtype.cpp" >
+     <mark line="15" />
+    </bookmark>
+    <bookmark url="/home/zenz/src/Genchords/src/learnchords.cpp" >
+     <mark line="156" />
+    </bookmark>
+   </bookmarks>
+  </kdevbookmarks>
+  <kdevrbdebugger>
+   <breakpointList/>
+   <watchExpressions/>
+  </kdevrbdebugger>
+  <kdevvalgrind>
+   <executable path="" params="" />
+   <valgrind path="" params="" />
+   <calltree path="" params="" />
+   <kcachegrind path="" />
+  </kdevvalgrind>
+ </pluginList>
+</KDevPrjSession>

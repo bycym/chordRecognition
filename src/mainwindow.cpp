@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "genchords/src/Sounddata.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -15,5 +16,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-    qDebug() << "Yolo" << endl;
+    QString imp = "sample.wav";
+    Sounddata snd(imp);
 }

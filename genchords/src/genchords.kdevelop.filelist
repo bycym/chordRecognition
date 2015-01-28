@@ -1,0 +1,25 @@
+# KDevelop Custom Project File List
+Chordtype.cpp
+Chordtype.h
+FFT.cpp
+FFT.h
+genchords.cpp
+genchords.h
+genchords.old.cpp
+Makefile
+malloctest.cpp
+PCP.cpp
+PCP.h
+Pitch.cpp
+Pitch.h
+PitchName.cpp
+PitchName.h
+utilities.cpp
+utilities.h
+alt/Chords.cpp
+alt/Chords.h
+alt/Chordtype.h
+Chordsequence.h
+Chordsequence.cpp
+scripts/chordmix.sh
+labeldiff.cpp
