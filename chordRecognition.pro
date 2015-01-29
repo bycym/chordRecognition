@@ -90,6 +90,8 @@ SOURCES += src/main.cpp\
     genchords/lib-src/libsndfile/src/wav_w64.c \
     genchords/lib-src/libsndfile/src/wve.c \
     genchords/lib-src/libsndfile/src/xi.c \
+    src/Utils/neuralutilities.cpp \
+    src/IOMusicHandler/fileoperator.cpp
 
 
 HEADERS  += src/mainwindow.h \
@@ -118,5 +120,7 @@ HEADERS  += src/mainwindow.h \
     genchords/lib-src/libsndfile/src/sndfile.h \
     genchords/lib-src/libsndfile/src/wav_w64.h \
     genchords/src/learnchords.h \
+    src/Utils/neuralutilities.h \
+    src/IOMusicHandler/fileoperator.h
 
 FORMS    += src/mainwindow.ui

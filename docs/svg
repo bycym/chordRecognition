@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" font-family="Arial" font-size="13" width="1387" height="1172">
+	<desc>UML diagram model</desc>
+	<g id="_h5c2ATN9EeSm5tDnu9wFCA">
+		<defs>
+			<linearGradient id="greyGradient" x1="0%" y1="0%" x2="0%" y2="100%" spreadMethod="pad">
+				<stop offset="0%" stop-color="#FFFFFF" stop-opacity="1" />
+				<stop offset="100%" stop-color="#E5E5E5" stop-opacity="1" />
+				
+			</linearGradient>
+			<linearGradient id="packageGradient" x1="0%" y1="0%" x2="0%" y2="100%" spreadMethod="pad">
+				<stop offset="0%" stop-color="#FFFFFF" stop-opacity="1" />
+				<stop offset="100%" stop-color="#EFE9DE" stop-opacity="1" />
+				
+			</linearGradient>
+			
+		</defs>
+		<g id="_JsyPYBY5EDKHzY7Re-7cFg">
+			<rect x="77" y="182" width="49" height="28" rx="5" ry="0" fill="url(#packageGradient)" stroke="#c2b79f" stroke-width="1" />
+			<text x="83" y="198" font-weight="bold" fill="#806221">View</text>
+			<rect x="77" y="206" width="290" height="476" rx="0" ry="0" fill="url(#packageGradient)" stroke="#c2b79f" stroke-width="1" />
+			
+		</g>
+		<g id="_NChcIBY5EDKHzY7Re-7cFg">
+			<rect x="897" y="182" width="120" height="28" rx="5" ry="0" fill="url(#packageGradient)" stroke="#c2b79f" stroke-width="1" />
+			<text x="903" y="198" font-weight="bold" fill="#806221">I/OMusicHandler</text>
+			<rect x="897" y="206" width="440" height="266" rx="0" ry="0" fill="url(#packageGradient)" stroke="#c2b79f" stroke-width="1" />
+			
+		</g>
+		<g id="_QmaZoBY5EDKHzY7Re-7cFg">
+			<rect x="397" y="182" width="49" height="28" rx="5" ry="0" fill="url(#packageGradient)" stroke="#c2b79f" stroke-width="1" />
+			<text x="403" y="198" font-weight="bold" fill="#806221">Core</text>
+			<rect x="397" y="206" width="480" height="486" rx="0" ry="0" fill="url(#packageGradient)" stroke="#c2b79f" stroke-width="1" />
+			
+		</g>
+		<g id="_TOeBABY5EDKHzY7Re-7cFg">
+			<rect x="897" y="482" width="127" height="28" rx="5" ry="0" fill="url(#packageGradient)" stroke="#c2b79f" stroke-width="1" />
+			<text x="903" y="498" font-weight="bold" fill="#806221">DatabaseHandler</text>
+			<rect x="897" y="506" width="440" height="186" rx="0" ry="0" fill="url(#packageGradient)" stroke="#c2b79f" stroke-width="1" />
+			
+		</g>
+		<g id="_rGtzEBY6EDKHzY7Re-7cFg">
+			<rect x="547" y="692" width="34" height="28" rx="5" ry="0" fill="url(#packageGradient)" stroke="#c2b79f" stroke-width="1" />
+			<text x="553" y="708" font-weight="bold" fill="#806221">MI</text>
+			<rect x="547" y="716" width="790" height="406" rx="0" ry="0" fill="url(#packageGradient)" stroke="#c2b79f" stroke-width="1" />
+			
+		</g>
+		<g id="_UFdMABY8EDKHzY7Re-7cFg">
+			<rect x="77" y="2" width="73" height="28" rx="5" ry="0" fill="url(#packageGradient)" stroke="#c2b79f" stroke-width="1" />
+			<text x="83" y="18" font-weight="bold" fill="#806221">libsndfile</text>
+			<rect x="77" y="26" width="1260" height="136" rx="0" ry="0" fill="url(#packageGradient)" stroke="#c2b79f" stroke-width="1" />
+			
+		</g>
+		<g id="_6VacgB4qEDKYEJ5tOMDKcQ">
+			<rect x="77" y="702" width="80" height="28" rx="5" ry="0" fill="url(#packageGradient)" stroke="#c2b79f" stroke-width="1" />
+			<text x="83" y="718" font-weight="bold" fill="#806221">GUILibary</text>
+			<rect x="77" y="726" width="440" height="396" rx="0" ry="0" fill="url(#packageGradient)" stroke="#c2b79f" stroke-width="1" />
+			
+		</g>
+		<g id="_Yy_ZgBY5EDKHzY7Re-7cFg">
+			<rect x="527" y="362" width="60" height="80" rx="5" ry="0" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="557" y="380" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">Main</text>
+			<line x1="527" y1="389" x2="587" y2="389" stroke-width="1.0" stroke="#CCCCCC" />
+			<line x1="527" y1="396" x2="587" y2="396" stroke-width="1.0" stroke="#CCCCCC" />
+			
+		</g>
+		<g id="_a5z8EBY5EDKHzY7Re-7cFg">
+			<rect x="1177" y="782" width="83" height="80" rx="5" ry="0" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="1219" y="800" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">Getfeature</text>
+			<line x1="1177" y1="809" x2="1260" y2="809" stroke-width="1.0" stroke="#CCCCCC" />
+			<line x1="1177" y1="816" x2="1260" y2="816" stroke-width="1.0" stroke="#CCCCCC" />
+			
+		</g>
+		<g id="_ja2JABY5EDKHzY7Re-7cFg">
+			<rect x="1217" y="242" width="60" height="80" rx="5" ry="0" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="1247" y="260" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">open</text>
+			<line x1="1217" y1="269" x2="1277" y2="269" stroke-width="1.0" stroke="#CCCCCC" />
+			<line x1="1217" y1="276" x2="1277" y2="276" stroke-width="1.0" stroke="#CCCCCC" />
+			
+		</g>
+		<g id="_VnClcBY6EDKHzY7Re-7cFg">
+			<rect x="247" y="362" width="108" height="80" rx="5" ry="0" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="301" y="380" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">ViewController</text>
+			<line x1="247" y1="389" x2="355" y2="389" stroke-width="1.0" stroke="#CCCCCC" />
+			<line x1="247" y1="396" x2="355" y2="396" stroke-width="1.0" stroke="#CCCCCC" />
+			
+		</g>
+		<g id="_Y5vsUBY6EDKHzY7Re-7cFg">
+			<rect x="97" y="482" width="116" height="80" rx="5" ry="0" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="155" y="500" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">MusicController</text>
+			<line x1="97" y1="509" x2="213" y2="509" stroke-width="1.0" stroke="#CCCCCC" />
+			<line x1="97" y1="516" x2="213" y2="516" stroke-width="1.0" stroke="#CCCCCC" />
+			
+		</g>
+		<g id="_dK4xYBY6EDKHzY7Re-7cFg">
+			<rect x="97" y="222" width="107" height="80" rx="5" ry="0" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="151" y="240" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">InputContoller</text>
+			<line x1="97" y1="249" x2="204" y2="249" stroke-width="1.0" stroke="#CCCCCC" />
+			<line x1="97" y1="256" x2="204" y2="256" stroke-width="1.0" stroke="#CCCCCC" />
+			
+		</g>
+		<g id="_jtMn0BY6EDKHzY7Re-7cFg">
+			<rect x="927" y="522" width="125" height="80" rx="5" ry="0" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="990" y="540" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">DatabaseHandler</text>
+			<line x1="927" y1="549" x2="1052" y2="549" stroke-width="1.0" stroke="#CCCCCC" />
+			<line x1="927" y1="556" x2="1052" y2="556" stroke-width="1.0" stroke="#CCCCCC" />
+			
+		</g>
+		<g id="_n-kWYBY6EDKHzY7Re-7cFg">
+			<rect x="1167" y="532" width="76" height="80" rx="5" ry="0" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="1205" y="550" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">Tokanizer</text>
+			<line x1="1167" y1="559" x2="1243" y2="559" stroke-width="1.0" stroke="#CCCCCC" />
+			<line x1="1167" y1="566" x2="1243" y2="566" stroke-width="1.0" stroke="#CCCCCC" />
+			
+		</g>
+		<g id="_uQsbwBY6EDKHzY7Re-7cFg">
+			<rect x="597" y="742" width="92" height="80" rx="5" ry="0" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="643" y="760" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">MIController</text>
+			<line x1="597" y1="769" x2="689" y2="769" stroke-width="1.0" stroke="#CCCCCC" />
+			<line x1="597" y1="776" x2="689" y2="776" stroke-width="1.0" stroke="#CCCCCC" />
+			
+		</g>
+		<g id="_yWtO4BY6EDKHzY7Re-7cFg">
+			<rect x="827" y="752" width="74" height="80" rx="5" ry="0" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="864" y="770" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">Classifier</text>
+			<line x1="827" y1="779" x2="901" y2="779" stroke-width="1.0" stroke="#CCCCCC" />
+			<line x1="827" y1="786" x2="901" y2="786" stroke-width="1.0" stroke="#CCCCCC" />
+			
+		</g>
+		<g id="_1NICYBY6EDKHzY7Re-7cFg">
+			<rect x="947" y="922" width="60" height="80" rx="5" ry="0" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="977" y="940" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">MICore</text>
+			<line x1="947" y1="949" x2="1007" y2="949" stroke-width="1.0" stroke="#CCCCCC" />
+			<line x1="947" y1="956" x2="1007" y2="956" stroke-width="1.0" stroke="#CCCCCC" />
+			
+		</g>
+		<g id="_94aiEBY7EDKHzY7Re-7cFg">
+			<rect x="1067" y="62" width="101" height="80" rx="5" ry="0" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="1118" y="80" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">LibaryHandler</text>
+			<line x1="1067" y1="89" x2="1168" y2="89" stroke-width="1.0" stroke="#CCCCCC" />
+			<line x1="1067" y1="96" x2="1168" y2="96" stroke-width="1.0" stroke="#CCCCCC" />
+			
+		</g>
+		<g id="_NeA98BY8EDKHzY7Re-7cFg">
+			<rect x="227" y="582" width="122" height="80" rx="5" ry="0" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="288" y="600" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">ExportController</text>
+			<line x1="227" y1="609" x2="349" y2="609" stroke-width="1.0" stroke="#CCCCCC" />
+			<line x1="227" y1="616" x2="349" y2="616" stroke-width="1.0" stroke="#CCCCCC" />
+			
+		</g>
+		<g id="_i-mKgBY8EDKHzY7Re-7cFg">
+			<rect x="937" y="242" width="105" height="80" rx="5" ry="0" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="990" y="260" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">ExportHandler</text>
+			<line x1="937" y1="269" x2="1042" y2="269" stroke-width="1.0" stroke="#CCCCCC" />
+			<line x1="937" y1="276" x2="1042" y2="276" stroke-width="1.0" stroke="#CCCCCC" />
+			
+		</g>
+		<g id="_okyW8BY8EDKHzY7Re-7cFg">
+			<rect x="1027" y="382" width="92" height="80" rx="5" ry="0" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="1073" y="400" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">fileOperator</text>
+			<line x1="1027" y1="409" x2="1119" y2="409" stroke-width="1.0" stroke="#CCCCCC" />
+			<line x1="1027" y1="416" x2="1119" y2="416" stroke-width="1.0" stroke="#CCCCCC" />
+			
+		</g>
+		<g id="_GWSNYB4rEDKYEJ5tOMDKcQ">
+			<rect x="577" y="232" width="60" height="80" rx="5" ry="0" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="607" y="250" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">Init</text>
+			<line x1="577" y1="259" x2="637" y2="259" stroke-width="1.0" stroke="#CCCCCC" />
+			<line x1="577" y1="266" x2="637" y2="266" stroke-width="1.0" stroke="#CCCCCC" />
+			
+		</g>
+		<g id="_RnNIAB4rEDKYEJ5tOMDKcQ">
+			<rect x="157" y="742" width="71" height="80" rx="5" ry="0" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="193" y="760" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">MusicGui</text>
+			<line x1="157" y1="769" x2="228" y2="769" stroke-width="1.0" stroke="#CCCCCC" />
+			<line x1="157" y1="776" x2="228" y2="776" stroke-width="1.0" stroke="#CCCCCC" />
+			
+		</g>
+		<g id="_S6WK4B4rEDKYEJ5tOMDKcQ">
+			<rect x="397" y="762" width="100" height="80" rx="5" ry="0" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="447" y="780" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">GuiController</text>
+			<line x1="397" y1="789" x2="497" y2="789" stroke-width="1.0" stroke="#CCCCCC" />
+			<line x1="397" y1="796" x2="497" y2="796" stroke-width="1.0" stroke="#CCCCCC" />
+			
+		</g>
+		<g id="_yJM-IB4sEDKYEJ5tOMDKcQ">
+			<rect x="257" y="892" width="77" height="80" rx="5" ry="0" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="296" y="910" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">ExportGui</text>
+			<line x1="257" y1="919" x2="334" y2="919" stroke-width="1.0" stroke="#CCCCCC" />
+			<line x1="257" y1="926" x2="334" y2="926" stroke-width="1.0" stroke="#CCCCCC" />
+			
+		</g>
+		<g id="_ze2icB4sEDKYEJ5tOMDKcQ">
+			<rect x="87" y="852" width="67" height="80" rx="5" ry="0" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="121" y="870" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">InputGui</text>
+			<line x1="87" y1="879" x2="154" y2="879" stroke-width="1.0" stroke="#CCCCCC" />
+			<line x1="87" y1="886" x2="154" y2="886" stroke-width="1.0" stroke="#CCCCCC" />
+			
+		</g>
+		<g id="_04RMcB4sEDKYEJ5tOMDKcQ">
+			<rect x="377" y="952" width="94" height="80" rx="5" ry="0" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="424" y="970" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">MainViewGui</text>
+			<line x1="377" y1="979" x2="471" y2="979" stroke-width="1.0" stroke="#CCCCCC" />
+			<line x1="377" y1="986" x2="471" y2="986" stroke-width="1.0" stroke="#CCCCCC" />
+			
+		</g>
+		<g id="_yS0C0BY5EDKHzY7Re-7cFg">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="1253,322 1297,612" />
+			
+		</g>
+		<g id="_bJUiQRY6EDKHzY7Re-7cFg">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="252,442 203,482" />
+			
+		</g>
+		<g id="_b87JcRY6EDKHzY7Re-7cFg">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="355,402 527,402" />
+			
+		</g>
+		<g id="_e5m9AhY6EDKHzY7Re-7cFg">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="258,362 193,302" />
+			
+		</g>
+		<g id="_heTHUBY6EDKHzY7Re-7cFg">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="204,269 967,372" />
+			
+		</g>
+		<g id="_mvX_YBY6EDKHzY7Re-7cFg">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="927,538 587,413" />
+			
+		</g>
+		<g id="_pugC8RY6EDKHzY7Re-7cFg">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="1052,564 1167,570" />
+			
+		</g>
+		<g id="_vqNMYRY6EDKHzY7Re-7cFg">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="566,442 633,742" />
+			
+		</g>
+		<g id="_0Sx6ABY6EDKHzY7Re-7cFg">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="689,784 827,790" />
+			
+		</g>
+		<g id="_2ABe8RY6EDKHzY7Re-7cFg">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="689,806 947,945" />
+			
+		</g>
+		<g id="_AJyHwBY8EDKHzY7Re-7cFg">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="1218,242 1146,142" />
+			
+		</g>
+		<g id="_Pg4NkRY8EDKHzY7Re-7cFg">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="298,442 290,582" />
+			
+		</g>
+		<g id="_kGNS0RY8EDKHzY7Re-7cFg">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="1018,242 1089,142" />
+			
+		</g>
+		<g id="_k9ZZgRY8EDKHzY7Re-7cFg">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="349,592 937,307" />
+			
+		</g>
+		<g id="_p0u74BY8EDKHzY7Re-7cFg">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="1027,420 587,403" />
+			
+		</g>
+		<g id="_qFAMghY8EDKHzY7Re-7cFg">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="1013,322 1049,382" />
+			
+		</g>
+		<g id="_rCqHkBY8EDKHzY7Re-7cFg">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="1217,306 1119,384" />
+			
+		</g>
+		<g id="_yS0C0BY5EDKHzY7Re-7cFg">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="1297,612 1234,782" />
+			
+		</g>
+		<g id="_heTHUBY6EDKHzY7Re-7cFg">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="967,372 1217,291" />
+			
+		</g>
+		<g id="_HZ2jMR4rEDKYEJ5tOMDKcQ">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="591,312 572,362" />
+			
+		</g>
+		<g id="_2foy4R4sEDKYEJ5tOMDKcQ">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="228,784 397,798" />
+			
+		</g>
+		<g id="_3IQSER4sEDKYEJ5tOMDKcQ">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="154,882 397,815" />
+			
+		</g>
+		<g id="_3jtfAR4sEDKYEJ5tOMDKcQ">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="428,952 442,842" />
+			
+		</g>
+		<g id="_38XPkB4sEDKYEJ5tOMDKcQ">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="334,899 400,842" />
+			
+		</g>
+		<g id="_5J4LkR4sEDKYEJ5tOMDKcQ">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="160,562 187,742" />
+			
+		</g>
+		<g id="_6aKHsR4sEDKYEJ5tOMDKcQ">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="546,442 458,762" />
+			
+		</g>
+		<g id="_72EsEB4sEDKYEJ5tOMDKcQ">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="129,302 67,412" />
+			
+		</g>
+		<g id="_72EsEB4sEDKYEJ5tOMDKcQ">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="67,782 101,852" />
+			
+		</g>
+		<g id="_72EsEB4sEDKYEJ5tOMDKcQ">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="67,412 67,782" />
+			
+		</g>
+		<g id="_-Na98h4sEDKYEJ5tOMDKcQ">
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="289,662 294,892" />
+			
+		</g>
+		<text x="1236" y="752" fill="#000000">getfeature</text>
+		<text x="1220" y="761" fill="#000000">0..1</text>
+		<text x="1212" y="372" fill="#000000">inputHandler</text>
+		<text x="1263" y="332" fill="#000000">0..1</text>
+		<text x="213" y="461" fill="#000000">musicController</text>
+		<text x="203" y="460" fill="#000000">0..1</text>
+		<text x="171" y="464" fill="#000000">guiController</text>
+		<text x="247" y="462" fill="#000000">0..1</text>
+		<text x="495" y="390" fill="#000000">main</text>
+		<text x="501" y="420" fill="#000000">0..1</text>
+		<text x="371" y="420" fill="#000000">guiController</text>
+		<text x="359" y="390" fill="#000000">0..1</text>
+		<text x="185" y="351" fill="#000000">inputContoller</text>
+		<text x="211" y="307" fill="#000000">0..1</text>
+		<text x="199" y="320" fill="#000000">guiController</text>
+		<text x="234" y="369" fill="#000000">0..1</text>
+		<text x="1135" y="293" fill="#000000">inputHandler</text>
+		<text x="1196" y="314" fill="#000000">0..1</text>
+		<text x="217" y="293" fill="#000000">inputContoller</text>
+		<text x="209" y="258" fill="#000000">0..1</text>
+		<text x="592" y="437" fill="#000000">main</text>
+		<text x="604" y="408" fill="#000000">0..1</text>
+		<text x="832" y="507" fill="#000000">databaseHandler</text>
+		<text x="906" y="551" fill="#000000">0..1</text>
+		<text x="1107" y="556" fill="#000000">tokanizer</text>
+		<text x="1140" y="586" fill="#000000">0..1</text>
+		<text x="1058" y="584" fill="#000000">databaseHandler</text>
+		<text x="1056" y="552" fill="#000000">0..1</text>
+		<text x="606" y="696" fill="#000000">mIController</text>
+		<text x="608" y="728" fill="#000000">0..1</text>
+		<text x="546" y="469" fill="#000000">main</text>
+		<text x="576" y="451" fill="#000000">0..1</text>
+		<text x="765" y="776" fill="#000000">classifier</text>
+		<text x="800" y="807" fill="#000000">0..1</text>
+		<text x="703" y="803" fill="#000000">mIController</text>
+		<text x="693" y="772" fill="#000000">0..1</text>
+		<text x="912" y="921" fill="#000000">mICore</text>
+		<text x="916" y="951" fill="#000000">0..1</text>
+		<text x="691" y="844" fill="#000000">mIController</text>
+		<text x="698" y="800" fill="#000000">0..1</text>
+		<text x="1115" y="220" fill="#000000">libary(SynthesisToolKit)</text>
+		<text x="1163" y="152" fill="#000000">0..1</text>
+		<text x="1170" y="198" fill="#000000">inputHandler</text>
+		<text x="1193" y="245" fill="#000000">0..1</text>
+		<text x="265" y="527" fill="#000000">exportController</text>
+		<text x="270" y="564" fill="#000000">0..1</text>
+		<text x="247" y="493" fill="#000000">guiController</text>
+		<text x="306" y="455" fill="#000000">0..1</text>
+		<text x="1012" y="176" fill="#000000">libaryHandler</text>
+		<text x="1083" y="169" fill="#000000">0..1</text>
+		<text x="1020" y="213" fill="#000000">exportHandler</text>
+		<text x="1005" y="228" fill="#000000">0..1</text>
+		<text x="848" y="317" fill="#000000">exportHandler</text>
+		<text x="919" y="332" fill="#000000">0..1</text>
+		<text x="364" y="583" fill="#000000">exportController</text>
+		<text x="345" y="577" fill="#000000">0..1</text>
+		<text x="598" y="421" fill="#000000">main</text>
+		<text x="601" y="391" fill="#000000">0..1</text>
+		<text x="945" y="406" fill="#000000">i/OController</text>
+		<text x="1010" y="437" fill="#000000">0..1</text>
+		<text x="1003" y="335" fill="#000000">i/OController</text>
+		<text x="1019" y="375" fill="#000000">0..1</text>
+		<text x="987" y="374" fill="#000000">exportHandler</text>
+		<text x="1025" y="325" fill="#000000">0..1</text>
+		<text x="1133" y="368" fill="#000000">i/OController</text>
+		<text x="1119" y="362" fill="#000000">0..1</text>
+		<text x="1138" y="325" fill="#000000">inputHandler</text>
+		<text x="1212" y="326" fill="#000000">0..1</text>
+		<text x="583" y="349" fill="#000000">main</text>
+		<text x="559" y="340" fill="#000000">0..1</text>
+		<text x="565" y="330" fill="#000000">init</text>
+		<text x="595" y="329" fill="#000000">0..1</text>
+		<text x="316" y="782" fill="#000000">guiController</text>
+		<text x="369" y="814" fill="#000000">0..1</text>
+		<text x="237" y="804" fill="#000000">musicGui</text>
+		<text x="233" y="772" fill="#000000">0..1</text>
+		<text x="312" y="816" fill="#000000">guiController</text>
+		<text x="375" y="837" fill="#000000">0..1</text>
+		<text x="170" y="890" fill="#000000">inputGui</text>
+		<text x="153" y="867" fill="#000000">0..1</text>
+		<text x="387" y="891" fill="#000000">guiController</text>
+		<text x="448" y="866" fill="#000000">0..1</text>
+		<text x="413" y="914" fill="#000000">mainViewGui</text>
+		<text x="408" y="943" fill="#000000">0..1</text>
+		<text x="320" y="865" fill="#000000">guiController</text>
+		<text x="388" y="869" fill="#000000">0..1</text>
+		<text x="346" y="889" fill="#000000">exportGui</text>
+		<text x="325" y="884" fill="#000000">0..1</text>
+		<text x="173" y="709" fill="#000000">musicGui</text>
+		<text x="163" y="727" fill="#000000">0..1</text>
+		<text x="111" y="621" fill="#000000">musicController</text>
+		<text x="170" y="572" fill="#000000">0..1</text>
+		<text x="452" y="721" fill="#000000">guiController</text>
+		<text x="442" y="741" fill="#000000">0..1</text>
+		<text x="515" y="462" fill="#000000">main</text>
+		<text x="551" y="458" fill="#000000">0..1</text>
+		<text x="79" y="817" fill="#000000">inputGui</text>
+		<text x="72" y="843" fill="#000000">0..1</text>
+		<text x="54" y="342" fill="#000000">inputContoller</text>
+		<text x="131" y="321" fill="#000000">0..1</text>
+		<text x="283" y="857" fill="#000000">exportGui</text>
+		<text x="272" y="875" fill="#000000">0..1</text>
+		<text x="232" y="723" fill="#000000">exportController</text>
+		<text x="298" y="674" fill="#000000">0..1</text>
+		
+	</g>
+	
+</svg>
