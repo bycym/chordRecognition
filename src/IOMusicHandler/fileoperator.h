@@ -9,6 +9,7 @@
 #include <QDebug>
 #include <QTextStream>
 #include <QMessageBox>
+#include <iostream>
 
 #include "../../genchords/src/Sounddata.h"
 

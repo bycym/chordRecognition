@@ -23,7 +23,7 @@ void MainWindow::on_pushButton_clicked()
 void MainWindow::on_openButton_clicked()
 {
     if(fileoperator->open())
-        ui->success->setText("OK");
+        ui->successLabel->setText("OK");
     else
-        ui->success->setText("ERROR");
+        ui->successLabel->setText("ERROR");
 }

@@ -4,6 +4,7 @@ FileOperator::FileOperator(QWidget *parent) :
     QWidget(parent)
 {
     fileName = "NO.DATA";
+    sndData = nullptr;
 }
 
 FileOperator::~FileOperator()
@@ -40,7 +41,7 @@ bool FileOperator::performLoadOperation(QString fn)
 
     bool success = false;
 
-    if(sndData != NULL){
+    if(sndData != nullptr){
         sndData->init(fn);
     }
     else{
