@@ -57,16 +57,23 @@ bool FileOperator::performLoadOperation(QString fn)
         int nAvgBytesPerSec;        // F * M * Nc
         short nBlockAlign;          // M * Nc
         short wBitsPerSample;       // rounds up to 8 * M
-        // ifdef PCM_OR_NONPCM
+        // if its NONPCM
         short cbSize;               // Size of the extension:0
-        //endif
 
-    //ifdef PCM_OR_NONPCM
+        // if its EXTENSIBLE format
+        short wValidBitsPerSample;
+        int dwChannelMask;
+        /*** TODO */
+        short subFormat[8];
+        // end of EXTENSIBLE format
+
+    // if its NONPCM or EXTENSIBLE format
     // fact:
     char ckFactID[4];               // "fact
     int ckFactSize;                 // chunk size: 4
         int dwSampleLength;         // Nc * Ns
     //endif
+
 
 
     // data:
@@ -97,7 +104,15 @@ bool FileOperator::performLoadOperation(QString fn)
 
     //if(wFormatTag != WAVE_FORMAT_PCM)
     //{
+        // NONPCM
         fread(&cbSize, sizeof(short), 1, fp);
+
+        // EXTENSION format
+        fread(&wValidBitsPerSample, sizeof(short), 1, fp);
+        fread(&dwChannelMask, sizeof(int), 1, fp);
+        fread(&subFormat, sizeof(short), 8, fp);
+
+
 
         fread(ckFactID, sizeof(char), 4, fp);
         fread(&ckFactSize, sizeof(int), 1, fp);

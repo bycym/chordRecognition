@@ -71,7 +71,7 @@ char waveID[4];                 // "WAVE"
 // format:
 char ckFormatID[4];             // "fmt"
 int ckFormatSize;               // 40
-    short wFormatTag;           // formatcode
+    short wFormatTag;           // WAVE_FORMAT_EXTENSIBLE
     short nChannels;            // Nc
     int nSamplesPerSec;         // F
     int nAvgBytesPerSec;        // F * M * Nc
@@ -108,23 +108,29 @@ private:
     short pcm;                       // 0 is PCM, 1 is NON-PCP, 2 extensible format
 
     char ckID[4];                   // "riff"
-    int ckSize;                     // 4 + (PCM_OR_NONPCM?(24):(26 + 12)) + (8 + M * Nc * Ns + (0 or 1))
+    int ckSize;                     // 4 + (PCM_OR_NONPCM?(24):(26 + 12):(48 + 12) + (8 + M * Nc * Ns + (0 or 1))
     char waveID[4];                 // "WAVE"
 
     // format:
     char ckFormatID[4];             // "fmt"
-    int ckFormatSize;               // PCM_OR_NONPCM?(16):(18)
-        short wFormatTag;           // PCM_OR_NONPCM?(WAVE_FORMAT_PCMformatcode
+    int ckFormatSize;               // PCM_OR_NONPCM?(16):(18):(40)
+        short wFormatTag;           // PCM_OR_NONPCM?(WAVE_FORMAT_PCM):(formatcode):(WAVE_FORMAT_EXTENSIBLE)
         short nChannels;            // Nc
         int nSamplesPerSec;         // F
         int nAvgBytesPerSec;        // F * M * Nc
         short nBlockAlign;          // M * Nc
         short wBitsPerSample;       // rounds up to 8 * M
-        // ifdef PCM_OR_NONPCM
+        // if its NONPCM
         short cbSize;               // Size of the extension:0
-        //endif
 
-    //ifdef PCM_OR_NONPCM
+        // if its EXTENSIBLE format
+        short wValidBitsPerSample;
+        int dwChannelMask;
+        /*** TODO */
+        short subFormat[8];
+        // end of EXTENSIBLE format
+
+    // if its NONPCM or EXTENSIBLE format
     // fact:
     char ckFactID[4];               // "fact
     int ckFactSize;                 // chunk size: 4
