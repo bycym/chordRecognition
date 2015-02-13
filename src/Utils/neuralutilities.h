@@ -2,11 +2,20 @@
 #define NEURALUTILITIES_H
 
 
+#include "../../genchords/src/FFT.h"
+
 /*!
  * \brief transforms a fragment of the input sound to a discrete Fourier transform (DFT) spectrum
  * \param fragment of the input sound
+ *
+ * void PowerSpectrum(int NumSamples, float *In, float *Out);
+ * void RealFFT(int NumSamples,
+             float *RealIn, float *RealOut, float *ImagOut);
+ * ??????????
  * */
 float X(float l);
+
+
 
 
 /*!

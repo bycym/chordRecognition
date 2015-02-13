@@ -10,8 +10,12 @@
 #include <QTextStream>
 #include <QMessageBox>
 #include <iostream>
+#include "sounddata.h"
+//#include <QAudioInput>
 
-#include "../../genchords/src/Sounddata.h"
+
+
+//#include "../../genchords/src/Sounddata.h"
 
 using namespace std;
 
@@ -20,7 +24,10 @@ class FileOperator : public QWidget
     Q_OBJECT
 
 private:
-    Sounddata * sndData;
+    //Sounddata * sndData;
+    QByteArray *buffer;
+    //QAudioInput *audioInput;
+
     QString fileName;
 
 
