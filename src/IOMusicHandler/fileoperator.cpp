@@ -43,7 +43,7 @@ bool FileOperator::performLoadOperation(QString fn)
     FILE * fp = fopen(fn.toUtf8().constData(), "rb");
 
     // Header Init:
-
+    short pcm = -1;
     char ckID[4];                   // "riff"
     int ckSize;                     // 4 + (PCM_OR_NONPCM?(24):(26 + 12)) + (8 + M * Nc * Ns + (0 or 1))
     char waveID[4];                 // "WAVE"
@@ -64,12 +64,12 @@ bool FileOperator::performLoadOperation(QString fn)
         short wValidBitsPerSample;
         int dwChannelMask;
         /*** TODO */
-        short subFormat[8];
+        char subFormat[5];
         // end of EXTENSIBLE format
 
     // if its NONPCM or EXTENSIBLE format
     // fact:
-    char ckFactID[4];               // "fact
+    char ckFactID[5];               // "fact
     int ckFactSize;                 // chunk size: 4
         int dwSampleLength;         // Nc * Ns
     //endif
@@ -102,42 +102,59 @@ bool FileOperator::performLoadOperation(QString fn)
         fread(&nBlockAlign, sizeof(short), 1, fp);
         fread(&wBitsPerSample, sizeof(short), 1, fp);
 
-    //if(wFormatTag != WAVE_FORMAT_PCM)
-    //{
-        // NONPCM
+    cout << endl << "-----------------------" << endl;
+    cout << "fn: " << fn.toUtf8().constData() <<  endl;
+    cout << "wFormatTag: " << wFormatTag << endl;
+    cout << "-----------------------" << endl;
+
+    if(wFormatTag == WAVE_FORMAT_PCM){
+        cout << "WAVE_FORMAT_PCM" << endl;
+        pcm = 0;
+    } else {
         fread(&cbSize, sizeof(short), 1, fp);
 
-        // EXTENSION format
-        fread(&wValidBitsPerSample, sizeof(short), 1, fp);
-        fread(&dwChannelMask, sizeof(int), 1, fp);
-        fread(&subFormat, sizeof(short), 8, fp);
-
-
-
+        if(wFormatTag == WAVE_FORMAT_EXTENSIBLE){
+            cout << "WAVE_FORMAT_EXTENSIBLE" << endl;
+            // EXTENSION format
+            pcm = 2;
+            fread(&wValidBitsPerSample, sizeof(short), 1, fp);
+            fread(&dwChannelMask, sizeof(int), 1, fp);
+            // fread(&subFormat, sizeof(char), 16, fp);
+            fread(&subFormat, sizeof(char), 4, fp);
+        } else {
+            // NONPCM
+            cout << "non pcm" << endl;
+            pcm = 1;
+        }
         fread(ckFactID, sizeof(char), 4, fp);
         fread(&ckFactSize, sizeof(int), 1, fp);
             fread(&dwSampleLength, sizeof(int), 1, fp);
-    //}
+    }
 
     // data:
     fread(ckDataID, sizeof(char), 4, fp);
     fread(&ckDataSize, sizeof(int), 1, fp);
 
 
-    if(strcmp(ckDataID, "data"))
+    if(!strcmp(ckDataID, "data"))
     {
+        success = true;
         cout << "create object" << endl;
 
     }
 
 
-    if(success)
+    SoundData * sndData = new SoundData();
+
+    //sndData->info();
+    cout << "pcm: " << pcm << endl;
+    if(success && pcm != -1)
         fileName = fn;
     else{
         QMessageBox mb;
         mb.setIcon(QMessageBox::Critical);
         mb.setText("Nem sikerült a megnyitás.");
-        mb.setInformativeText("Próbálj valami okosat tenni.");
+        mb.setInformativeText("Hibás wFormatTag!");
         mb.exec();
     }
 

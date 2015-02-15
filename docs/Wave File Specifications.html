@@ -1,0 +1,964 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+
+<!-- $Id: Welcome.html,v 1.21 1998/07/30 17:02:41 tspinfo Exp $ -->
+
+<head>
+<meta http-equiv="Content-Language" content="en-ca">
+<meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<title>Wave File Specifications</title>
+<link rel="stylesheet" type="text/css" href="../../MMSP.css">
+</head>
+
+<body>
+
+<h1>Audio File Format Specifications</h1>
+<p><b>File Description</b>: WAVE or RIFF WAVE sound file<br>
+<b>File Extension</b>: Commonly <font color="#0000FF"><kbd>.wav</kbd></font>, 
+sometimes <font color="#0000FF"><kbd>.wave</kbd></font><br>
+<b>File Byte Order</b>: Little-endian</p>
+<p>
+<a href="http://www.mcgill.ca/directory/staff/?LastName=kabal&amp;FirstName=peter">
+Prof. Peter Kabal</a>, MMSP Lab, ECE, McGill University: Last update:
+<!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2011-01-03<!--webbot bot="Timestamp" i-checksum="12036" endspan --></p>
+<h2>WAVE Specifications</h2>
+<p>The WAVE file specifications came from Microsoft. The WAVE file format use 
+RIFF chunks, each chunk consisting of a chunk identifier, chunk length and chunk 
+data.</p>
+<ul>
+  <li>WAVE specifications, Version 1.0, 1991-08:
+  <a href="http://www.seanet.com/Users/matts/riffmci/riffmci.rtf">riffmci.rtf</a><br>
+&nbsp;&nbsp;&nbsp; <font color="#800080">Local copy:</font>
+  <img border="0" src="../../images/F-pdf-S.gif" align="absbottom" width="16" height="16">
+  <a href="Docs/riffmci.pdf">Multimedia Programming Interface and Data 
+  Specifications 1.0</a> (see pages 56-65)</li>
+  <li>WAVE update (Revision: 3.0), 1994-04-15:
+  <a href="http://support.microsoft.com/support/kb/articles/Q120/2/53.asp">
+  Multimedia Registration Kit Revision 3.0 (Q120253)</a>)<br>
+&nbsp;&nbsp;&nbsp; <font color="#800080">Local copy:</font>
+  <img border="0" src="../../images/F-pdf-S.gif" align="absbottom" width="16" height="16">
+  <a href="Docs/RIFFNEW.pdf">New Multimedia Data Types and Data Techniques</a> 
+  (see pages 12-22)</li>
+  <li>Multi-channel / high bit resolution formats, 2001-12-04:
+  <a href="http://www.microsoft.com/whdc/device/audio/multichaud.mspx">Multiple Channel Audio Data and WAVE Files</a><br>
+&nbsp;&nbsp;&nbsp; <font color="#800080">Local copy:</font>
+  <img border="0" src="../../images/F-pdf-S.gif" align="absbottom" width="16" height="16">
+  <a href="Docs/multichaudP.pdf">Multiple Channel Audio Data and WAVE Files</a></li>
+</ul>
+<h2>Data Types</h2>
+<p>The data in WAVE files can be of many different types. Data format codes are 
+listed in the following:</p>
+<ul>
+  <li>Internet RFC, Codec registrations, 1998-06:
+  <img border="0" src="../../images/document-S.gif" align="absbottom" width="16" height="16">
+  <a href="ftp://ftp.isi.edu/in-notes/rfc2361.txt">
+  ftp://ftp.isi.edu/in-notes/rfc2361.txt</a><br>
+&nbsp;&nbsp;&nbsp; <font color="#800080">Local copy:</font>
+  <img border="0" src="../../images/document-S.gif" align="absbottom" width="16" height="16"> <kbd>
+  <a href="Docs/rfc2361.txt">rfc2361.txt</a></kbd></li>
+  <li>Microsoft include files (part of the MSVC compiler or the <i>DirectX SDK</i>: 
+  from <a href="http://www.microsoft.com/downloads/search.asp">Microsoft 
+  Download Center</a>)<br>
+&nbsp;&nbsp;&nbsp; <font color="#800080">Local copy:</font>
+  <img border="0" src="../../images/F-h-S.gif" align="absbottom" width="16" height="16"> <kbd>
+  <a href="Docs/MMREG.H">MMREG.H</a></kbd> (Version 1.46)<br>
+&nbsp;&nbsp;&nbsp; <font color="#800080">Local copy:</font>
+  <img border="0" src="../../images/F-h-S.gif" align="absbottom" width="16" height="16"> <kbd>
+  <a href="Docs/ksmedia.h">ksmedia.h</a></kbd></li>
+</ul>
+<h2>Wave File Format</h2>
+<p>Wave files have a master RIFF chunk which includes a WAVE identifier followed 
+by sub-chunks. The data is stored in little-endian byte order.</p>
+<table border="2" cellpadding="3" cellspacing="0" style="border-collapse: collapse" bordercolor="#0000FF" width="72%" id="AutoNumber4" height="90">
+  <tr>
+    <th width="25%" bgcolor="#FFFF66" colspan="2" align="center" height="15">
+    <font color="#0000FF"><b>Field</b></font></th>
+    <th width="18%" bgcolor="#FFFF66" align="center" height="15">
+    <font color="#0000FF"><b>Length</b></font></th>
+    <th width="50%" bgcolor="#FFFF66" align="center" height="15">
+    <font color="#0000FF"><b>Contents</b></font></th>
+  </tr>
+  <tr>
+    <td width="25%" colspan="2" height="16"><font color="#008000"><kbd>
+    ckID</kbd></font></td>
+    <td width="18%" align="center" height="16"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="50%" height="16">Chunk ID: &quot;<font color="#008000"><kbd>RIFF</kbd></font>&quot;</td>
+  </tr>
+  <tr>
+    <td width="25%" colspan="2" height="1"><font color="#008000"><kbd>
+    cksize</kbd></font></td>
+    <td width="18%" align="center" height="1"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="50%" height="1">Chunk size: <font color="#008000">
+    <kbd>4+<i>n</i></kbd></font></td>
+  </tr>
+  <tr>
+    <td width="4%" height="1" rowspan="2">&nbsp;</td>
+    <td width="21%" height="19"><font color="#008000"><kbd>WAVEID</kbd></font></td>
+    <td width="18%" align="center" height="19"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="50%" height="19">WAVE ID: &quot;<font color="#008000"><kbd>WAVE</kbd></font>&quot;</td>
+  </tr>
+  <tr>
+    <td width="21%" height="1">WAVE chunks</td>
+    <td width="18%" align="center" height="1"><font color="#008000">
+    <kbd><i>n</i></kbd></font></td>
+    <td width="50%" height="1">Wave chunks containing format 
+    information and sampled data</td>
+  </tr>
+</table>
+<h2>Format Chunk</h2>
+<p>The Format chunk specifies the format of the data. There are 3 variants of 
+the Format chunk for sampled data. These differ in the extensions to the basic 
+Formant chunk.</p>
+<table border="2" cellpadding="3" cellspacing="0" style="border-collapse: collapse" bordercolor="#0000FF" width="76%" id="AutoNumber4" height="282">
+  <tr>
+    <th width="37%" bgcolor="#FFFF66" colspan="2" align="center" height="15">
+    <font color="#0000FF"><b>Field</b></font></th>
+    <th width="14%" bgcolor="#FFFF66" align="center" height="15">
+    <font color="#0000FF"><b>Length</b></font></th>
+    <th width="49%" bgcolor="#FFFF66" align="center" height="15">
+    <font color="#0000FF"><b>Contents</b></font></th>
+  </tr>
+  <tr>
+    <td width="37%" colspan="2" height="16"><font color="#008000"><kbd>
+    ckID</kbd></font></td>
+    <td width="14%" align="center" height="16"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="49%" height="16">Chunk ID: &quot;<font color="#008000"><kbd>fmt </kbd></font>&quot;</td>
+  </tr>
+  <tr>
+    <td width="37%" colspan="2" height="1"><font color="#008000"><kbd>
+    cksize</kbd></font></td>
+    <td width="14%" align="center" height="1"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="49%" height="1">Chunk size: 
+    <font color="#008000"><kbd>16</kbd></font> or
+    <font color="#008000"><kbd>18</kbd></font> or <font color="#008000"><kbd>40</kbd></font></td>
+  </tr>
+  <tr>
+    <td width="4%" height="176" rowspan="12">&nbsp;</td>
+    <td width="33%" height="19"><font color="#008000"><kbd>wFormatTag</kbd></font></td>
+    <td width="14%" align="center" height="19"><font color="#008000">
+    <kbd>2</kbd></font></td>
+    <td width="49%" height="19">Format code</td>
+  </tr>
+  <tr>
+    <td width="33%" height="19"><font color="#008000"><kbd>nChannels</kbd></font></td>
+    <td width="14%" align="center" height="19"><font color="#008000">
+    <kbd>2</kbd></font></td>
+    <td width="49%" height="19">Number of interleaved channels</td>
+  </tr>
+  <tr>
+    <td width="33%" height="1"><font color="#008000"><kbd>
+    nSamplesPerSec</kbd></font></td>
+    <td width="14%" align="center" height="1"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="49%" height="1">Sampling rate (blocks per second)</td>
+  </tr>
+  <tr>
+    <td width="33%" height="19"><font color="#008000"><kbd>
+    nAvgBytesPerSec</kbd></font></td>
+    <td width="14%" align="center" height="19"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="49%" height="19">Data rate</td>
+  </tr>
+  <tr>
+    <td width="33%" height="19"><font color="#008000"><kbd>nBlockAlign</kbd></font></td>
+    <td width="14%" align="center" height="19"><font color="#008000">
+    <kbd>2</kbd></font></td>
+    <td width="49%" height="19">Data block size (bytes)</td>
+  </tr>
+  <tr>
+    <td width="33%" height="19"><font color="#008000"><kbd>
+    wBitsPerSample</kbd></font></td>
+    <td width="14%" align="center" height="19"><font color="#008000">
+    <kbd>2</kbd></font></td>
+    <td width="49%" height="19">Bits per sample</td>
+  </tr>
+  <tr>
+    <td width="96%" height="1" colspan="3"><hr color="#0000FF"></td>
+  </tr>
+  <tr>
+    <td width="33%" height="21"><font color="#008000"><kbd>cbSize</kbd></font></td>
+    <td width="14%" align="center" height="21"><font color="#008000">
+    <kbd>2</kbd></font></td>
+    <td width="49%" height="21">Size of the extension (<font color="#008000"><kbd>0</kbd></font> 
+    or <font color="#008000"><kbd>22</kbd></font>)</td>
+  </tr>
+  <tr>
+    <td width="96%" height="19" colspan="3"><hr color="#0000FF"></td>
+  </tr>
+  <tr>
+    <td width="33%" height="19"><font color="#008000"><kbd>
+    wValidBitsPerSample</kbd></font></td>
+    <td width="14%" align="center" height="19"><font color="#008000">
+    <kbd>2</kbd></font></td>
+    <td width="49%" height="19">Number of valid bits</td>
+  </tr>
+  <tr>
+    <td width="33%" height="19"><font color="#008000"><kbd>
+    dwChannelMask</kbd></font></td>
+    <td width="14%" align="center" height="19"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="49%" height="19">Speaker position mask</td>
+  </tr>
+  <tr>
+    <td width="33%" height="1"><font color="#008000"><kbd>SubFormat</kbd></font></td>
+    <td width="14%" align="center" height="1"><font color="#008000">
+    <kbd>16</kbd></font></td>
+    <td width="49%" height="1">GUID, including the data format 
+    code</td>
+  </tr>
+</table>
+<p>The standard format codes for waveform data are given below. The references 
+above give many more format codes for compressed data, a good fraction of which 
+are now obsolete.</p>
+<table border="2" cellpadding="4" cellspacing="0" style="border-collapse: collapse" bordercolor="#0000FF" width="449" id="AutoNumber1" bgcolor="#FFFFCC">
+  <tr>
+    <th valign="middle" align="center" width="74" bgcolor="#FFFF66">
+    <font color="#0000FF"><b>Format Code</b></font></th>
+    <th align="center" bgcolor="#FFFF66" width="191">
+    <font color="#0000FF"><b>PreProcessor Symbol</b></font></th>
+    <th align="center" width="154" bgcolor="#FFFF66">
+    <font color="#0000FF"><b>Data</b></font></th>
+  </tr>
+  <tr>
+    <td width="74" align="center"><font color="#008000"><kbd>0x0001</kbd></font></td>
+    <td width="191"><font color="#008000"><kbd>WAVE_FORMAT_PCM</kbd></font></td>
+    <td width="154">PCM</td>
+  </tr>
+  <tr>
+    <td width="74" align="center"><font color="#008000"><kbd>0x0003</kbd></font></td>
+    <td width="191"><font color="#008000"><kbd>WAVE_FORMAT_IEEE_FLOAT</kbd></font></td>
+    <td width="154">IEEE float</td>
+  </tr>
+  <tr>
+    <td width="74" align="center"><font color="#008000"><kbd>0x0006</kbd></font></td>
+    <td width="191"><font color="#008000"><kbd>WAVE_FORMAT_ALAW</kbd></font></td>
+    <td width="154">8-bit ITU-T G.711 A-law</td>
+  </tr>
+  <tr>
+    <td width="74" align="center"><font color="#008000"><kbd>0x0007</kbd></font></td>
+    <td width="191"><font color="#008000"><kbd>WAVE_FORMAT_MULAW</kbd></font></td>
+    <td width="154">8-bit ITU-T G.711 µ-law</td>
+  </tr>
+  <tr>
+    <td width="74" align="center"><font color="#008000"><kbd>0xFFFE</kbd></font></td>
+    <td width="191"><font color="#008000"><kbd>WAVE_FORMAT_EXTENSIBLE</kbd></font></td>
+    <td width="154">Determined by <font color="#008000"><kbd>
+    SubFormat</kbd></font></td>
+  </tr>
+</table>
+<h3>PCM Format</h3>
+<p>The first part of the Format chunk is used to describe PCM data.</p>
+<ul>
+  <li>For PCM data, the Format chunk in the header declares the number of 
+  bits/sample in each sample (<font color="#008000"><kbd>wBitsPerSample</kbd></font>). 
+  The original documentation (Revision 1) specified that the number of bits per 
+  sample is to be rounded up to the next multiple of 8 bits. This rounded-up 
+  value is the container size. This information is redundant in that the 
+  container size (in bytes) for each sample can also be determined from the 
+  block size divided by the number of channels (<font color="#008000"><kbd>nBlockAlign</kbd></font> 
+  / <font color="#008000"><kbd>nChannels</kbd></font>).<ul>
+    <li>This redundancy has been appropriated to define new formats. For 
+    instance, <i>Cool Edit</i> uses a format which declares a sample size of 24 
+    bits together with a container size of 4 bytes (32 bits) determined from the 
+    block size and number of channels. With this combination, the data is 
+    actually stored as 32-bit IEEE floats. The normalization (full scale 2<sup>23</sup>) 
+    is however different from the standard float format.</li>
+  </ul>
+  </li>
+  <li>PCM data is two's-complement except for resolutions of 1-8 bits, which are 
+  represented as offset binary.</li>
+</ul>
+<h3>Non-PCM Formats</h3>
+<p>An extended Format chunk is used for non-PCM data. The <font color="#008000">
+<kbd>cbSize</kbd></font> field gives the size of the extension.</p>
+<ul>
+  <li>For all formats other than PCM, the Format chunk <em>must</em> have an 
+  extended portion. The extension can be of zero length, but the size field 
+  (with value <font color="#008000"><kbd>0</kbd></font>) must be present.</li>
+  <li>For float data, full scale is 1. The bits/sample would normally be 32 or 
+  64.</li>
+  <li>For the log-PCM formats (µ-law and A-law), the Rev. 3 documentation 
+  indicates that the bits/sample field (<font color="#008000"><kbd>wBitsPerSample</kbd></font>) 
+  should be set to 8 bits.</li>
+  <li>The non-PCM formats must have a Fact chunk.</li>
+</ul>
+<h3>Extensible Format</h3>
+<p>The <font color="#008000"><kbd>WAVE_FORMAT_EXTENSIBLE</kbd></font> format 
+code indicates that there is an extension to the Format chunk. The extension has 
+one field which declares the number of &quot;valid&quot; bits/sample (<font color="#008000"><kbd>wValidBitsPerSample</kbd></font>). 
+Another field (<font color="#008000"><kbd>dwChannelMask</kbd></font>) contains a 
+bits which indicate the mapping from channels to loudspeaker positions. The last 
+field (<font color="#008000"><kbd>SubFormat</kbd></font>) is a 16-byte globally 
+unique identifier (GUID).</p>
+<ul>
+  <li>With the <font color="#008000"><kbd>WAVE_FORMAT_EXTENSIBLE</kbd></font> 
+  format, the original bits/sample field (<font color="#008000"><kbd>wBitsPerSample</kbd></font>) 
+  must match the container size (<font color="#008000"><kbd>8 * nBlockAlign</kbd></font><kbd> 
+  / </kbd><font color="#008000"><kbd>nChannels</kbd></font>). This means that
+  <font color="#008000"><kbd>wBitsPerSample</kbd></font> must be a multiple of
+  <kbd>8</kbd>. Reduced precision within the container size is now specified by
+  <font color="#008000"><kbd>wValidBitsPerSample</kbd></font>.</li>
+  <li>The number of valid bits (<font color="#008000"><kbd>wValidBitsPerSample</kbd></font>) 
+  is informational only. The data is correctly represented in the precision of 
+  the container size. The number of valid bits can be any value from 1 to the 
+  container size in bits.</li>
+  <li>The loudspeaker position mask uses 18 bits, each bit corresponding to a 
+  speaker position (e.g. Front Left or Top Back Right), to indicate the channel 
+  to speaker mapping. More details are in the document cited above. This field 
+  is informational. An all-zero field indicates that channels are mapped to 
+  outputs in order: first channel to first output, second channel to second 
+  output, etc.</li>
+  <li>The first two bytes of the GUID form the sub-code specifying the data 
+  format code, e.g. <font color="#008000"><kbd>WAVE_FORMAT_PCM</kbd></font>. The 
+  remaining 14 bytes contain a fixed string, &quot;<font color="#008000"><kbd>\x00\x00\x00\x00\x10\x00\x80\x00\x00\xAA\x00\x38\x9B\x71</kbd></font>&quot;.</li>
+</ul>
+<p>The <font color="#008000"><kbd>WAVE_FORMAT_EXTENSIBLE</kbd></font> format 
+should be used whenever:</p>
+<ul>
+  <li>PCM data has more than 16 bits/sample.</li>
+  <li>The number of channels is more than 2.</li>
+  <li>The actual number of bits/sample is not equal to the container size.</li>
+  <li>The mapping from channels to speakers needs to be specified.</li>
+</ul>
+<h2>Fact Chunk</h2>
+<p>All (compressed) non-PCM formats <em>must</em> have a Fact chunk (Rev. 3 
+documentation). The chunk contains at least one value, the number of samples in 
+the file.</p>
+<table border="2" cellpadding="3" cellspacing="0" style="border-collapse: collapse" bordercolor="#0000FF" width="74%" id="AutoNumber4" height="81">
+  <tr>
+    <th width="27%" bgcolor="#FFFF66" colspan="2" align="center" height="15">
+    <font color="#0000FF"><b>Field</b></font></th>
+    <th width="18%" bgcolor="#FFFF66" align="center" height="15">
+    <font color="#0000FF"><b>Length</b></font></th>
+    <th width="51%" bgcolor="#FFFF66" align="center" height="15">
+    <font color="#0000FF"><b>Contents</b></font></th>
+  </tr>
+  <tr>
+    <td width="27%" colspan="2" height="16"><font color="#008000"><kbd>
+    ckID</kbd></font></td>
+    <td width="18%" align="center" height="16"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="51%" height="16">Chunk ID: &quot;<font color="#008000"><kbd>fact</kbd></font>&quot;</td>
+  </tr>
+  <tr>
+    <td width="27%" colspan="2" height="1"><font color="#008000"><kbd>
+    cksize</kbd></font></td>
+    <td width="18%" align="center" height="1"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="51%" height="1">Chunk size: minimum
+    <font color="#008000"><kbd>4</kbd></font></td>
+  </tr>
+  <tr>
+    <td width="4%" height="1">&nbsp;</td>
+    <td width="23%" height="10"><font color="#008000"><kbd>
+    dwSampleLength</kbd></font></td>
+    <td width="18%" align="center" height="10"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="51%" height="10">Number of samples (per channel)</td>
+  </tr>
+</table>
+<ul>
+  <li>The Rev. 3 documentation states that the Fact chunk &quot;is required for all 
+  new new WAVE formats&quot;, but &quot;is not required&nbsp; for the standard <kbd>
+  <font color="#008000">WAVE_FORMAT_PCM</font></kbd> files&quot;. One presumes that 
+  files with IEEE float data (introduced after the Rev. 3 documention) need a 
+  Fact chunk.</li>
+  <li>The number of samples field is redundant for sampled data, since the Data 
+  chunk indicates the length of the data. The number of samples can be 
+  determined from the length of the data and the container size as determined 
+  from the Format chunk.</li>
+  <li>Their is an ambiguity as to the meaning of &quot;number of samples&quot; for 
+  multichannel data. The implication in the Rev. 3 documentation is that it 
+  should be interpreted to be &quot;number of samples per channel&quot;. The statement in 
+  the Rev. 3 documentation is:<br>
+  &quot;The &lt;nSamplesPerSec&gt; field from the wave format header 
+  is used in conjunction with the &lt;dwSampleLength&gt; field to determine the 
+  length of the data in seconds.&quot;<br>
+  With no mention of the number of channels in this computation, this implies 
+  that <font size="2" color="#008000"><kbd>dwSampleLength</kbd></font> is the 
+  number of samples per channel.</li>
+  <li>There is a question as to whether the Fact chunk should be used for 
+  (including those with PCM) <kbd><font color="#008000">WAVE_FORMAT_EXTENSIBLE</font></kbd> 
+  files. One example of a <kbd><font color="#008000">WAVE_FORMAT_EXTENSIBLE</font></kbd> 
+  with PCM data from Microsoft, does not have a Fact chunk.</li>
+</ul>
+<h2>Data Chunk</h2>
+<p>The Data chunk contains the sampled data.</p>
+<table border="2" cellpadding="3" cellspacing="0" style="border-collapse: collapse" bordercolor="#0000FF" width="76%" id="AutoNumber4" height="68">
+  <tr>
+    <th width="39%" bgcolor="#FFFF66" colspan="2" align="center" height="15">
+    <font color="#0000FF"><b>Field</b></font></th>
+    <th width="14%" bgcolor="#FFFF66" align="center" height="15">
+    <font color="#0000FF"><b>Length</b></font></th>
+    <th width="47%" bgcolor="#FFFF66" align="center" height="15">
+    <font color="#0000FF"><b>Contents</b></font></th>
+  </tr>
+  <tr>
+    <td width="39%" colspan="2" height="16"><font color="#008000"><kbd>
+    ckID</kbd></font></td>
+    <td width="14%" align="center" height="16"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="47%" height="16">Chunk ID: &quot;<font color="#008000"><kbd>data</kbd></font>&quot;</td>
+  </tr>
+  <tr>
+    <td width="39%" colspan="2" height="1"><font color="#008000"><kbd>
+    cksize</kbd></font></td>
+    <td width="14%" align="center" height="1"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="47%" height="1">Chunk size: <font color="#008000">
+    <kbd><i>n</i></kbd></font></td>
+  </tr>
+  <tr>
+    <td width="4%" height="1" rowspan="2">&nbsp;</td>
+    <td width="35%" height="19">sampled data</td>
+    <td width="14%" align="center" height="19"><font color="#008000">
+    <kbd><i>n</i></kbd></font></td>
+    <td width="47%" height="19">Samples</td>
+  </tr>
+  <tr>
+    <td width="35%" height="1">pad byte</td>
+    <td width="14%" align="center" height="1"><font color="#008000">
+    <kbd>0</kbd></font> or <font color="#008000">
+    <kbd>1</kbd></font></td>
+    <td width="47%" height="1">Padding byte if
+    <font color="#008000"><kbd><i>n</i></kbd></font> is odd</td>
+  </tr>
+</table>
+<hr>
+<h2>&nbsp;</h2>
+<h2>Examples</h2>
+<p>Consider sampled data with the following parameters,</p>
+<ul>
+  <li><font color="#800080"><i>N<sub>c</sub></i></font> channels</li>
+  <li>The total number of blocks is <font color="#800080"><i>N<sub>s</sub></i></font>. 
+  Each block consists of <font color="#800080"><i>N<sub>c</sub></i></font> 
+  samples.</li>
+  <li>Sampling rate <font color="#800080"><i>F</i></font> (blocks per second)</li>
+  <li>Each sample is <i><font color="#800080">M</font></i> bytes long</li>
+</ul>
+<h3>PCM Data</h3>
+<table border="2" cellspacing="0" style="border-collapse: collapse" bordercolor="#0000FF" id="AutoNumber3" cellpadding="3" width="472" height="480">
+  <tr>
+    <th width="164" bgcolor="#FFFF66" colspan="3" height="15" align="center">
+    <font color="#0000FF"><b>Field</b></font></th>
+    <th width="83" bgcolor="#FFFF66" height="15" align="center">
+    <font color="#0000FF"><b>Length</b></font></th>
+    <th width="203" bgcolor="#FFFF66" height="15" align="center">
+    <font color="#0000FF"><b>Contents</b></font></th>
+  </tr>
+  <tr>
+    <td width="164" colspan="3" height="16"><font color="#008000"><kbd>
+    ckID</kbd></font></td>
+    <td width="83" height="16" align="center"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="203" height="16">Chunk ID: &quot;<font color="#008000"><kbd>RIFF</kbd></font>&quot;</td>
+  </tr>
+  <tr>
+    <td width="164" colspan="3" height="33"><font color="#008000"><kbd>
+    cksize</kbd></font></td>
+    <td width="83" height="33" align="center"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="203" height="33">Chunk size: 
+    <font color="#800080">4 + 24 +<br>
+    (8 + <i>M </i>* <i>N<sub>c</sub> * N<sub>s</sub></i> + (0</font> 
+    or <font color="#800080">1))</font></td>
+  </tr>
+  <tr>
+    <td width="12" height="389" rowspan="15">&nbsp;</td>
+    <td width="144" height="2" colspan="2"><font color="#008000"><kbd>
+    WAVEID</kbd></font></td>
+    <td width="83" height="2" align="center"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="203" height="2">WAVE ID: &quot;<font color="#008000"><kbd>WAVE</kbd></font>&quot;</td>
+  </tr>
+  <tr>
+    <td width="443" height="16" colspan="4"><hr color="#0000FF"></td>
+  </tr>
+  <tr>
+    <td width="144" height="16" colspan="2"><font color="#008000"><kbd>
+    ckID</kbd></font></td>
+    <td width="83" height="16" align="center"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="203" height="16">Chunk ID: &quot;<font color="#008000"><kbd>fmt
+    </kbd></font>&quot;</td>
+  </tr>
+  <tr>
+    <td width="144" height="16" colspan="2"><font color="#008000"><kbd>
+    cksize</kbd></font></td>
+    <td width="83" height="16" align="center"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="203" height="16">Chunk size: <font color="#008000">
+    <kbd>16</kbd></font></td>
+  </tr>
+  <tr>
+    <td width="14" height="138" rowspan="6">&nbsp;</td>
+    <td width="122" height="21"><font color="#008000"><kbd>wFormatTag</kbd></font></td>
+    <td width="83" height="21" align="center"><font color="#008000">
+    <kbd>2</kbd></font></td>
+    <td width="203" height="21"><font color="#008000"><kbd>
+    WAVE_FORMAT_PCM</kbd></font></td>
+  </tr>
+  <tr>
+    <td width="122" height="23"><font color="#008000"><kbd>nChannels</kbd></font></td>
+    <td width="83" height="23" align="center"><font color="#008000">
+    <kbd>2</kbd></font></td>
+    <td width="203" height="23"><font color="#800080"><i>N<sub>c</sub></i></font></td>
+  </tr>
+  <tr>
+    <td width="122" height="21"><font color="#008000"><kbd>
+    nSamplesPerSec</kbd></font></td>
+    <td width="83" height="21" align="center"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="203" height="21"><font color="#800080"><i>F</i></font></td>
+  </tr>
+  <tr>
+    <td width="122" height="23"><font color="#008000"><kbd>
+    nAvgBytesPerSec</kbd></font></td>
+    <td width="83" height="23" align="center"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="203" height="23"><font color="#800080"><i>F</i> * <i>M</i> 
+    * <i>N<sub>c</sub></i></font></td>
+  </tr>
+  <tr>
+    <td width="122" height="22"><font color="#008000"><kbd>nBlockAlign</kbd></font></td>
+    <td width="83" height="22" align="center"><font color="#008000">
+    <kbd>2</kbd></font></td>
+    <td width="203" height="22"><font color="#800080"><i>M </i>* <i>N<sub>c</sub></i></font></td>
+  </tr>
+  <tr>
+    <td width="122" height="20"><font color="#008000"><kbd>
+    wBitsPerSample</kbd></font></td>
+    <td width="83" height="20" align="center"><font color="#008000">
+    <kbd>2</kbd></font></td>
+    <td width="203" height="20">rounds up to 
+    <font color="#800080">8 * <i>
+    M</i></font></td>
+  </tr>
+  <tr>
+    <td width="443" height="16" colspan="4"><hr color="#0000FF"></td>
+  </tr>
+  <tr>
+    <td width="144" height="16" colspan="2"><font color="#008000"><kbd>
+    ckID</kbd></font></td>
+    <td width="83" height="16" align="center"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="203" height="16">Chunk ID: &quot;<font color="#008000"><kbd>data</kbd></font>&quot;</td>
+  </tr>
+  <tr>
+    <td width="144" height="18" colspan="2"><font color="#008000"><kbd>
+    cksize</kbd></font></td>
+    <td width="83" height="18" align="center"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="203" height="18">Chunk size: 
+    <font color="#800080"><i>M</i> * <i>N<sub>c</sub>* N<sub><sub>s</sub></sub></i></font></td>
+  </tr>
+  <tr>
+    <td width="14" height="34" rowspan="2">&nbsp;</td>
+    <td width="122" height="33">sampled data</td>
+    <td width="83" height="33" align="center"><font color="#800080"><i>
+    M</i> * <i>N<sub>c</sub></i> * <i>N<sub>s</sub></i></font></td>
+    <td width="203" height="33"><font color="#800080"><i>N<sub>c</sub></i> 
+    * <i>N<sub>s</sub></i></font> channel-interleaved 
+    <font color="#800080"><i>M</i></font>-byte samples</td>
+  </tr>
+  <tr>
+    <td width="122" height="1">pad</td>
+    <td width="83" height="1" align="center"><font color="#008000">
+    <kbd>0</kbd></font> or <font color="#008000">
+    <kbd>1</kbd></font></td>
+    <td width="203" height="1">Padding byte if 
+    <font color="#800080"><i>M</i> * <i>N<sub>c</sub></i> * <i>N<sub>s
+    </sub></i></font>is odd</td>
+  </tr>
+</table>
+<h4><i>Notes</i></h4>
+<ul>
+  <li>WAVE files often have information chunks that precede or follow the sound 
+  data (Data chunk). Some programs (naively) assume that for PCM data, the file 
+  header is exactly 44 bytes long and that the rest of the file contains sound 
+  data. This is not a safe assumption.</li>
+</ul>
+<h3>Non-PCM Data</h3>
+<table border="2" cellspacing="0" style="border-collapse: collapse" bordercolor="#0000FF" id="AutoNumber3" cellpadding="3" width="470" height="478">
+  <tr>
+    <th width="192" bgcolor="#FFFF66" colspan="3" height="15" align="center">
+    <font color="#0000FF"><b>Field</b></font></th>
+    <th width="64" bgcolor="#FFFF66" height="15" align="center">
+    <font color="#0000FF"><b>Length</b></font></th>
+    <th width="190" bgcolor="#FFFF66" height="15" align="center">
+    <font color="#0000FF"><b>Contents</b></font></th>
+  </tr>
+  <tr>
+    <td width="192" colspan="3" height="16"><font color="#008000"><kbd>
+    ckID</kbd></font></td>
+    <td width="64" height="16" align="center"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="190" height="16">Chunk ID: &quot;<font color="#008000"><kbd>RIFF</kbd></font>&quot;</td>
+  </tr>
+  <tr>
+    <td width="192" colspan="3" height="33"><font color="#008000"><kbd>
+    cksize</kbd></font></td>
+    <td width="64" height="33" align="center"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="190" height="33">Chunk size: 
+    <font color="#800080">4 + 26 + 12 +<br>
+    (8 + <i>M</i> * <i>N<sub>c</sub></i> * <i>N<sub>s</sub></i> + (0</font> 
+    or <font color="#800080">1))</font></td>
+  </tr>
+  <tr>
+    <td width="12" height="387" rowspan="20">&nbsp;</td>
+    <td width="173" height="2" colspan="2"><font color="#008000"><kbd>
+    WAVEID</kbd></font></td>
+    <td width="64" height="2" align="center"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="190" height="2">WAVE ID: &quot;<font color="#008000"><kbd>WAVE</kbd></font>&quot;</td>
+  </tr>
+  <tr>
+    <td width="420" height="16" colspan="4"><hr color="#0000FF"></td>
+  </tr>
+  <tr>
+    <td width="173" height="16" colspan="2"><font color="#008000"><kbd>
+    ckID</kbd></font></td>
+    <td width="64" height="16" align="center"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="190" height="16">Chunk ID: &quot;<font color="#008000"><kbd>fmt
+    </kbd></font>&quot;</td>
+  </tr>
+  <tr>
+    <td width="173" height="16" colspan="2"><font color="#008000"><kbd>
+    cksize</kbd></font></td>
+    <td width="64" height="16" align="center"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="190" height="16">Chunk size: <font color="#008000">
+    <kbd>18</kbd></font></td>
+  </tr>
+  <tr>
+    <td width="14" height="138" rowspan="7">&nbsp;</td>
+    <td width="152" height="21"><font color="#008000"><kbd>wFormatTag</kbd></font></td>
+    <td width="64" height="21" align="center"><font color="#008000">
+    <kbd>2</kbd></font></td>
+    <td width="190" height="21">Format code</td>
+  </tr>
+  <tr>
+    <td width="152" height="23"><font color="#008000"><kbd>nChannels</kbd></font></td>
+    <td width="64" height="23" align="center"><font color="#008000">
+    <kbd>2</kbd></font></td>
+    <td width="190" height="23"><font color="#800080"><i>N<sub>c</sub></i></font></td>
+  </tr>
+  <tr>
+    <td width="152" height="21"><font color="#008000"><kbd>
+    nSamplesPerSec</kbd></font></td>
+    <td width="64" height="21" align="center"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="190" height="21"><font color="#800080"><i>F</i></font></td>
+  </tr>
+  <tr>
+    <td width="152" height="23"><font color="#008000"><kbd>
+    nAvgBytesPerSec</kbd></font></td>
+    <td width="64" height="23" align="center"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="190" height="23"><font color="#800080"><i>F</i> * <i>M</i> 
+    * <i>N<sub>c</sub></i></font></td>
+  </tr>
+  <tr>
+    <td width="152" height="22"><font color="#008000"><kbd>nBlockAlign</kbd></font></td>
+    <td width="64" height="22" align="center"><font color="#008000">
+    <kbd>2</kbd></font></td>
+    <td width="190" height="22"><font color="#800080"><i>M</i> * <i>N<sub>c</sub></i></font></td>
+  </tr>
+  <tr>
+    <td width="152" height="20"><font color="#008000"><kbd>
+    wBitsPerSample</kbd></font></td>
+    <td width="64" height="20" align="center"><font color="#008000">
+    <kbd>2</kbd></font></td>
+    <td width="190" height="20"><font color="#800080">8 * <i>M</i></font>
+    (float data) 
+    or <font color="#800080">16</font> (log-PCM data)</td>
+  </tr>
+  <tr>
+    <td width="152" height="1"><font color="#008000"><kbd>cbSize</kbd></font></td>
+    <td width="64" height="1" align="center"><font color="#008000">
+    <kbd>2</kbd></font></td>
+    <td width="190" height="1">Size of the extension<font color="#008000">:<kbd>0</kbd></font></td>
+  </tr>
+  <tr>
+    <td width="420" colspan="4" height="16"><hr color="#0000FF"></td>
+  </tr>
+  <tr>
+    <td width="173" height="16" colspan="2"><font color="#008000"><kbd>
+    ckID</kbd></font></td>
+    <td width="64" height="16" align="center"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="190" height="16">Chunk ID: &quot;<font color="#008000"><kbd>fact</kbd></font>&quot;</td>
+  </tr>
+  <tr>
+    <td width="173" height="14" colspan="2"><font color="#008000"><kbd>
+    cksize</kbd></font></td>
+    <td width="64" height="14" align="center"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="190" height="14">Chunk size: <font color="#008000">
+    <kbd>4</kbd></font></td>
+  </tr>
+  <tr>
+    <td width="14" height="1">&nbsp;</td>
+    <td width="152" height="1"><font color="#008000"><kbd>
+    dwSampleLength</kbd></font></td>
+    <td width="64" height="1" align="center"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="190" height="1"><font color="#800080"><i>N<sub>c</sub></i> 
+    * <i>N<sub>s</sub></i></font></td>
+  </tr>
+  <tr>
+    <td width="420" height="16" colspan="4"><hr color="#0000FF"></td>
+  </tr>
+  <tr>
+    <td width="173" height="16" colspan="2"><font color="#008000"><kbd>
+    ckID</kbd></font></td>
+    <td width="64" height="16" align="center"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="190" height="16">Chunk ID: &quot;<font color="#008000"><kbd>data</kbd></font>&quot;</td>
+  </tr>
+  <tr>
+    <td width="173" height="18" colspan="2"><font color="#008000"><kbd>
+    cksize</kbd></font></td>
+    <td width="64" height="18" align="center"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="190" height="18">Chunk size: 
+    <font color="#800080"><i>M</i> * <i>N<sub>c</sub></i> * <i>N<sub>s</sub></i></font></td>
+  </tr>
+  <tr>
+    <td width="14" height="34" rowspan="2">&nbsp;</td>
+    <td width="152" height="33">sampled data</td>
+    <td width="64" height="33" align="center"><font color="#800080"><i>
+    M</i> * <i>N<sub>c</sub></i> * <i>N<sub>s</sub></i></font></td>
+    <td width="190" height="33"><font color="#800080"><i>N<sub>c</sub></i> 
+    * <i>N<sub>s</sub></i></font> channel-interleaved 
+    <font color="#800080"><i>M</i></font>-byte samples</td>
+  </tr>
+  <tr>
+    <td width="152" height="1">pad</td>
+    <td width="64" height="1" align="center"><font color="#008000">
+    <kbd>0</kbd></font> or <font color="#008000">
+    <kbd>1</kbd></font></td>
+    <td width="190" height="1">Padding byte if 
+    <font color="#800080"><i>M</i> * <i>N<sub>c</sub></i> * <i>N<sub>s</sub></i></font>is 
+    odd</td>
+  </tr>
+</table>
+<ul>
+  <li>Microsoft <i>Windows Media Player</i> will not play non-PCM data (e.g. 
+  µ-law data) if the Format chunk does not have the extension size field (<font color="#0000FF"><kbd>cbSize</kbd></font>) 
+  or a Fact chunk is not present.</li>
+</ul>
+<h3>Extensible Format</h3>
+<table border="2" cellspacing="0" style="border-collapse: collapse" bordercolor="#0000FF" id="AutoNumber3" cellpadding="3" width="470" height="726">
+  <tr>
+    <th width="192" bgcolor="#FFFF66" colspan="3" height="15" align="center">
+    <font color="#0000FF"><b>Field</b></font></th>
+    <th width="64" bgcolor="#FFFF66" height="15" align="center">
+    <font color="#0000FF"><b>Length</b></font></th>
+    <th width="190" bgcolor="#FFFF66" height="15" align="center">
+    <font color="#0000FF"><b>Contents</b></font></th>
+  </tr>
+  <tr>
+    <td width="192" colspan="3" height="16"><font color="#008000"><kbd>
+    ckID</kbd></font></td>
+    <td width="64" height="16" align="center"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="190" height="16">Chunk ID: &quot;<font color="#008000"><kbd>RIFF</kbd></font>&quot;</td>
+  </tr>
+  <tr>
+    <td width="192" colspan="3" height="33"><font color="#008000"><kbd>
+    cksize</kbd></font></td>
+    <td width="64" height="33" align="center"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="190" height="33">Chunk size: 
+    <font color="#800080">4 + 48 + 12 +<br>
+    (8 + <i>M</i> * <i>N<sub>c</sub></i> * <i>N<sub>s</sub></i> + (0 </font>
+    or <font color="#800080">1))</font></td>
+  </tr>
+  <tr>
+    <td width="12" height="474" rowspan="23">&nbsp;</td>
+    <td width="173" height="19" colspan="2"><font color="#008000"><kbd>
+    WAVEID</kbd></font></td>
+    <td width="64" height="19" align="center"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="190" height="19">WAVE ID, &quot;<font color="#008000"><kbd>WAVE</kbd></font>&quot;</td>
+  </tr>
+  <tr>
+    <td width="420" height="5" colspan="4"><hr color="#0000FF"></td>
+  </tr>
+  <tr>
+    <td width="173" height="19" colspan="2"><font color="#008000"><kbd>
+    ckID</kbd></font></td>
+    <td width="64" height="19" align="center"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="190" height="19">Chunk ID: &quot;<font color="#008000"><kbd>fmt
+    </kbd></font>&quot;</td>
+  </tr>
+  <tr>
+    <td width="173" height="19" colspan="2"><font color="#008000"><kbd>
+    cksize</kbd></font></td>
+    <td width="64" height="19" align="center"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="190" height="19">Chunk size: <font color="#008000">
+    <kbd>40</kbd></font></td>
+  </tr>
+  <tr>
+    <td width="14" height="264" rowspan="10">&nbsp;</td>
+    <td width="152" height="19"><font color="#008000"><kbd>wFormatTag</kbd></font></td>
+    <td width="64" height="19" align="center"><font color="#008000">
+    <kbd>2</kbd></font></td>
+    <td width="190" height="19"><font color="#008000"><kbd>
+    WAVE_FORMAT_EXTENSIBLE</kbd></font></td>
+  </tr>
+  <tr>
+    <td width="152" height="19"><font color="#008000"><kbd>nChannels</kbd></font></td>
+    <td width="64" height="19" align="center"><font color="#008000">
+    <kbd>2</kbd></font></td>
+    <td width="190" height="19"><font color="#800080"><i>N<sub>c</sub></i></font></td>
+  </tr>
+  <tr>
+    <td width="152" height="19"><font color="#008000"><kbd>
+    nSamplesPerSec</kbd></font></td>
+    <td width="64" height="19" align="center"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="190" height="19"><font color="#800080"><i>F</i></font></td>
+  </tr>
+  <tr>
+    <td width="152" height="19"><font color="#008000"><kbd>
+    nAvgBytesPerSec</kbd></font></td>
+    <td width="64" height="19" align="center"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="190" height="19"><font color="#800080"><i>F</i> * <i>M</i> 
+    * <i>N<sub>c</sub></i></font></td>
+  </tr>
+  <tr>
+    <td width="152" height="19"><font color="#008000"><kbd>nBlockAlign</kbd></font></td>
+    <td width="64" height="19" align="center"><font color="#008000">
+    <kbd>2</kbd></font></td>
+    <td width="190" height="19"><font color="#800080"><i>M</i> * <i>N<sub>c</sub></i></font></td>
+  </tr>
+  <tr>
+    <td width="152" height="19"><font color="#008000"><kbd>
+    wBitsPerSample</kbd></font></td>
+    <td width="64" height="19" align="center"><font color="#008000">
+    <kbd>2</kbd></font></td>
+    <td width="190" height="19"><font color="#800080">8 * <i>M</i></font></td>
+  </tr>
+  <tr>
+    <td width="152" height="19"><font color="#008000"><kbd>cbSize</kbd></font></td>
+    <td width="64" height="19" align="center"><font color="#008000">
+    <kbd>2</kbd></font></td>
+    <td width="190" height="19">Size of the extension: 
+    <font color="#008000"><kbd>22</kbd></font></td>
+  </tr>
+  <tr>
+    <td width="152" height="19"><font color="#008000"><kbd>
+    wValidBitsPerSample</kbd></font></td>
+    <td width="64" height="19" align="center"><font color="#008000">
+    <kbd>2</kbd></font></td>
+    <td width="190" height="19">at most 
+    <font color="#800080">8 * <i>
+    M</i></font></td>
+  </tr>
+  <tr>
+    <td width="152" height="19"><font color="#008000"><kbd>
+    dwChannelMask</kbd></font></td>
+    <td width="64" height="19" align="center"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="190" height="19">Speaker position mask:
+    <font color="#008000"><kbd>0</kbd></font></td>
+  </tr>
+  <tr>
+    <td width="152" height="30"><font color="#008000"><kbd>SubFormat</kbd></font></td>
+    <td width="64" height="30" align="center"><font color="#008000">
+    <kbd>16</kbd></font></td>
+    <td width="190" height="30">GUID (first two bytes are the 
+    data format code)</td>
+  </tr>
+  <tr>
+    <td width="420" colspan="4" height="19"><hr color="#0000FF"></td>
+  </tr>
+  <tr>
+    <td width="173" height="19" colspan="2"><font color="#008000"><kbd>
+    ckID</kbd></font></td>
+    <td width="64" height="19" align="center"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="190" height="19">Chunk ID: &quot;<font color="#008000"><kbd>fact</kbd></font>&quot;</td>
+  </tr>
+  <tr>
+    <td width="173" height="19" colspan="2"><font color="#008000"><kbd>
+    cksize</kbd></font></td>
+    <td width="64" height="19" align="center"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="190" height="19">Chunk size: <font color="#008000">
+    <kbd>4</kbd></font></td>
+  </tr>
+  <tr>
+    <td width="14" height="19">&nbsp;</td>
+    <td width="152" height="19"><font color="#008000"><kbd>
+    dwSampleLength</kbd></font></td>
+    <td width="64" height="19" align="center"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="190" height="19"><font color="#800080"><i>N<sub>c</sub></i> 
+    * <i>N<sub>s</sub></i></font></td>
+  </tr>
+  <tr>
+    <td width="420" height="19" colspan="4"><hr color="#0000FF"></td>
+  </tr>
+  <tr>
+    <td width="173" height="19" colspan="2"><font color="#008000"><kbd>
+    ckID</kbd></font></td>
+    <td width="64" height="19" align="center"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="190" height="19">Chunk ID: &quot;<font color="#008000"><kbd>data</kbd></font>&quot;</td>
+  </tr>
+  <tr>
+    <td width="173" height="19" colspan="2"><font color="#008000"><kbd>
+    cksize</kbd></font></td>
+    <td width="64" height="19" align="center"><font color="#008000">
+    <kbd>4</kbd></font></td>
+    <td width="190" height="19">Chunk size: 
+    <font color="#800080"><i>M</i> * <i>N<sub>c</sub></i> * <i>N<sub>s</sub></i></font></td>
+  </tr>
+  <tr>
+    <td width="14" height="66" rowspan="2">&nbsp;</td>
+    <td width="152" height="33">sampled data</td>
+    <td width="64" height="33" align="center"><font color="#800080"><i>
+    M</i> * <i>N<sub>c</sub></i> * <i>N<sub>s</sub></i></font></td>
+    <td width="190" height="33"><font color="#800080"><i>N<sub>c</sub></i> 
+    * <i>N<sub>s</sub></i></font> channel-interleaved 
+    <font color="#800080"><i>M</i></font>-byte samples</td>
+  </tr>
+  <tr>
+    <td width="152" height="26">pad</td>
+    <td width="64" height="26" align="center"><font color="#008000">
+    <kbd>0</kbd></font> or <font color="#008000">
+    <kbd>1</kbd></font></td>
+    <td width="190" height="26">Padding byte if 
+    <font color="#800080"><i>M</i> * <i>N<sub>c</sub></i> * <i>N<sub>s</sub></i></font> 
+    is odd</td>
+  </tr>
+</table>
+<ul>
+  <li>The Fact chunk can be omitted if the sampled data is in PCM format.</li>
+  <li>Microsoft <i>Windows Media Player</i> enforces the use of the
+  <font color="#008000"><kbd>WAVE_FORMAT_EXTENSIBLE</kbd></font> format code. 
+  For instance a file with 24-bit data declared as a standard
+  <font color="#008000"><kbd>WAVE_FORMAT_PCM</kbd></font> format code will not 
+  play, but a file with 24-bit data declared as a <font color="#008000"><kbd>
+  WAVE_FORMAT_EXTENSIBLE</kbd></font> file with a <font color="#008000"><kbd>
+  WAVE_FORMAT_PCM</kbd></font> subcode can be played.</li>
+</ul>
+<hr>
+<h4><a href="Samples.html">Sample Wave Files</a></h4>
+
+</body>
+
+</html>

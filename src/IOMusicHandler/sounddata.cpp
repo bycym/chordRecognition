@@ -2,7 +2,37 @@
 
 SoundData::SoundData()
 {
+    pcm = 0;
+    ckID[5] = 0;
+    waveID[5] = 0;
 
+    // format:
+    ckFormatID[5] = 0;
+    ckFormatSize = 0;
+        wFormatTag = 0;
+        nChannels = 0;
+        nSamplesPerSec = 0;
+        nAvgBytesPerSec = 0;
+        nBlockAlign = 0;
+        wBitsPerSample = 0;
+
+        // NONPCM
+        cbSize = 0;
+
+        // EXTENSIBLE format
+        wValidBitsPerSample = 0;
+        dwChannelMask = 0;
+        subFormat[5] = 0;
+
+    // NONPCM or EXTENSIBLE format
+    // fact:
+    ckFactID[5] = 0;
+    ckFactSize = 0;
+        dwSampleLength = 0;
+
+    // data:
+    ckDataID[5] = 0;
+    ckDataSize = 0;
 }
 
 SoundData::~SoundData()
@@ -68,7 +98,7 @@ string SoundData::info()
         {
             if(pcm == 1) // if its NONPCM format
             {
-                cout << "\ncbSize: " << cbSize
+                cout << "\ncbSize: " << cbSize;
             }
             if(pcm == 2) // if its EXTENSIBLE format
             {
