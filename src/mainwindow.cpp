@@ -6,7 +6,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    fileoperator = new FileOperator(this);
+    fileOperator_ = new FileOperator(this);
+    sndData_ = new SoundData();
 }
 
 MainWindow::~MainWindow()
@@ -16,26 +17,25 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-    /*
-    QString imp = "sample.wav";
-    Sounddata snd(imp);
-    */
 
-    short x[8];
-    cout << "sizeof(short x[8]): " << sizeof(x) << endl;
-    cout << "sizeof(int): " << sizeof(int) << endl;
-    cout << "sizeof(char): " << sizeof(char) << endl;
-    cout << "sizeof(long): " << sizeof(long) << endl;
-    cout << "sizeof(long long): " << sizeof(long long) << endl;
-    cout << "sizeof(float): " << sizeof(float) << endl;
-    cout << "sizeof(double): " << sizeof(double) << endl;
-    cout << "sizeof(long double): " << sizeof(long double) << endl;
-    cout << "sizeof(short): " << sizeof(short) << endl;
+    QString imp = "sample.wav";
+
+
+    if(fileOperator_->performLoadOperation(imp, sndData_)) {
+        ui->successLabel->setText("OK");
+        ui->successLabel->setStyleSheet("QLabel { color: green }");
+    }
+    else {
+        ui->successLabel->setText("ERROR");
+        ui->successLabel->setStyleSheet("QLabel { color: red }");
+    }
+
+    getFeatures(sndData_);
 }
 
 void MainWindow::on_openButton_clicked()
 {
-    if(fileoperator->open())
+    if(fileOperator_->open(sndData_))
         ui->successLabel->setText("OK");
     else
         ui->successLabel->setText("ERROR");

@@ -11,6 +11,13 @@
 #include <QMessageBox>
 #include <iostream>
 #include "sounddata.h"
+
+#include <QDataStream>
+#include <QByteArray>
+#include <QFile>
+#include <QAudioFormat>
+#include <QEventLoop>
+#include <QAudioDeviceInfo>
 //#include <QAudioInput>
 
 
@@ -24,11 +31,14 @@ class FileOperator : public QWidget
     Q_OBJECT
 
 private:
-    //Sounddata * sndData;
-    QByteArray *buffer;
+
+    //QByteArray * buffer_;
+    //short bufferCounter_;
+    //short bufferLength_;
+
     //QAudioInput *audioInput;
 
-    QString fileName;
+    QString fileName_;
 
 
 
@@ -39,9 +49,13 @@ public:
 
     ~FileOperator();
 
+    bool loadBuffer();
     void init();
-    bool open();
-    bool performLoadOperation(QString);
+    bool open(SoundData*& sndData);
+    bool performLoadOperation(QString, SoundData*& sndData);
+
+    QString fileName() { return fileName_; }
+    //SoundData * sndData_;
 
 signals:
 

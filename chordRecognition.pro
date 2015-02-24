@@ -4,7 +4,8 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui multimedia
+
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -18,6 +19,7 @@ QMAKE_CXXFLAGS += -std=c++0x
 # INCLUDEPATH += /usr/include/QtMultimediaKit
 
 LIBS+= -lsndfile \
+       -lfftw3
        #-lQtMultimedia
 
 
@@ -35,8 +37,10 @@ SOURCES += src/main.cpp\
     genchords/src/utilities.cpp \
     src/Utils/neuralutilities.cpp \
     src/IOMusicHandler/fileoperator.cpp \
-    src/IOMusicHandler/getfeatures.cpp \
-    src/IOMusicHandler/sounddata.cpp
+    src/IOMusicHandler/sounddata.cpp \
+    src/Core/gre.cpp \
+    src/MI/getfeatures.cpp \
+    src/Core/core.cpp
 
 
 HEADERS  += src/mainwindow.h \
@@ -54,7 +58,8 @@ HEADERS  += src/mainwindow.h \
     genchords/src/learnchords.h \
     src/Utils/neuralutilities.h \
     src/IOMusicHandler/fileoperator.h \
-    src/IOMusicHandler/getfeatures.h \
-    src/IOMusicHandler/sounddata.h
+    src/IOMusicHandler/sounddata.h \
+    src/MI/getfeatures.h \
+    src/Core/core.h
 
 FORMS    += src/mainwindow.ui

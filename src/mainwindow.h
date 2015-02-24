@@ -2,8 +2,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "genchords/src/Sounddata.h"
+#include "IOMusicHandler/sounddata.h"
 #include "IOMusicHandler/fileoperator.h"
+#include "MI/getfeatures.h"
+#include <fftw3.h>
+
 
 
 namespace Ui {
@@ -26,6 +29,12 @@ private slots:
 private:
     Ui::MainWindow *ui;
     FileOperator * fileoperator;
+
+
+    fftw_complex *in_, *out_;
+    FileOperator * fileOperator_;
+
+    SoundData * sndData_;
 };
 
 #endif // MAINWINDOW_H
