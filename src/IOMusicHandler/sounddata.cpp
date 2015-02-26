@@ -37,7 +37,7 @@ SoundData::SoundData()
 
 SoundData::~SoundData()
 {
-    // delete audio_data
+
 }
 
 void SoundData::init()

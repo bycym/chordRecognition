@@ -1,6 +1,18 @@
 2015.02 ~
 =========
 
+? képlet tárírás jó-e? hogy kéne?
+? error:
+*** Fatal error : sizeof (off_t) != sizeof (sf_count_t)
+*** This means that libsndfile was not configured correctly.
+
+? jegy?
+
++ pcp megvalósítása megnézni
++ DFT megnézni
++ másik soundfile feldolgozás
++ ablakozva pcp kinyerés
+
 
 2015.01 ~
 =========

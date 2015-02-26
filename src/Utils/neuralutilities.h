@@ -52,6 +52,16 @@ int delta(float i, float j);
 float M(float l);
 
 
+/*!
+ * \brief idealWindowSize from genchords
+ * \param samplerate
+ * \return
+ * if (windowSize==0) {
+ *      windowSize = idealWindowSize(sd.samplerate());
+ * }
+ */
+//int idealWindowSize(int samplerate);
+
 
 
 

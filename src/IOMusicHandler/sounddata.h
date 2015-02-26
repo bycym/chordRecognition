@@ -167,6 +167,13 @@ public:
     SoundData();
     ~SoundData();
 
+    /***
+     * TODO: audio_data_ pointer?
+     * get/set
+     * */
+
+    /*** TODO original audio_data_; */
+    //QByteArray audio_data_;
     QByteArray audio_data_;
     QBuffer * audio_buffer_;
 

@@ -3,16 +3,56 @@
 bool getFeatures(SoundData*& sndData)
 {
     // the dimension of the pointers in and out
-    int N = 2;
+    //int N = 2;
+    int N = sndData->ckDataSize();
 
     // the pointer that stores the input data.
-    fftw_complex *in;
+    //fftw_complex *in;
     // the pointer that stores the output data.
-    fftw_complex *out;
-    in = (fftw_complex*) fftw_malloc(sizeof(fftw_complex)*N);
-    out = (fftw_complex*) fftw_malloc(sizeof(fftw_complex)*N);
+    //fftw_complex *out;
+    //in = (fftw_complex*) fftw_malloc(sizeof(fftw_complex)*N);
+    //out = (fftw_complex*) fftw_malloc(sizeof(fftw_complex)*N);
 
+
+    int input_size = sndData->audio_data_.size();
+    int output_size = (input_size/2 + 1);
+
+
+
+
+    double *input_buffer = static_cast<double*>(fftw_malloc(N * sizeof(double)));
+    fftw_complex *out = static_cast<fftw_complex*>(fftw_malloc(N * sizeof(fftw_complex)));
+
+
+    //Assign sound samples to double array
+    input_buffer = (double*)sndData->audio_data_.data();
     fftw_plan my_plan;
+
+    //Create plan
+    my_plan = fftw_plan_dft_r2c_1d(input_size, input_buffer, out, FFTW_ESTIMATE);
+
+
+/*
+    double reout[input_size];
+    double imgout[input_size];
+    double magnitude[input_size/2];
+
+    long ffond = 0.0; // Position of the frequency
+    double max = 0; // Maximal amplitude
+
+    for (int i = 0; i < input_size/2; i++)
+    {
+        reout[i] = out[i][0];
+        imgout[i] = out[i][1];
+        cout << imgout[i] << endl;
+        magnitude[i] = sqrt(reout[i]*reout[i] + imgout[i]*imgout[i]); //Calculate magnitude of first
+        double t = sqrt(reout[i]*reout[i] + imgout[i]*imgout[i]);
+        //qDebug() << t;
+
+
+    }
+*/
+
 
     /***
      * int FFTW_FORWARD: FFTW_FORWARD is an integer constant of the package
@@ -30,7 +70,7 @@ bool getFeatures(SoundData*& sndData)
      * consult appendix A.
      * */
 
-    my_plan = fftw_plan_dft_1d(N, in, out, FFTW_FORWARD, FFTW_ESTIMATE);
+    //my_plan = fftw_plan_dft_1d(N, in, out, FFTW_FORWARD, FFTW_ESTIMATE);
 
 
     /***
@@ -44,9 +84,9 @@ bool getFeatures(SoundData*& sndData)
      *                         fftw_complex *in, fftw_complex *out,
      *                         int sign, unsigned flags);
      * */
-    my_plan = fftw_plan_dft_2d(n0, n1,
+    /*my_plan = fftw_plan_dft_2d(n0, n1,
                                in, out,
-                               sign, flags);
+                               sign, flags);*/
 
     /***
      * performs the FFT stored in my_plan.
@@ -59,7 +99,7 @@ bool getFeatures(SoundData*& sndData)
      * stdlib.h function free
      * */
     fftw_destroy_plan(my_plan);
-    fftw_free(in);
+    fftw_free(input_buffer);
     fftw_free(out);
 
 
