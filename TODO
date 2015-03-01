@@ -6,6 +6,9 @@
 ? fftw_2d? -> gerfeatures.cpp
 ? hanganyag adatbázis
 
++ octave - > wave beolvasás
++ sox wave file libary
++ key,cpp!!
 
 2015.02 ~
 =========

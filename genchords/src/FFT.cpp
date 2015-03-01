@@ -406,10 +406,10 @@ void WindowFunc(int whichFunction, int NumSamples, float *in)
 
    windowFunc: "Rectangular" 0
                "Bartlett"    1
-               "Hamming"     2
+               "Hamming"     2 **
                "Hanning"     3
 
-   alg:  Spectrum 0
+   alg:  Spectrum 0 **
          Standard Autocorrelation 1
 		 Cuberoot Autocorrelation 2
 		 Enhanced Autocorrelation 3
@@ -418,7 +418,7 @@ void WindowFunc(int whichFunction, int NumSamples, float *in)
    }
 
    
- * ********************************/
+ * ********************************/ ///mprocessed kimenet
 int analysefrequencies(int alg, int windowFunc, int windowSize, const float * mData, int mDataLen, float *mProcessed)
 {
 
