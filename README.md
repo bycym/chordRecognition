@@ -12,3 +12,12 @@ Ubuntu/Debian:
 fftw 
 
 http://www.fftw.org/download.html
+
+Git
+
+http://classic.scottr.org/presentations/git-in-5-minutes/
+
+
+sox:
+sox --i sample.wav
+http://www.krisyu.org/blog/posts/2013/06/processing-audio-files-sox/#display
