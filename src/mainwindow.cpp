@@ -20,7 +20,6 @@ void MainWindow::on_pushButton_clicked()
 
     QString imp = "sample.wav";
 
-
     if(fileOperator_->performLoadOperation(imp, sndData_)) {
         ui->successLabel->setText("OK");
         ui->successLabel->setStyleSheet("QLabel { color: green }");
@@ -35,6 +34,7 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_openButton_clicked()
 {
+
     if(fileOperator_->open(sndData_))
         ui->successLabel->setText("OK");
     else

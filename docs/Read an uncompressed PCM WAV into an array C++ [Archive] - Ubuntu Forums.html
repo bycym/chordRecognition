@@ -1,0 +1,435 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<meta name="keywords" content="" />
+	<meta name="description" content="I would like to be able to open a WAV file, then read each of the values in it into an array of appropriate size (I should be able to find out the size from the WAV, if possible, then allocate an array of integers using malloc/new.) I am doing this for a personal project. Would be best in a library or using a toolkit of some kind. 
+ 
+Thanks, 
+Tom" />
+	
+	<title> Read an uncompressed PCM WAV into an array C++ [Archive]  - Ubuntu Forums</title>
+	<link rel="stylesheet" type="text/css" href="http://ubuntuforums.org/archive/archive.css" />
+</head>
+<body>
+<div class="pagebody">
+<div id="navbar"><a href="http://ubuntuforums.org/archive/index.php">Ubuntu Forums</a> &gt; <a href="http://ubuntuforums.org/archive/index.php/f-130.html">The Ubuntu Forum Community</a> &gt; <a href="http://ubuntuforums.org/archive/index.php/f-125.html">Ubuntu Specialised Support</a> &gt; <a href="http://ubuntuforums.org/archive/index.php/f-310.html">Development &amp; Programming</a> &gt; <a href="http://ubuntuforums.org/archive/index.php/f-39.html">Programming Talk</a> &gt;  Read an uncompressed PCM WAV into an array C++</div>
+<hr />
+<div class="pda"><a href="http://ubuntuforums.org/archive/index.php/t-960693.html?pda=1" rel="nofollow">PDA</a></div>
+<p class="largefont">View Full Version : <a href="http://ubuntuforums.org/showthread.php?t=960693">Read an uncompressed PCM WAV into an array C++</a></p>
+<hr />
+<div class="floatcontainer"></div><br />
+<div class="post"><div class="posttop"><div class="username">tom66</div><div class="date">October 27th, 2008, 09:47 PM</div></div><div class="posttext">I would like to be able to open a WAV file, then read each of the values in it into an array of appropriate size (I should be able to find out the size from the WAV, if possible, then allocate an array of integers using malloc/new.) I am doing this for a personal project. Would be best in a library or using a toolkit of some kind.<br />
+<br />
+Thanks,<br />
+Tom</div></div><hr />
+
+
+<div class="post"><div class="posttop"><div class="username">tCarls</div><div class="date">October 27th, 2008, 11:28 PM</div></div><div class="posttext">Here's a good specification of the WAV format:<br />
+http://ccrma.stanford.edu/courses/422/projects/WaveFormat/<br />
+<br />
+I don't know of any libraries but it's easy enough to parse a WAV file in C. This is how I do it: (note: it's c++ and I use a couple classes that I don't define here, but hopefully it's clear enough. Let me know if you have any questions.)<br />
+<br />
+Basically, first you read the header to determine the number of channels, sample rate, bits per sample, and number of samples; then you use that information to malloc your data; then you read the rest of the file and store it in your data.<br />
+<br />
+<br />
+<br />
+void Read_wav::read_wav(const string &amp;filename, int ***data,<br />
+                unsigned int **data_size, wav_params **params)<br />
+{<br />
+        c_file_handle file(filename, &quot;r&quot;);<br />
+        unsigned int num_ch, samp_rate, bits_per_samp, num_samp;<br />
+        read_wav_header(file, &amp;num_ch, &amp;samp_rate, &amp;bits_per_samp, &amp;num_samp);<br />
+<br />
+        *params = new wav_params(num_ch, samp_rate, bits_per_samp);<br />
+        *data = (int **) calloc(num_ch, sizeof(int *));<br />
+        assert(*data);<br />
+        *data_size = (unsigned int *) malloc(num_ch * sizeof(unsigned int));<br />
+        assert(*data_size);<br />
+        for (unsigned int i=0; i &lt; num_ch; ++i) {<br />
+                *data[i] = (int *) malloc(num_samp * sizeof(int));<br />
+                *data_size[i] = num_samp;<br />
+        }<br />
+<br />
+        read_wav_data(file, *data, **params, num_samp);<br />
+}<br />
+<br />
+<br />
+inline void Read_wav_impl::read_wav_header(c_file_handle &amp;file,<br />
+                unsigned int *num_ch, unsigned int *samp_rate,<br />
+                unsigned int *bits_per_samp, unsigned int *num_samp)<br />
+{<br />
+        unsigned char buffer[5];<br />
+<br />
+        /* ChunkID (RIFF for little-endian, RIFX for big-endian) */<br />
+        file.read(buffer, 4);<br />
+        buffer[4] = '\0';<br />
+        if (strcmp((char*)buffer, &quot;RIFF&quot;)) {<br />
+                throw except(&quot;RIFF file format not detected&quot;, file.filename);<br />
+        }<br />
+<br />
+        /* ChunkSize */<br />
+        file.read(buffer, 4);<br />
+        /* UNUSED<br />
+        const unsigned int chunk_size = buffer[0] + (buffer[1] &lt;&lt; 8) +<br />
+                (buffer[2] &lt;&lt; 16) + (buffer[3] &lt;&lt; 24);<br />
+        */<br />
+<br />
+        /* Format */<br />
+        file.read(buffer, 4);<br />
+        buffer[4] = '\0';<br />
+        if (strcmp((char*)buffer, &quot;WAVE&quot;)) {<br />
+                throw except(&quot;WAVE file format not detected&quot;, file.filename);<br />
+        }<br />
+<br />
+        /* Subchunk1ID */<br />
+        file.read(buffer, 4);<br />
+        buffer[4] = '\0';<br />
+        if (strcmp((char*)buffer, &quot;fmt &quot;)) {<br />
+                throw except(&quot;fmt section not found&quot;, file.filename);<br />
+        }<br />
+<br />
+        /* Subchunk1Size (16 for PCM) */<br />
+        file.read(buffer, 4);<br />
+        if (buffer[0] != 16 || buffer[1] || buffer[2] || buffer[3]) {<br />
+                throw except(&quot;PCM format not detected&quot;, file.filename);<br />
+        }<br />
+<br />
+        /* AudioFormat (PCM = 1, other values indicate compression) */<br />
+        file.read(buffer, 2);<br />
+        if (buffer[0] != 1 || buffer[1]) {<br />
+                throw except(&quot;PCM format not detected&quot;, file.filename);<br />
+        }<br />
+<br />
+        /* NumChannels (Mono = 1, Stereo = 2, etc) */<br />
+        file.read(buffer, 2);<br />
+        *num_ch = buffer[0] + (buffer[1] &lt;&lt; 8);<br />
+<br />
+        /* SampleRate (8000, 44100, etc) */<br />
+        file.read(buffer, 4);<br />
+        *samp_rate = buffer[0] + (buffer[1] &lt;&lt; 8) +<br />
+                (buffer[2] &lt;&lt; 16) + (buffer[3] &lt;&lt; 24);<br />
+<br />
+        /* ByteRate (SampleRate * NumChannels * BitsPerSample / 8) */<br />
+        file.read(buffer, 4);<br />
+        const unsigned int byte_rate = buffer[0] + (buffer[1] &lt;&lt; 8) +<br />
+                (buffer[2] &lt;&lt; 16) + (buffer[3] &lt;&lt; 24);<br />
+<br />
+        /* BlockAlign (NumChannels * BitsPerSample / 8) */<br />
+        file.read(buffer, 2);<br />
+        const unsigned int block_align = buffer[0] + (buffer[1] &lt;&lt; 8);<br />
+<br />
+        /* BitsPerSample */<br />
+        file.read(buffer, 2);<br />
+        *bits_per_samp = buffer[0] + (buffer[1] &lt;&lt; 8);<br />
+<br />
+        if (byte_rate != ((*samp_rate * *num_ch * *bits_per_samp) &gt;&gt; 3)) {<br />
+                throw except(&quot;ByteRate != SampleRate * NumChannels * &quot;<br />
+                                &quot;BitsPerSample / 8&quot;, file.filename);<br />
+        }<br />
+<br />
+        if (block_align != ((*num_ch * *bits_per_samp) &gt;&gt; 3)) {<br />
+                throw except(&quot;BlockAlign != NumChannels * &quot;<br />
+                                &quot;BitsPerSample / 8&quot;, file.filename);<br />
+        }<br />
+<br />
+        /* Subchunk2ID */<br />
+        file.read(buffer, 4);<br />
+        buffer[4] = '\0';<br />
+        if (strcmp((char*)buffer, &quot;data&quot;)) {<br />
+                throw except(&quot;data section not found&quot;, file.filename);<br />
+        }<br />
+<br />
+        /* Subchunk2Size (NumSamples * NumChannels * BitsPerSample / 8) */<br />
+        file.read(buffer, 4);<br />
+        const unsigned int subchunk2_size = buffer[0] + (buffer[1] &lt;&lt; 8) +<br />
+                (buffer[2] &lt;&lt; 16) + (buffer[3] &lt;&lt; 24);<br />
+        *num_samp = (subchunk2_size &lt;&lt; 3) / (<br />
+                        *num_ch * *bits_per_samp);<br />
+}<br />
+<br />
+<br />
+inline void Read_wav_impl::read_wav_data(c_file_handle &amp;file, int **data,<br />
+                const wav_params &amp;params, unsigned int num_samp)<br />
+{<br />
+        const unsigned int num_ch = params.num_ch;<br />
+        const unsigned int bits_per_samp = params.bits_per_samp;<br />
+        unsigned char buffer;<br />
+        for (unsigned int i=0; i != num_samp; ++i) {<br />
+                for (unsigned int j=0; j != num_ch; ++j) {<br />
+                        unsigned int tmp = 0;<br />
+                        for (unsigned int k=0; k != bits_per_samp; k+=8) {<br />
+                                file.read(&amp;buffer, 1);<br />
+                                tmp += buffer &lt;&lt; k;<br />
+                        }<br />
+                        data[j][i] = conv_bit_size(tmp, bits_per_samp);<br />
+                }<br />
+        }<br />
+}<br />
+<br />
+<br />
+inline int Read_wav_impl::conv_bit_size(unsigned int in, int bps)<br />
+{<br />
+        const unsigned int max = (1 &lt;&lt; (bps-1)) - 1;<br />
+        return in &gt; max ? in - (max&lt;&lt;1) : in;<br />
+}</div></div><hr />
+
+
+<div class="post"><div class="posttop"><div class="username">tom66</div><div class="date">October 28th, 2008, 12:11 AM</div></div><div class="posttext">Thanks, I'll check that out.<br />
+<br />
+I have a question: If I have a binary integer stored in a file - let's say it's 4 bytes long, how do I read that in as a normal integer? Do I just copy it into memory? What if it is the other way around (little/big endian)? <br />
+<br />
+Thanks.<br />
+<br />
+Also, what does a triple pointer do? (int ***)</div></div><hr />
+
+
+<div class="post"><div class="posttop"><div class="username">tCarls</div><div class="date">October 28th, 2008, 12:42 AM</div></div><div class="posttext">I have a question: If I have a binary integer stored in a file - let's say it's 4 bytes long, how do I read that in as a normal integer? Do I just copy it into memory? What if it is the other way around (little/big endian)?<br />
+<br />
+<br />
+If it's little endian and four bytes then you can read directly into the integer:<br />
+<br />
+<br />
+<br />
+unsigned int little_endian_value;<br />
+fread(&amp;little_endian_value, 4, 1, fp);<br />
+<br />
+<br />
+However, I get confused easily with endianness and like to be safe by always reading one byte at a time and combining the bytes with bit shifts and either addition or binary-or's:<br />
+<br />
+<br />
+<br />
+char buf[4];<br />
+unsigned int little_endian_value, big_endian_value;<br />
+fread(buf, 1, 4, fp);<br />
+little_endian_value = buf[0] | (buf[1] &lt;&lt; 8) | (buf[2] &lt;&lt; 16) | (buf[3] &lt;&lt; 24);<br />
+big_endian_value = (buf[0] &lt;&lt; 24) | (buf[1] &lt;&lt; 16) | (buf[2] &lt;&lt; 8) | buf[3];</div></div><hr />
+
+
+<div class="post"><div class="posttop"><div class="username">tCarls</div><div class="date">October 28th, 2008, 12:48 AM</div></div><div class="posttext">Also, what does a triple pointer do? (int ***) <br />
+<br />
+<br />
+The int ***data? data is a pointer to an array of arrays. *data is an array of arrays (one for each audio channel.) **data is an array (the raw data for that particular channel.)<br />
+<br />
+(*data)[0] would be the array of raw data for the left channel.<br />
+(*data)[1] would be the array of raw data for the right channel.<br />
+(*data)[0][0] would be the first sample of the left channel.<br />
+<br />
+I know it kind of seems like overkill. The pointer needs to be passed to the function so the array of arrays can be malloc'd.</div></div><hr />
+
+
+<div class="post"><div class="posttop"><div class="username">tom66</div><div class="date">October 28th, 2008, 01:14 AM</div></div><div class="posttext">I think it would be easy if, for my required usage, take a simple average of the two channels.</div></div><hr />
+
+
+<div class="post"><div class="posttop"><div class="username">tCarls</div><div class="date">October 28th, 2008, 02:54 AM</div></div><div class="posttext">Okay, here's 124 lines of plain C, complete enough to compile. It assumes a mono wav file. If anything goes wrong it exits without printing an error. It reads from stdin. The wav data ends up in the &quot;data&quot; array in the main() function. I don't guarantee it's correct, but it should give you a good start. Good luck.<br />
+<br />
+<br />
+<br />
+#include &lt;stdio.h&gt;<br />
+#include &lt;stdlib.h&gt;<br />
+#include &lt;string.h&gt;<br />
+<br />
+void read_wav_header(unsigned int *samp_rate, unsigned int *bits_per_samp,<br />
+		unsigned int *num_samp);<br />
+void read_wav_data(int *data, unsigned int samp_rate,<br />
+		unsigned int bits_per_samp, unsigned int num_samp);<br />
+int conv_bit_size(unsigned int in, int bps);<br />
+<br />
+int main(void)<br />
+{<br />
+        unsigned int samp_rate, bits_per_samp, num_samp;<br />
+        read_wav_header(&amp;samp_rate, &amp;bits_per_samp, &amp;num_samp);<br />
+	printf(&quot;samp_rate=[%d] bits_per_samp=[%d] num_samp=[%d]\n&quot;,<br />
+		samp_rate, bits_per_samp, num_samp);<br />
+<br />
+	int *data = (int *) malloc(num_samp * sizeof(int));<br />
+        read_wav_data(data, samp_rate, bits_per_samp, num_samp);<br />
+<br />
+	unsigned int i;<br />
+	for (i = 0; i &lt; num_samp; ++i) {<br />
+		printf(&quot;%d\n&quot;, data[i]);<br />
+	}<br />
+<br />
+	return EXIT_SUCCESS;<br />
+}<br />
+<br />
+void read_wav_header(unsigned int *samp_rate, unsigned int *bits_per_samp,<br />
+		unsigned int *num_samp)<br />
+{<br />
+        unsigned char buf[5];<br />
+<br />
+        /* ChunkID (RIFF for little-endian, RIFX for big-endian) */<br />
+        fread(buf, 1, 4, stdin);<br />
+        buf[4] = '\0';<br />
+        if (strcmp((char*)buf, &quot;RIFF&quot;)) exit(EXIT_FAILURE);<br />
+<br />
+        /* ChunkSize */<br />
+        fread(buf, 1, 4, stdin);<br />
+<br />
+        /* Format */<br />
+        fread(buf, 1, 4, stdin);<br />
+        buf[4] = '\0';<br />
+        if (strcmp((char*)buf, &quot;WAVE&quot;)) exit(EXIT_FAILURE);<br />
+<br />
+        /* Subchunk1ID */<br />
+        fread(buf, 1, 4, stdin);<br />
+        buf[4] = '\0';<br />
+        if (strcmp((char*)buf, &quot;fmt &quot;)) exit(EXIT_FAILURE);<br />
+<br />
+        /* Subchunk1Size (16 for PCM) */<br />
+        fread(buf, 1, 4, stdin);<br />
+        if (buf[0] != 16 || buf[1] || buf[2] || buf[3]) exit(EXIT_FAILURE);<br />
+<br />
+        /* AudioFormat (PCM = 1, other values indicate compression) */<br />
+        fread(buf, 1, 2, stdin);<br />
+        if (buf[0] != 1 || buf[1]) exit(EXIT_FAILURE);<br />
+<br />
+        /* NumChannels (Mono = 1, Stereo = 2, etc) */<br />
+        fread(buf, 1, 2, stdin);<br />
+        unsigned int num_ch = buf[0] + (buf[1] &lt;&lt; 8);<br />
+	if (num_ch != 1) exit(EXIT_FAILURE);<br />
+<br />
+        /* SampleRate (8000, 44100, etc) */<br />
+        fread(buf, 1, 4, stdin);<br />
+        *samp_rate = buf[0] + (buf[1] &lt;&lt; 8) +<br />
+                (buf[2] &lt;&lt; 16) + (buf[3] &lt;&lt; 24);<br />
+<br />
+        /* ByteRate (SampleRate * NumChannels * BitsPerSample / 8) */<br />
+        fread(buf, 1, 4, stdin);<br />
+        const unsigned int byte_rate = buf[0] + (buf[1] &lt;&lt; 8) +<br />
+                (buf[2] &lt;&lt; 16) + (buf[3] &lt;&lt; 24);<br />
+<br />
+        /* BlockAlign (NumChannels * BitsPerSample / 8) */<br />
+        fread(buf, 1, 2, stdin);<br />
+        const unsigned int block_align = buf[0] + (buf[1] &lt;&lt; 8);<br />
+<br />
+        /* BitsPerSample */<br />
+        fread(buf, 1, 2, stdin);<br />
+        *bits_per_samp = buf[0] + (buf[1] &lt;&lt; 8);<br />
+<br />
+        if (byte_rate != ((*samp_rate * num_ch * *bits_per_samp) &gt;&gt; 3))<br />
+		exit(EXIT_FAILURE);<br />
+<br />
+        if (block_align != ((num_ch * *bits_per_samp) &gt;&gt; 3))<br />
+		exit(EXIT_FAILURE);<br />
+<br />
+        /* Subchunk2ID */<br />
+        fread(buf, 1, 4, stdin);<br />
+        buf[4] = '\0';<br />
+        if (strcmp((char*)buf, &quot;data&quot;)) exit(EXIT_FAILURE);<br />
+<br />
+        /* Subchunk2Size (NumSamples * NumChannels * BitsPerSample / 8) */<br />
+        fread(buf, 1, 4, stdin);<br />
+        const unsigned int subchunk2_size = buf[0] + (buf[1] &lt;&lt; 8) +<br />
+                (buf[2] &lt;&lt; 16) + (buf[3] &lt;&lt; 24);<br />
+        *num_samp = (subchunk2_size &lt;&lt; 3) / (<br />
+                        num_ch * *bits_per_samp);<br />
+}<br />
+<br />
+<br />
+void read_wav_data(int *data, unsigned int samp_rate,<br />
+		unsigned int bits_per_samp, unsigned int num_samp)<br />
+{<br />
+        unsigned char buf;<br />
+	unsigned int i, j;<br />
+        for (i=0; i &lt; num_samp; ++i) {<br />
+		unsigned int tmp = 0;<br />
+		for (j=0; j != bits_per_samp; j+=8) {<br />
+			fread(&amp;buf, 1, 1, stdin);<br />
+			tmp += buf &lt;&lt; j;<br />
+		}<br />
+		data[i] = conv_bit_size(tmp, bits_per_samp);<br />
+        }<br />
+}<br />
+<br />
+<br />
+int conv_bit_size(unsigned int in, int bps)<br />
+{<br />
+        const unsigned int max = (1 &lt;&lt; (bps-1)) - 1;<br />
+        return in &gt; max ? in - (max&lt;&lt;1) : in;<br />
+}</div></div><hr />
+
+
+<div class="post"><div class="posttop"><div class="username">Eternal-student</div><div class="date">April 11th, 2009, 10:30 AM</div></div><div class="posttext">I know this is an old thread but I found the information here so useful!  However, there is a small error in the calculation when converting the bit size.. <br />
+<br />
+The format for 16-bit wav the values<br />
+<br />
+0x0000 = 0<br />
+0x7FFF = 32767<br />
+0x8000 = -32768<br />
+0xFFFF = -1<br />
+<br />
+The format for 8-bit wav is slightly different as the values are all unsigned (not sure about this though). I think they only range from 0 - 32767<br />
+<br />
+So the conv_bit_size function should return this value..<br />
+<br />
+<br />
+return in &gt; max ? in - ((max&lt;&lt;1)+2) : in;<br />
+<br />
+For example if you've got a 4 bit word the max value<br />
+<br />
+<br />
+const unsigned int max = (1 &lt;&lt; (bps-1)) - 1;  // in binary 1000 - 1 = 0111<br />
+<br />
+as max&lt;&lt;1 = 1110 = 14</div></div><hr />
+
+
+<div class="post"><div class="posttop"><div class="username">EricBrotto</div><div class="date">February 9th, 2011, 04:17 PM</div></div><div class="posttext">I also think this post is absolutely amazing. The information is super helpful to a project that I'm working on. <br />
+<br />
+The code that is written in C seems great. One question though:<br />
+<br />
+Where do you place the URL for the file name and location?<br />
+<br />
+Thanks!</div></div><hr />
+
+
+<div class="post"><div class="posttop"><div class="username">tCarls</div><div class="date">February 9th, 2011, 06:36 PM</div></div><div class="posttext">Do you mean the file name and location of the WAV file? In the C code I set it to read from standard in, so if your file is /home/eric/example.wav and the executable is named a.out then you would run:<br />
+<br />
+./a.out &lt; /home/eric/example.wav<br />
+<br />
+The original code I posted in C++ didn't hardcode the file to stdin. I used some classes I didn't define so maybe some things weren't clear, but take a look at how the &quot;file&quot; variable is used and you can see what you need to do if you want to read from somewhere other than stdin. My c_file_handle class is below in case it helps make the code clearer; it's basically a FILE*.<br />
+<br />
+<br />
+<br />
+class c_file_handle<br />
+{<br />
+public:<br />
+        inline c_file_handle(const std::string &amp;name, const std::string &amp;mode)<br />
+                        : filename(name) {<br />
+                file = fopen(name.c_str(), mode.c_str());<br />
+                if (!file) {<br />
+                        throw except(&quot;could not open &quot; + name +<br />
+                                        &quot;: &quot; + strerror(errno), name);<br />
+                }<br />
+        }<br />
+        inline ~c_file_handle(void) { if (file) fclose(file); }<br />
+        inline void read(unsigned char *ptr, size_t nmemb) {<br />
+                if (fread(ptr, sizeof(unsigned char), nmemb, file) != nmemb) {<br />
+                        throw except(&quot;unexpected EOF&quot;, filename);<br />
+                }<br />
+        }<br />
+        const std::string filename;<br />
+        FILE *file;<br />
+};</div></div><hr />
+
+
+<div class="post"><div class="posttop"><div class="username">josh.</div><div class="date">June 4th, 2011, 06:38 AM</div></div><div class="posttext">This thread has been very useful to me! However i have run into a big problems where my read data function is only reading in about 1000 samples when there are about 13 million samples in the wav file i am processing! The FILE* seems to set the eof flag after this many samples and i have no idea why! Do you have any suggestions as to what might be causing this issue!!<br />
+I have tried testing the length of the file and found it contains 26 million bytes as expected, but when i read the data in it just stops working :S I also tried reading all the data block in with one call of:<br />
+<br />
+fread(&amp;buf,1,subchunk2Size,AudioFile);<br />
+where AudioFile is my file pointer. However all the samples after the first 1000 or so are all set to -1 :S Any suggestions?<br />
+<br />
+EDIT:<br />
+I believe i have solved my own problem. If anyone has the same issue, by changing the file to open in binary mode<br />
+<br />
+AudioFile = fopen(filepath,&quot;rb&quot;);<br />
+not<br />
+<br />
+AudioFile = fopen(filepath,&quot;r&quot;);<br />
+I seem to be able to read the file in correctly :D</div></div><hr />
+
+
+<div id="copyright">Powered by vBulletin&reg; Version 4.2.2 Copyright &copy; 2015 vBulletin Solutions, Inc. All rights reserved.</div>
+</div>
+</body>
+</html>

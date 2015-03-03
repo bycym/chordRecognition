@@ -35,3 +35,13 @@
 + sox wave file libary
 + key,cpp!!
 http://classic.scottr.org/presentations/git-in-5-minutes/
+
+
+
+2015.03.03
+==========
+
+? SoundData pass? getFeatures
+? SoundData pass? key
+
+? float * buffer? how ?

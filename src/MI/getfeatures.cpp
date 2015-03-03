@@ -2,9 +2,40 @@
 
 bool getFeatures(SoundData*& sndData)
 {
+
+    // command options and arguments
+    bool oKey = false;
+    bool oBeatfile = false;
+    std::string beatfile;
+    int oGenerateBeatfile = 0;
+    int blockSizeMSec = 100;
+    int windowSize = 0;
+    bool oOptimize = false;
+    bool oProbability = false;
+    unsigned int number_of_chords = 1; // default output 1 chord
+    int verbositylevel = 1;
+    int pcpalgo=3;
+    std::string outdir = "tmp/";
+    std::string argfile;
+
+
+    if (windowSize==0) {
+            windowSize = idealWindowSize(sndData->nAvgBytesPerSec());
+            cout << "windowsSize: " << windowSize << endl;
+    }
+
+    Key key;
+    /*** TODO!!!!! */
+    if (oKey) {
+        key = getkey(sndData,windowSize);
+        std::cout << "Computed Key: " << key << std::endl;
+    }
+
+
     // the dimension of the pointers in and out
     //int N = 2;
     int N = 2;
+
 
     // the pointer that stores the input data.
     //fftw_complex *in;
@@ -13,7 +44,7 @@ bool getFeatures(SoundData*& sndData)
     //in = (fftw_complex*) fftw_malloc(sizeof(fftw_complex)*N);
     //out = (fftw_complex*) fftw_malloc(sizeof(fftw_complex)*N);
 
-
+    /*** TODO
     int input_size = sndData->audio_data_.size();
     int output_size = (input_size/2 + 1);
 
@@ -30,7 +61,7 @@ bool getFeatures(SoundData*& sndData)
 
     //Create plan
     //my_plan = fftw_plan_dft_1d(input_size, input_buffer, out, FFTW_ESTIMATE);
-
+    */
 
 /*
     double reout[input_size];
@@ -69,9 +100,9 @@ bool getFeatures(SoundData*& sndData)
      * will use this flag. For other values of this flag the reader can
      * consult appendix A.
      * */
-
+    /*** TODO
     my_plan = fftw_plan_dft_1d(N, input_buffer, out, FFTW_FORWARD, FFTW_ESTIMATE);
-
+    */
 
     /***
      * These routines create plans for n0 by n1 two-dimensional (2d)
@@ -91,17 +122,19 @@ bool getFeatures(SoundData*& sndData)
     /***
      * performs the FFT stored in my_plan.
      * */
+    /*** TODO
     fftw_execute(my_plan);
-
+    */
     /***
      * deallocate the memory stored by the plan and the pointers.
      * Note that for the pointers we use fftw_free and not the
      * stdlib.h function free
      * */
+    /*** TODO
     fftw_destroy_plan(my_plan);
     fftw_free(input_buffer);
     fftw_free(out);
-
+    */
 
     return false;
 }

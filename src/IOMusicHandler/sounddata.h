@@ -158,6 +158,8 @@ private:
 
     //QByteArray * audio_data;
 
+
+
     ///// </data> /////
 
 
@@ -176,12 +178,17 @@ public:
     //QByteArray audio_data_;
     QByteArray audio_data_;
     QBuffer * audio_buffer_;
+    float * audio_data_f_;
 
     void info();
-    void init();
+    void init(int sizeOfData);
 
 
     // get:
+
+    float* audio_data_f(){ return audio_data_f_; }
+
+
     short pcm() { return pcm_;}
     char* ckID() { return ckID_; }
     int ckSize() { return ckSize_; }
