@@ -4,7 +4,7 @@ bool getFeatures(SoundData*& sndData)
 {
 
     // command options and arguments
-    bool oKey = false;
+    bool oKey = true; //false;
     bool oBeatfile = false;
     std::string beatfile;
     int oGenerateBeatfile = 0;
