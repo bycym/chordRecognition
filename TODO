@@ -45,3 +45,5 @@ http://classic.scottr.org/presentations/git-in-5-minutes/
 ? SoundData pass? key
 
 ? float * buffer? how ?
+
+wavread("file.name")

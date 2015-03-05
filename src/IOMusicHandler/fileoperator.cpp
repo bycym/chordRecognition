@@ -1,4 +1,4 @@
- #include "fileoperator.h"
+#include "fileoperator.h"
 
 FileOperator::FileOperator(QWidget *parent) :
     QWidget(parent)
@@ -193,12 +193,11 @@ bool FileOperator::performLoadOperation(QString fn, SoundData*& sndData)
 
 
         ////// read data from file START //////
-        char buffer[4];
-        //float * audio_data = sndData->audio_data_f();
-
+        float buffer;
         while (!feof(fp))
         {
-            fread(buffer, sizeof(char), 4, fp);
+            fread(&buffer, sizeof(float), 1, fp);
+            sndData->audio_data_f_->push_back((buffer));
             //cout << buffer << endl;
             // hit end of file
             //cout << "Everything worked fine." << endl;

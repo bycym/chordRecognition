@@ -44,11 +44,12 @@ Key getkey(SoundData *& sd, int windowSize) {
     int samplerate = sd->nSamplesPerSec();
     cout << "2" << endl;
 
-    long frames = sd->dwSampleLength();
+    long frames = sd->ckDataSize()/sizeof(float);
     bool ok;
     cout << sd->ckDataID() << endl;
     //const float * srcBuffer = sd->audio_data_::number(srcBuffer.)
-    const float * srcBuffer = sd->audio_data_f_;
+
+    const float * srcBuffer = sd->audio_data_f_->data();
 
 
 	int frontlength=30; // laenge die am anfang und ende des stueckes genommen werden soll in sekunden
