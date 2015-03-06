@@ -1,0 +1,2146 @@
+<!DOCTYPE html>
+<html itemscope="" itemtype="http://schema.org/QAPage"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+    <title>c# - How to read the data in a wav file to an array - Stack Overflow</title>
+    <link rel="shortcut icon" href="http://cdn.sstatic.net/stackoverflow/img/favicon.ico?v=00a326f96f68">
+    <link rel="apple-touch-icon image_src" href="http://cdn.sstatic.net/stackoverflow/img/apple-touch-icon.png?v=41f6e13ade69">
+    <link rel="search" type="application/opensearchdescription+xml" title="Stack Overflow" href="http://stackoverflow.com/opensearch.xml">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:domain" content="stackoverflow.com">
+    <meta property="og:type" content="website">
+    <meta property="og:image" itemprop="image primaryImageOfPage" content="http://cdn.sstatic.net/stackoverflow/img/apple-touch-icon@2.png?v=ea71a5211a91">
+    <meta name="twitter:title" property="og:title" itemprop="title name" content="How to read the data in a wav file to an array">
+    <meta name="twitter:description" property="og:description" itemprop="description" content="I need to get all the samples of a wav file into an array (or two if you need to do that to keep the stereo) so that I can apply some modifications to them. I was wondering if this is easily done ">
+    <meta property="og:url" content="http://stackoverflow.com/questions/8754111/how-to-read-the-data-in-a-wav-file-to-an-array">
+    <link rel="canonical" href="http://stackoverflow.com/questions/8754111/how-to-read-the-data-in-a-wav-file-to-an-array">
+
+    
+    
+    <script src="read_data_wav_to_array_elemei/ados_002.js" async="" type="text/javascript"></script><script src="read_data_wav_to_array_elemei/quant.js" async=""></script><script src="read_data_wav_to_array_elemei/beacon.js" async=""></script><script src="read_data_wav_to_array_elemei/analytics.js" async=""></script><script src="read_data_wav_to_array_elemei/ados.js" async="" type="text/javascript"></script><script src="read_data_wav_to_array_elemei/jquery.js"></script>
+    <script src="read_data_wav_to_array_elemei/stub.js"></script>
+    <link rel="stylesheet" type="text/css" href="read_data_wav_to_array_elemei/all.css">
+    
+    <link rel="alternate" type="application/atom+xml" title="Feed for question 'How to read the data in a wav file to an array'" href="http://stackoverflow.com/feeds/question/8754111">
+    <meta name="twitter:app:country" content="US">
+    <meta name="twitter:app:name:iphone" content="Stack Exchange iOS">
+    <meta name="twitter:app:id:iphone" content="871299723">
+    <meta name="twitter:app:url:iphone" content="se-zaphod://stackoverflow.com/questions/8754111/how-to-read-the-data-in-a-wav-file-to-an-array">
+    <meta name="twitter:app:name:ipad" content="Stack Exchange iOS">
+    <meta name="twitter:app:id:ipad" content="871299723">
+    <meta name="twitter:app:url:ipad" content="se-zaphod://stackoverflow.com/questions/8754111/how-to-read-the-data-in-a-wav-file-to-an-array">
+    <meta name="twitter:app:name:googleplay" content="Stack Exchange Android">
+    <meta name="twitter:app:url:googleplay" content="http://stackoverflow.com/questions/8754111/how-to-read-the-data-in-a-wav-file-to-an-array">
+    <meta name="twitter:app:id:googleplay" content="com.stackexchange.marvin">
+    <script>
+        
+        StackExchange.ready(function () {
+                
+                StackExchange.using("snippets", function () {
+                    StackExchange.snippets.initSnippetRenderer();
+                });
+                
+
+            StackExchange.using("postValidation", function () {
+                StackExchange.postValidation.initOnBlurAndSubmit($('#post-form'), 2, 'answer');
+            });
+
+            
+            StackExchange.question.init({votesCast:[],autoShowCommentHelp:true,showAnswerHelp:true,totalCommentCount:1,shownCommentCount:1,highlightColor:'#F4A83D',backgroundColor:'#FFF',questionId:8754111});
+
+            styleCode();
+
+                StackExchange.realtime.subscribeToQuestion('1', '8754111');
+            
+                    });
+    </script>
+
+
+    <script>
+        StackExchange.init({"locale":"en","stackAuthUrl":"https://stackauth.com","serverTime":1425421477,"networkMetaHostname":"meta.stackexchange.com","routeName":"Questions/Show","styleCode":true,"enableUserHovercards":true,"snippets":{"enabled":true,"domain":"stacksnippets.net"},"site":{"name":"Stack Overflow","description":"Q&A for professional and enthusiast programmers","isNoticesTabEnabled":true,"recaptchaPublicKey":"6LdchgIAAAAAAJwGpIzRQSOFaO0pU6s44Xt8aTwc","recaptchaAudioLang":"en","enableNewTagCreationWarning":true,"insertSpaceAfterNameTabCompletion":false,"nonAsciiTags":true,"enableSocialMediaInSharePopup":true},"user":{"fkey":"a67ed21a04befdd759e1a955e87ca8af","isRegistered":true,"userType":3,"userId":2970449,"accountId":3556921,"gravatar":"<div class=\"gravatar-wrapper-32\"><img src=\"http://i.stack.imgur.com/s6KWk.png?s=32&g=1\" alt=\"\" width=\"32\" height=\"32\"></div>","profileUrl":"http://stackoverflow.com/users/2970449/arcsibo","notificationsUnviewedCount":1,"inboxUnviewedCount":0,"ab":{"next_answer_hook":{"v":"a","g":1}}}});
+        StackExchange.using.setCacheBreakers({"js/prettify-full.en.js":"a7a47b29599e","js/moderator.en.js":"9be321ee4fdc","js/full-anon.en.js":"99b7c440ea87","js/full.en.js":"358f6097f8ba","js/wmd.en.js":"4b355d3fab86","js/third-party/jquery.autocomplete.min.js":"e5f01e97f7c3","js/third-party/jquery.autocomplete.min.en.js":"","js/mobile.en.js":"c4cdce6f8a15","js/help.en.js":"1ad0e1555080","js/tageditor.en.js":"c8d06452914a","js/tageditornew.en.js":"eb36a24c7990","js/inline-tag-editing.en.js":"48f13b102998","js/revisions.en.js":"6c7265ea9fa1","js/review.en.js":"14631d71b903","js/tagsuggestions.en.js":"d1ff9b84abe5","js/post-validation.en.js":"0ee1cc8f47ca","js/explore-qlist.en.js":"4e6f969d97ee","js/events.en.js":"c603a8892fa8","js/keyboard-shortcuts.en.js":"e8cd7279600b","js/external-editor.en.js":"a7dd834567a2","js/external-editor.en.js":"a7dd834567a2","js/snippet-javascript.en.js":"49fc6920793f","js/snippet-javascript-codemirror.en.js":"5bcd66eda770"});
+        StackExchange.using("gps", function() {
+             StackExchange.gps.init(true);
+        });
+    </script>
+    
+    
+    
+<script src="read_data_wav_to_array_elemei/full.js" async=""></script><script src="read_data_wav_to_array_elemei/snippet-javascript.js" async=""></script><script src="read_data_wav_to_array_elemei/post-validation.js" async=""></script><script src="read_data_wav_to_array_elemei/prettify-full.js" async=""></script><script src="read_data_wav_to_array_elemei/external-editor.js" async=""></script><script src="read_data_wav_to_array_elemei/wmd.js" async=""></script><style type="text/css"> .wmd-snippet-button span { background-position: 0 0; } .wmd-snippet-button:hover span { background-position: 0 -40px; }</style><script src="read_data_wav_to_array_elemei/adFeedback.js" type="text/javascript"></script><link href="read_data_wav_to_array_elemei/adFeedback.css" rel="stylesheet"><link href="read_data_wav_to_array_elemei/jobs.css" rel="stylesheet" type="text/css"></head>
+<body class="question-page new-topbar">
+    <noscript><div id="noscript-padding"></div></noscript>
+    <div id="notify-container"></div>
+    <div id="overlay-header"></div>
+    <div id="custom-header"></div>
+
+
+
+
+<div class="topbar">
+    <div class="topbar-wrapper">
+
+        <div class="js-topbar-dialog-corral">
+
+<div class="topbar-dialog siteSwitcher-dialog dno">
+    <div class="header">
+        <h3><a href="http://stackoverflow.com/">current community</a></h3>
+    </div>
+    <div class="modal-content current-site-container">
+        <ul class="current-site">
+                <li>
+                        <div class="related-links">
+            <a href="http://chat.stackoverflow.com/" class="js-gps-track" data-gps-track="site_switcher.click({ item_type:6 })">chat</a>
+                    <a href="http://blog.stackoverflow.com/" class="js-gps-track" data-gps-track="site_switcher.click({ item_type:7 })">blog</a>
+                    <a href="http://stackoverflow.com/users/logout" class="js-gps-track" data-gps-track="site_switcher.click({ item_type:8 })">log out</a>
+    </div>
+
+
+
+
+    <a href="http://stackoverflow.com/" class="current-site-link site-link js-gps-track" data-id="1" data-gps-track="
+        site_switcher.click({ item_type:3 })">
+        <div class="site-icon favicon favicon-stackoverflow" title="Stack Overflow"></div>
+        Stack Overflow
+    </a>
+
+                </li>
+                <li class="related-site">
+                        <div class="L-shaped-icon-container">
+        <span class="L-shaped-icon"></span>
+    </div>
+
+                    
+
+
+
+    <a href="http://meta.stackoverflow.com/" class="site-link js-gps-track" data-id="552" data-gps-track="
+            site.switch({ target_site:552, item_type:3 }),
+        site_switcher.click({ item_type:4 })">
+        <div class="site-icon favicon favicon-stackoverflowmeta" title="Meta Stack Overflow"></div>
+        Meta Stack Overflow
+    </a>
+
+                </li>
+                            <li class="related-site">
+                        <div class="L-shaped-icon-container">
+        <span class="L-shaped-icon"></span>
+    </div>
+
+                    <a class="site-link js-gps-track" href="http://careers.stackoverflow.com/?utm_source=stackoverflow.com&amp;utm_medium=site-ui&amp;utm_campaign=multicollider" data-gps-track="site_switcher.click({ item_type:9 })">
+                        <div class="site-icon favicon favicon-careers" title="Stack Overflow Careers"></div>
+                        Stack Overflow Careers
+                    </a>
+                </li>
+        </ul>
+    </div>
+    
+    <div class="header" id="your-communities-header">
+        <h3>
+                <a href="http://stackexchange.com/users/3556921/?tab=accounts">your communities</a>
+        </h3>
+            
+            <a href="#" id="edit-pinned-sites">edit</a>
+            <a href="#" id="cancel-pinned-sites" style="display: none;">cancel</a>
+    </div>
+    <div class="modal-content" id="your-communities-section">
+            
+            <ul class="my-sites">
+                    <li>
+                        
+
+
+
+    <a href="http://programmers.stackexchange.com/" class="site-link js-gps-track" data-id="131" data-gps-track="
+            site.switch({ target_site:131, item_type:3 }),
+        site_switcher.click({ item_type:1 })">
+        <div class="site-icon favicon favicon-programmers" title="Programmers"></div>
+        Programmers
+            <span class="rep-score">1</span>
+    </a>
+
+                    </li>
+                    <li>
+                        
+
+
+
+    <a href="http://stackoverflow.com/" class="site-link js-gps-track" data-id="1" data-gps-track="
+            site.switch({ target_site:1, item_type:3 }),
+        site_switcher.click({ item_type:1 })">
+        <div class="site-icon favicon favicon-stackoverflow" title="Stack Overflow"></div>
+        Stack Overflow
+            <span class="rep-score">1</span>
+    </a>
+
+                    </li>
+                    <li>
+                        
+
+
+
+    <a href="http://unix.stackexchange.com/" class="site-link js-gps-track" data-id="106" data-gps-track="
+            site.switch({ target_site:106, item_type:3 }),
+        site_switcher.click({ item_type:1 })">
+        <div class="site-icon favicon favicon-unix" title="Unix &amp; Linux"></div>
+        Unix &amp; Linux
+            <span class="rep-score">1</span>
+    </a>
+
+                    </li>
+            </ul>
+                <div class="pinned-site-editor-container" style="display: none;">
+                    <input id="js-site-search-txt" class="site-filter-input" placeholder="Add a Stack Exchange community" type="text">
+                    <input id="pin-site-btn" value="Add" disabled="disabled" type="submit">
+                    <ul class="js-found-sites found-sites"></ul>
+                    <ul class="pinned-site-list sortable" data-custom-list="False">
+                    </ul>
+                    <input value="Save" id="save-pinned-sites-btn" disabled="disabled" type="submit">
+                    <a href="#" id="reset-pinned-sites">reset to default list</a>
+                </div>
+    </div>
+    
+    <div class="header">
+        <h3><a href="http://stackexchange.com/sites">more stack exchange communities</a></h3>
+    </div>
+    <div class="modal-content">
+            <div class="child-content"></div>
+    </div>
+</div>
+        </div>
+
+        <div class="network-items">
+
+            <a href="http://stackexchange.com/" class="topbar-icon icon-site-switcher yes-hover js-site-switcher-button js-gps-track" data-gps-track="site_switcher.show" title="A list of all 137 Stack Exchange sites">
+                <span class="hidden-text">Stack Exchange</span>
+            </a>
+
+                <a href="#" class="topbar-icon icon-inbox yes-hover js-inbox-button" title="Recent inbox messages">
+                    <span class="hidden-text">Inbox</span>
+                    <span class="unread-count" style="display:none"></span>
+                </a>
+                <a href="#" class="topbar-icon icon-achievements yes-hover js-achievements-button" data-unread-class="" title="Recent achievements: reputation, badges, and privileges earned">
+                    <span class="hidden-text">Reputation and Badges</span>
+                    <span class="unread-count" style="display:none">
+                        
+                    </span>
+                </a>
+        </div>
+
+        <div class="topbar-links">
+
+                <a href="http://stackoverflow.com/users/2970449/arcsibo" class="profile-me js-gps-track" data-gps-track="profile_summary.click()">
+                    <div class="gravatar-wrapper-24" title="arcsibo"><img src="read_data_wav_to_array_elemei/s6KWk.png" alt="" class="avatar-me js-avatar-me" height="24" width="24"></div>
+                    <div class="links-container topbar-flair">
+
+                        <span class="reputation" title="your reputation: 1">
+                            1
+                        </span>
+                    </div>
+                </a>
+                <div class="links-container">
+                    <span class="topbar-menu-links">
+
+
+
+
+    <a href="#" class="icon-help js-help-button" title="Help Center and other resources">
+        help
+        <span class="triangle"></span>
+    </a>
+    <div class="topbar-dialog help-dialog js-help-dialog dno">
+        <div class="modal-content">
+            <ul>
+                                    <li>
+                        <a href="http://stackoverflow.com/tour" class="js-gps-track" data-gps-track="help_popup.click({ item_type:1 })">
+                            Tour
+                            <span class="item-summary">
+                                Start here for a quick overview of the site
+                            </span>
+                        </a>
+                    </li>
+                <li>
+                    <a href="http://stackoverflow.com/help" class="js-gps-track" data-gps-track="help_popup.click({ item_type:4 })">
+                        Help Center
+                        <span class="item-summary">
+                            Detailed answers to any questions you might have
+                        </span>
+                    </a>
+                </li>
+                    <li>
+                        <a href="http://meta.stackoverflow.com/" class="js-gps-track" data-gps-track="help_popup.click({ item_type:2 })">
+                            Meta
+                            <span class="item-summary">
+                                Discuss the workings and policies of this site
+                            </span>
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+
+                    </span>
+                </div>
+
+            <div class="search-container">
+                <form id="search" action="/search" method="get" autocomplete="off">
+                    <input name="q" placeholder="search" tabindex="1" autocomplete="off" maxlength="240" type="text">
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+    <script>
+        StackExchange.ready(function() { StackExchange.topbar.init(); });
+    </script>
+
+    <div class="container">
+        <div id="header">
+            <br class="cbt">
+            <div id="hlogo">
+                <a href="http://stackoverflow.com/">
+                    Stack Overflow
+                </a>
+            </div>
+            <div id="hmenus">
+                <div class="nav mainnavs">
+                    <ul>
+                        <li class="youarehere"><a id="nav-questions" href="http://stackoverflow.com/questions">Questions</a></li>
+                        <li><a id="nav-tags" href="http://stackoverflow.com/tags">Tags</a></li>
+                        <li><a id="nav-users" href="http://stackoverflow.com/users">Users</a></li>
+                        <li><a id="nav-badges" href="http://stackoverflow.com/help/badges">Badges</a></li>
+                        <li><a id="nav-unanswered" href="http://stackoverflow.com/unanswered">Unanswered</a></li>
+                    </ul>
+                </div>
+                <div class="nav askquestion">
+                    <ul>
+                        <li>
+                            <a id="nav-askquestion" href="http://stackoverflow.com/questions/ask">Ask Question</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+
+
+
+        <div id="content" class="snippet-hidden">
+            
+
+<div itemscope="" itemtype="http://schema.org/Question">
+	<link itemprop="image" href="http://cdn.sstatic.net/stackoverflow/img/apple-touch-icon.png">
+			<div id="question-header">
+			<h1 itemprop="name"><a href="http://stackoverflow.com/questions/8754111/how-to-read-the-data-in-a-wav-file-to-an-array" class="question-hyperlink">How to read the data in a wav file to an array</a></h1>
+		</div>
+			<div id="mainbar">
+
+			
+
+<div class="question" data-questionid="8754111" id="question">
+
+    <script>
+                var ados = ados || {};ados.run = ados.run || [];
+                ados.run.push(function() { ados_add_placement(22,8277,"adzerk125548312",4).setZone(43) ; });                    
+            </script>
+            <div class="everyonelovesstackoverflow" id="adzerk125548312"><a href="http://engine.adzerk.net/r?e=eyJhdiI6NDE0LCJhdCI6NCwiYnQiOjAsImNtIjoxODY2MjQsImNoIjoxMTc4LCJjciI6NjYyNzk2LCJkaSI6Ijc5NWExMTkyYjQxNTQyYjhhOGY5ODQxODQ3NmJlYjQwIiwiZG0iOjEsImZjIjo2ODQ1MjIsImZsIjo0MTAxODMsImlwIjoiMTYwLjExNC40MS4yOSIsImt3IjoiYyMsZmlsZS1pbyxhdWRpbyx4LXVzZXItcmVnaXN0ZXJlZCIsIm53IjoyMiwicGMiOjAsInByIjoxNTY4LCJydCI6MSwic3QiOjgyNzcsInVrIjoidWUxLTg5OWVjZDM1ZDkyMjQ1MTM5MjYyOGM5NTg3NjJlOWViIiwiem4iOjQzLCJ0cyI6MTQyNTQyMTQ3ODY4MSwiYmYiOnRydWUsInBuIjoiYWR6ZXJrMTI1NTQ4MzEyIiwidXIiOiJodHRwOi8vY2FyZWVycy5zdGFja292ZXJmbG93LmNvbS9wcm9kdWN0cz91dG1fc291cmNlPXN0YWNrb3ZlcmZsb3cuY29tJnV0bV9tZWRpdW09YWQmdXRtX2NhbXBhaWduPWVtcGxveWVycy1zdXBlcmhlcm9lcyZ1dG1fY29udGVudD1sYi1zdXBlcmhlcm9lcyJ9&amp;s=54VNTbBMuTpq0E3itTaL3Mzln1E" rel="nofollow" target="_blank" title=""><img class="rlfpryhavqlasavxygqu" src="read_data_wav_to_array_elemei/7b03b9d327834757b98b657002b37789.png" title="" alt="" border="0" height="90" width="728"></a><img class="rlfpryhavqlasavxygqu" src="read_data_wav_to_array_elemei/i_003.gif" style="position:absolute;" border="0" height="0px" width="0px"></div>    <table>
+        <tbody><tr>
+            <td class="votecell">
+                
+
+<div class="vote">
+    <input name="_id_" value="8754111" type="hidden">
+    <a class="vote-up-off" title="This question shows research effort; it is useful and clear">up vote</a>
+    <span itemprop="upvoteCount" class="vote-count-post ">10</span>
+    <a class="vote-down-off" title="This question does not show any research effort; it is unclear or not useful">down vote</a>
+    
+    <a class="star-off star-on" href="#" title="This is a favorite question (click again to undo)">favorite</a>
+    <div class="favoritecount"><b class="favoritecount-selected">3</b></div>   
+
+</div>
+
+            </td>
+            
+<td class="postcell">
+<div>
+    <div class="post-text" itemprop="text">
+
+        <p>I need to get all the samples of a wav file into an array (or
+ two if you need to do that to keep the stereo) so that I can apply some
+ modifications to them. I was wondering if this is easily done 
+(preferably without external libraries). I have no experience with 
+reading in sound files, so I don't know much about the subject.</p>
+
+    </div>
+    <div class="post-taglist">
+        <a href="http://stackoverflow.com/questions/tagged/c%23" class="post-tag js-gps-track" title="show questions tagged 'c#'" rel="tag">c#</a> <a href="http://stackoverflow.com/questions/tagged/file-io" class="post-tag js-gps-track" title="" rel="tag">file-io</a> <a href="http://stackoverflow.com/questions/tagged/audio" class="post-tag js-gps-track" title="show questions tagged 'audio'" rel="tag">audio</a> 
+    </div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+<div class="post-menu"><a href="http://stackoverflow.com/q/8754111/2970449" title="short permalink to this question" class="short-link" id="link-post-8754111">share</a><span class="lsep">|</span><a href="http://stackoverflow.com/posts/8754111/edit" class="suggest-edit-post" title="revise and improve this post">edit</a></div>        
+    </td>
+    <td class="post-signature owner">
+        <div class="user-info user-hover">
+    <div class="user-action-time">
+        asked <span title="2012-01-06 06:13:17Z" class="relativetime">Jan 6 '12 at 6:13</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="http://stackoverflow.com/users/1063111/annonymously"><div class="gravatar-wrapper-32"><img src="read_data_wav_to_array_elemei/d918a5dd71e9c9b42ae27e7b51241db2.png" alt="" height="32" width="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="http://stackoverflow.com/users/1063111/annonymously">annonymously</a><br>
+        <span class="reputation-score" title="reputation score " dir="ltr">2,858</span><span title="5 gold badges"><span class="badge1"></span><span class="badgecount">5</span></span><span title="15 silver badges"><span class="badge2"></span><span class="badgecount">15</span></span><span title="39 bronze badges"><span class="badge3"></span><span class="badgecount">39</span></span>
+    </div>
+</div>
+    </td>
+    </tr>
+    </tbody></table>
+</div>
+</td>
+        </tr>
+                
+<tr>
+    <td class="votecell"></td>
+    <td>
+	    <div id="comments-8754111" class="comments ">
+		    <table>
+                <tbody data-remaining-comments-count="0" data-canpost="false" data-cansee="true" data-comments-unavailable="false" data-addlink-disabled="true">
+
+
+
+    <tr id="comment-29727506" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">Why don't you want to use 
+libraries? If it's a licensing issue, look for an LGPL or similar 
+license. If not, well, .NET is built on libraries so that you don't have
+ to code everything yourself. Install NuGet, get NAudio (or another 
+audio library), and don't reinvent the wheel :). Or do it in C ;)</span>
+                –&nbsp;
+                    <a href="http://stackoverflow.com/users/116891/pat" title="5345 reputation" class="comment-user">Pat</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment29727506_8754111"><span title="2013-11-14 05:37:14Z" class="relativetime-clean">Nov 14 '13 at 5:37</span></a></span>
+                                                                            </div>
+                    </td>
+    </tr>
+                </tbody>
+		    </table>
+	    </div>
+            <div id="comments-link-8754111" data-rep="50" data-reg="true">
+
+                <a class="js-add-link comments-link disabled-link " title="Use comments to ask for more information or suggest improvements. Avoid answering questions in comments.">add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span><a class="js-show-link comments-link dno" title="expand to show all comments on this post, or add one of your own" href="#" onclick=""></a>
+            </div>
+    </td>
+</tr>        </tbody></table>
+</div>
+
+			<div id="answers">
+
+				<a name="tab-top"></a>
+				<div id="answers-header">
+					<div class="subheader answers-subheader">
+						<h2>
+								6 Answers
+                                <span style="display:none;" itemprop="answerCount">6</span>
+						</h2>
+						<div>
+							<div id="tabs">
+        <a href="http://stackoverflow.com/questions/8754111/how-to-read-the-data-in-a-wav-file-to-an-array?answertab=active#tab-top" title="Answers with the latest activity first">active</a>
+        <a href="http://stackoverflow.com/questions/8754111/how-to-read-the-data-in-a-wav-file-to-an-array?answertab=oldest#tab-top" title="Answers in the order they were provided">oldest</a>
+        <a class="youarehere" href="http://stackoverflow.com/questions/8754111/how-to-read-the-data-in-a-wav-file-to-an-array?answertab=votes#tab-top" title="Answers with the highest score first">votes</a>
+</div>
+						</div>
+					</div>    
+				</div>    
+
+
+
+
+  
+<a name="8754162"></a>
+<div id="answer-8754162" class="answer accepted-answer" data-answerid="8754162" itemscope="" itemtype="http://schema.org/Answer" itemprop="acceptedAnswer">
+    <table>
+        <tbody><tr>
+            <td class="votecell">
+                
+
+<div class="vote">
+    <input name="_id_" value="8754162" type="hidden">
+    <a class="vote-up-off" title="This answer is useful">up vote</a>
+    <span itemprop="upvoteCount" class="vote-count-post ">7</span>
+    <a class="vote-down-off" title="This answer is not useful">down vote</a>
+    
+
+
+        <span class="vote-accepted-on load-accepted-answer-date" title="loading when this answer was accepted...">accepted</span>
+</div>
+
+            </td>
+            
+
+
+<td class="answercell">
+    <div class="post-text" itemprop="text">
+<p>WAV files (at least, uncompressed ones) are fairly straightforward. There's a header, then the data follows it.</p>
+
+<p>Here's a great reference: <a href="https://ccrma.stanford.edu/courses/422/projects/WaveFormat/">https://ccrma.stanford.edu/courses/422/projects/WaveFormat/</a></p>
+    </div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+<div class="post-menu"><a href="http://stackoverflow.com/a/8754162/2970449" title="short permalink to this answer" class="short-link" id="link-post-8754162">share</a><span class="lsep">|</span><a href="http://stackoverflow.com/posts/8754162/edit" class="suggest-edit-post" title="revise and improve this post">edit</a></div>                    </td>
+            
+
+
+    <td class="post-signature" align="right">   
+       
+
+    <div class="user-info ">
+    <div class="user-action-time">
+        answered <span title="2012-01-06 06:18:37Z" class="relativetime">Jan 6 '12 at 6:18</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="http://stackoverflow.com/users/1121542/fletch"><div class="gravatar-wrapper-32"><img src="read_data_wav_to_array_elemei/41d6f1b79afe3529d48869500318b50a.png" alt="" height="32" width="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="http://stackoverflow.com/users/1121542/fletch">Fletch</a><br>
+        <span class="reputation-score" title="reputation score " dir="ltr">735</span><span title="3 silver badges"><span class="badge2"></span><span class="badgecount">3</span></span><span title="11 bronze badges"><span class="badge3"></span><span class="badgecount">11</span></span>
+    </div>
+</div>
+    </td>
+    </tr>
+    </tbody></table>
+</td>
+        </tr>
+        
+<tr>
+    <td class="votecell"></td>
+    <td>
+	    <div id="comments-8754162" class="comments ">
+		    <table>
+                <tbody data-remaining-comments-count="0" data-canpost="false" data-cansee="true" data-comments-unavailable="false" data-addlink-disabled="true">
+
+
+
+    <tr id="comment-10907877" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">So I can get the data in, then isolate the bytes after offset 44 and then reuse the same header to save the file, right?</span>
+                –&nbsp;
+                    <a href="http://stackoverflow.com/users/1063111/annonymously" title="2858 reputation" class="comment-user owner">annonymously</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment10907877_8754162"><span title="2012-01-06 06:30:07Z" class="relativetime-clean">Jan 6 '12 at 6:30</span></a></span>
+                                                                            </div>
+                    </td>
+    </tr>
+    <tr id="comment-10917678" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">not always, WAV files can 
+contain other chunks as well after the fmt chunk and before the data 
+chunk. It is best to properly parse the RIFF chunks</span>
+                –&nbsp;
+                    <a href="http://stackoverflow.com/users/7532/mark-heath" title="24177 reputation" class="comment-user">Mark Heath</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment10917678_8754162"><span title="2012-01-06 16:08:28Z" class="relativetime-clean">Jan 6 '12 at 16:08</span></a></span>
+                                                                            </div>
+                    </td>
+    </tr>
+    <tr id="comment-15149415" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">The data in the WAV file 
+won't actually be floating point will it? Specifically, will it be a 
+floating point representation of the actual time-domain waveform?</span>
+                –&nbsp;
+                    <a href="http://stackoverflow.com/users/1110675/ataraxia" title="317 reputation" class="comment-user">Ataraxia</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment15149415_8754162"><span title="2012-07-13 15:37:50Z" class="relativetime-clean">Jul 13 '12 at 15:37</span></a></span>
+                                                                            </div>
+                    </td>
+    </tr>
+    <tr id="comment-19198329" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">It will be if the <b>AudioFormat</b> in the "<code>fmt </code>" subchunk is <b>0x0003</b> (<code>WAVE_FORMAT_IEEE_FLOAT</code>)</span>
+                –&nbsp;
+                    <a href="http://stackoverflow.com/users/1812922/alldayremix" title="420 reputation" class="comment-user">alldayremix</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment19198329_8754162"><span title="2012-12-18 03:59:28Z" class="relativetime-clean">Dec 18 '12 at 3:59</span></a></span>
+                    <span class="edited-yes" title="this comment was edited 4 times"></span>
+                                                                            </div>
+                    </td>
+    </tr>
+    <tr id="comment-29792634" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">That link is a great 
+introduction, but watch out. Many wavs today have headers longer than 44
+ bytes. 46-byte headers are particularly common and that introduction 
+does not discuss the possibility of extra data to parse.</span>
+                –&nbsp;
+                    <a href="http://stackoverflow.com/users/669989/matt-j" title="591 reputation" class="comment-user">Matt J.</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment29792634_8754162"><span title="2013-11-15 19:08:56Z" class="relativetime-clean">Nov 15 '13 at 19:08</span></a></span>
+                                                                            </div>
+                    </td>
+    </tr>
+                </tbody>
+		    </table>
+	    </div>
+            <div id="comments-link-8754162" data-rep="50" data-reg="true">
+
+                <a class="js-add-link comments-link disabled-link " title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”.">add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span><a class="js-show-link comments-link dno" title="expand to show all comments on this post, or add one of your own" href="#" onclick=""></a>
+            </div>
+    </td>
+</tr>    </tbody></table>
+</div>
+<script>
+                var ados = ados || {};ados.run = ados.run || [];
+                ados.run.push(function() { ados_add_placement(22,8277,"adzerk152472591",4).setZone(44) ; });                    
+            </script>
+            <div class="everyonelovesstackoverflow" id="adzerk152472591"><a href="http://engine.adzerk.net/r?e=eyJhdiI6NDE0LCJhdCI6NCwiYnQiOjAsImNtIjoxODY2MjQsImNoIjoxMTc4LCJjciI6NzIyNjgzLCJkaSI6ImMxZmYxYzZhZWFlMDQxMmJhNmYxMGFjNzFjZTJiODE3IiwiZG0iOjEsImZjIjo3NTIyNDIsImZsIjo0NDEzMzQsImlwIjoiMTYwLjExNC40MS4yOSIsImt3IjoiYyMsZmlsZS1pbyxhdWRpbyx4LXVzZXItcmVnaXN0ZXJlZCIsIm53IjoyMiwicGMiOjAsInByIjoxNTY4LCJydCI6MSwic3QiOjgyNzcsInVrIjoidWUxLTg5OWVjZDM1ZDkyMjQ1MTM5MjYyOGM5NTg3NjJlOWViIiwiem4iOjQ0LCJ0cyI6MTQyNTQyMTQ3ODY4NCwiYmYiOnRydWUsInBuIjoiYWR6ZXJrMTUyNDcyNTkxIiwidXIiOiJodHRwOi8vY2FyZWVycy5zdGFja292ZXJmbG93LmNvbS9jdi9nZXQtb25lP3V0bV9zb3VyY2U9c3RhY2tvdmVyZmxvdy5jb20mdXRtX21lZGl1bT1hZCZ1dG1fY2FtcGFpZ249Y2FuZGlkYXRlcy1hZGQtY3YmdXRtX2NvbnRlbnQ9bGItZGV2ZWxvcC15b3Vyc2VsZiJ9&amp;s=umTSIJyAljdEephj6FT9CbqW_K0" rel="nofollow" target="_blank" title=""><img class="rlfpryhavqlasavxygqu" src="read_data_wav_to_array_elemei/e669aa51cc0d45358045db867ef436be.png" title="" alt="" border="0" height="90" width="728"></a><img class="rlfpryhavqlasavxygqu" src="read_data_wav_to_array_elemei/i_004.gif" style="position:absolute;" border="0" height="0px" width="0px"></div>
+  
+<a name="11162668"></a>
+<div id="answer-11162668" class="answer" data-answerid="11162668" itemscope="" itemtype="http://schema.org/Answer">
+    <table>
+        <tbody><tr>
+            <td class="votecell">
+                
+
+<div class="vote">
+    <input name="_id_" value="11162668" type="hidden">
+    <a class="vote-up-off" title="This answer is useful">up vote</a>
+    <span itemprop="upvoteCount" class="vote-count-post ">22</span>
+    <a class="vote-down-off" title="This answer is not useful">down vote</a>
+    
+
+
+</div>
+
+            </td>
+            
+
+
+<td class="answercell">
+    <div class="post-text" itemprop="text">
+<p>This code should do the trick. It converts a wave file to a 
+normalized double array (-1 to 1), but it should be trivial to make it 
+an int/short array instead (remove the <code>/32768.0</code> bit and add 32768 instead). The <code>right[]</code> array will be set to null if the loaded wav file is found to be mono.</p>
+
+<p>I can't claim it's completely bullet proof (potential off-by-one 
+errors), but after creating a 65536 sample array, and creating a wave 
+from -1 to 1, none of the samples appear to go 'through' the ceiling or 
+floor.</p>
+
+<pre style="" class="lang-cs prettyprint prettyprinted"><code><span class="com">// convert two bytes to one double in the range -1 to 1</span><span class="pln">
+</span><span class="kwd">static</span><span class="pln"> </span><span class="kwd">double</span><span class="pln"> bytesToDouble</span><span class="pun">(</span><span class="kwd">byte</span><span class="pln"> firstByte</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">byte</span><span class="pln"> secondByte</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    </span><span class="com">// convert two bytes to one short (little endian)</span><span class="pln">
+    </span><span class="kwd">short</span><span class="pln"> s </span><span class="pun">=</span><span class="pln"> </span><span class="pun">(</span><span class="pln">secondByte </span><span class="pun">&lt;&lt;</span><span class="pln"> </span><span class="lit">8</span><span class="pun">)</span><span class="pln"> </span><span class="pun">|</span><span class="pln"> firstByte</span><span class="pun">;</span><span class="pln">
+    </span><span class="com">// convert to range from -1 to (just below) 1</span><span class="pln">
+    </span><span class="kwd">return</span><span class="pln"> s </span><span class="pun">/</span><span class="pln"> </span><span class="lit">32768.0</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">// Returns left and right double arrays. 'right' will be null if sound is mono.</span><span class="pln">
+</span><span class="kwd">public</span><span class="pln"> </span><span class="kwd">void</span><span class="pln"> openWav</span><span class="pun">(</span><span class="kwd">string</span><span class="pln"> filename</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">out</span><span class="pln"> </span><span class="kwd">double</span><span class="pun">[]</span><span class="pln"> left</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">out</span><span class="pln"> </span><span class="kwd">double</span><span class="pun">[]</span><span class="pln"> right</span><span class="pun">)</span><span class="pln">
+</span><span class="pun">{</span><span class="pln">
+    </span><span class="kwd">byte</span><span class="pun">[]</span><span class="pln"> wav </span><span class="pun">=</span><span class="pln"> </span><span class="typ">File</span><span class="pun">.</span><span class="typ">ReadAllBytes</span><span class="pun">(</span><span class="pln">filename</span><span class="pun">);</span><span class="pln">
+
+    </span><span class="com">// Determine if mono or stereo</span><span class="pln">
+    </span><span class="typ">int</span><span class="pln"> channels </span><span class="pun">=</span><span class="pln"> wav</span><span class="pun">[</span><span class="lit">22</span><span class="pun">];</span><span class="pln">     </span><span class="com">// Forget byte 23 as 99.999% of WAVs are 1 or 2 channels</span><span class="pln">
+
+    </span><span class="com">// Get past all the other sub chunks to get to the data subchunk:</span><span class="pln">
+    </span><span class="typ">int</span><span class="pln"> pos </span><span class="pun">=</span><span class="pln"> </span><span class="lit">12</span><span class="pun">;</span><span class="pln">   </span><span class="com">// First Subchunk ID from 12 to 16</span><span class="pln">
+
+    </span><span class="com">// Keep iterating until we find the data chunk (i.e. 64 61 74 61 ...... (i.e. 100 97 116 97 in decimal))</span><span class="pln">
+    </span><span class="kwd">while</span><span class="pun">(!(</span><span class="pln">wav</span><span class="pun">[</span><span class="pln">pos</span><span class="pun">]==</span><span class="lit">100</span><span class="pln"> </span><span class="pun">&amp;&amp;</span><span class="pln"> wav</span><span class="pun">[</span><span class="pln">pos</span><span class="pun">+</span><span class="lit">1</span><span class="pun">]==</span><span class="lit">97</span><span class="pln"> </span><span class="pun">&amp;&amp;</span><span class="pln"> wav</span><span class="pun">[</span><span class="pln">pos</span><span class="pun">+</span><span class="lit">2</span><span class="pun">]==</span><span class="lit">116</span><span class="pln"> </span><span class="pun">&amp;&amp;</span><span class="pln"> wav</span><span class="pun">[</span><span class="pln">pos</span><span class="pun">+</span><span class="lit">3</span><span class="pun">]==</span><span class="lit">97</span><span class="pun">))</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+        pos </span><span class="pun">+=</span><span class="pln"> </span><span class="lit">4</span><span class="pun">;</span><span class="pln">
+        </span><span class="typ">int</span><span class="pln"> chunkSize </span><span class="pun">=</span><span class="pln"> wav</span><span class="pun">[</span><span class="pln">pos</span><span class="pun">]</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> wav</span><span class="pun">[</span><span class="pln">pos </span><span class="pun">+</span><span class="pln"> </span><span class="lit">1</span><span class="pun">]</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="lit">256</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> wav</span><span class="pun">[</span><span class="pln">pos </span><span class="pun">+</span><span class="pln"> </span><span class="lit">2</span><span class="pun">]</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="lit">65536</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> wav</span><span class="pun">[</span><span class="pln">pos </span><span class="pun">+</span><span class="pln"> </span><span class="lit">3</span><span class="pun">]</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="lit">16777216</span><span class="pun">;</span><span class="pln">
+        pos </span><span class="pun">+=</span><span class="pln"> </span><span class="lit">4</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> chunkSize</span><span class="pun">;</span><span class="pln">
+    </span><span class="pun">}</span><span class="pln">
+    pos </span><span class="pun">+=</span><span class="pln"> </span><span class="lit">8</span><span class="pun">;</span><span class="pln">
+
+    </span><span class="com">// Pos is now positioned to start of actual sound data.</span><span class="pln">
+    </span><span class="typ">int</span><span class="pln"> samples </span><span class="pun">=</span><span class="pln"> </span><span class="pun">(</span><span class="pln">wav</span><span class="pun">.</span><span class="typ">Length</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> pos</span><span class="pun">)/</span><span class="lit">2</span><span class="pun">;</span><span class="pln">     </span><span class="com">// 2 bytes per sample (16 bit sound mono)</span><span class="pln">
+    </span><span class="kwd">if</span><span class="pln"> </span><span class="pun">(</span><span class="pln">channels </span><span class="pun">==</span><span class="pln"> </span><span class="lit">2</span><span class="pun">)</span><span class="pln"> samples </span><span class="pun">/=</span><span class="pln"> </span><span class="lit">2</span><span class="pun">;</span><span class="pln">        </span><span class="com">// 4 bytes per sample (16 bit stereo)</span><span class="pln">
+
+    </span><span class="com">// Allocate memory (right will be null if only mono sound)</span><span class="pln">
+    left </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="kwd">double</span><span class="pun">[</span><span class="pln">samples</span><span class="pun">];</span><span class="pln">
+    </span><span class="kwd">if</span><span class="pln"> </span><span class="pun">(</span><span class="pln">channels </span><span class="pun">==</span><span class="pln"> </span><span class="lit">2</span><span class="pun">)</span><span class="pln"> right </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="kwd">double</span><span class="pun">[</span><span class="pln">samples</span><span class="pun">];</span><span class="pln">
+    </span><span class="kwd">else</span><span class="pln"> right </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">null</span><span class="pun">;</span><span class="pln">
+
+    </span><span class="com">// Write to double array/s:</span><span class="pln">
+    </span><span class="typ">int</span><span class="pln"> i</span><span class="pun">=</span><span class="lit">0</span><span class="pun">;</span><span class="pln">
+    </span><span class="kwd">while</span><span class="pln"> </span><span class="pun">(</span><span class="pln">pos </span><span class="pun">&lt;</span><span class="pln"> length</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+        left</span><span class="pun">[</span><span class="pln">i</span><span class="pun">]</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> bytesToDouble</span><span class="pun">(</span><span class="pln">wav</span><span class="pun">[</span><span class="pln">pos</span><span class="pun">],</span><span class="pln"> wav</span><span class="pun">[</span><span class="pln">pos </span><span class="pun">+</span><span class="pln"> </span><span class="lit">1</span><span class="pun">]);</span><span class="pln">
+        pos </span><span class="pun">+=</span><span class="pln"> </span><span class="lit">2</span><span class="pun">;</span><span class="pln">
+        </span><span class="kwd">if</span><span class="pln"> </span><span class="pun">(</span><span class="pln">channels </span><span class="pun">==</span><span class="pln"> </span><span class="lit">2</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+            right</span><span class="pun">[</span><span class="pln">i</span><span class="pun">]</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> bytesToDouble</span><span class="pun">(</span><span class="pln">wav</span><span class="pun">[</span><span class="pln">pos</span><span class="pun">],</span><span class="pln"> wav</span><span class="pun">[</span><span class="pln">pos </span><span class="pun">+</span><span class="pln"> </span><span class="lit">1</span><span class="pun">]);</span><span class="pln">
+            pos </span><span class="pun">+=</span><span class="pln"> </span><span class="lit">2</span><span class="pun">;</span><span class="pln">
+        </span><span class="pun">}</span><span class="pln">
+        i</span><span class="pun">++;</span><span class="pln">
+    </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+    </div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+<div class="post-menu"><a href="http://stackoverflow.com/a/11162668/2970449" title="short permalink to this answer" class="short-link" id="link-post-11162668">share</a><span class="lsep">|</span><a href="http://stackoverflow.com/posts/11162668/edit" class="suggest-edit-post" title="revise and improve this post">edit</a></div>                    </td>
+    <td class="post-signature" align="right">
+<div class="user-info ">
+    <div class="user-action-time">
+        <a href="http://stackoverflow.com/posts/11162668/revisions" title="show all edits to this post">edited <span title="2012-09-22 23:48:44Z" class="relativetime">Sep 22 '12 at 23:48</span></a>
+    </div>
+    <div class="user-gravatar32">
+        <a href="http://stackoverflow.com/users/780425/khiner"><div class="gravatar-wrapper-32"><img src="read_data_wav_to_array_elemei/21161a0923f5e7cca52191a826a294bb.jpeg" alt="" height="32" width="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="http://stackoverflow.com/users/780425/khiner">khiner</a><br>
+        <span class="reputation-score" title="reputation score " dir="ltr">334</span><span title="2 silver badges"><span class="badge2"></span><span class="badgecount">2</span></span><span title="15 bronze badges"><span class="badge3"></span><span class="badgecount">15</span></span>
+    </div>
+</div>    </td>
+            
+
+
+    <td class="post-signature" align="right">   
+       
+
+    <div class="user-info ">
+    <div class="user-action-time">
+        answered <span title="2012-06-22 19:12:20Z" class="relativetime">Jun 22 '12 at 19:12</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="http://stackoverflow.com/users/848344/dan-w"><div class="gravatar-wrapper-32"><img src="read_data_wav_to_array_elemei/3dd532dc1820e0e03f3ea7921fff7a46.png" alt="" height="32" width="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="http://stackoverflow.com/users/848344/dan-w">Dan W</a><br>
+        <span class="reputation-score" title="reputation score " dir="ltr">547</span><span title="10 silver badges"><span class="badge2"></span><span class="badgecount">10</span></span><span title="30 bronze badges"><span class="badge3"></span><span class="badgecount">30</span></span>
+    </div>
+</div>
+    </td>
+    </tr>
+    </tbody></table>
+</td>
+        </tr>
+        
+<tr>
+    <td class="votecell"></td>
+    <td>
+	    <div id="comments-11162668" class="comments ">
+		    <table>
+                <tbody data-remaining-comments-count="0" data-canpost="false" data-cansee="true" data-comments-unavailable="false" data-addlink-disabled="true">
+
+
+
+    <tr id="comment-24906907" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">Someone correct me if i am wrong. You can't do <code>(secondByte &lt;&lt; 8)</code> to an 8bit type like <code>byte</code>. <code>byte</code> is an 8-bit signed integer and cannot be bitshifted it by 8 because there is no space to push those 8 bits.</span>
+                –&nbsp;
+                    <a href="http://stackoverflow.com/users/233333/martin-berger" title="331 reputation" class="comment-user">Martin Berger</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment24906907_11162668"><span title="2013-06-19 16:52:00Z" class="relativetime-clean">Jun 19 '13 at 16:52</span></a></span>
+                    <span class="edited-yes" title="this comment was edited 1 time"></span>
+                                                                            </div>
+                    </td>
+    </tr>
+    <tr id="comment-31779526" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">@MartinBerger Bytes are auto-promoted to int in most cases, including shifting.</span>
+                –&nbsp;
+                    <a href="http://stackoverflow.com/users/695591/cl%c3%a9ment" title="1852 reputation" class="comment-user">Clément</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment31779526_11162668"><span title="2014-01-14 18:01:42Z" class="relativetime-clean">Jan 14 '14 at 18:01</span></a></span>
+                                                                            </div>
+                    </td>
+    </tr>
+    <tr id="comment-31816082" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">@Clément So during shifting, variable is promoted to platform-specifc int, which usually is 32 bits? Didn't know that, thanks.</span>
+                –&nbsp;
+                    <a href="http://stackoverflow.com/users/233333/martin-berger" title="331 reputation" class="comment-user">Martin Berger</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment31816082_11162668"><span title="2014-01-15 15:10:21Z" class="relativetime-clean">Jan 15 '14 at 15:10</span></a></span>
+                                                                            </div>
+                    </td>
+    </tr>
+    <tr id="comment-31834890" class="comment ">
+        <td class="comment-actions">
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                <span title="number of 'useful comment' votes received" class="cool">2</span>
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">@MartinBerger yes, see <a href="http://msdn.microsoft.com/en-us/library/aa691330%28v=vs.71%29.aspx" rel="nofollow">msdn.microsoft.com/en-us/library/aa691330(v=vs.71).aspx</a> and in particular the last rule: <code>Otherwise, both operands are converted to type int.</code>.</span>
+                –&nbsp;
+                    <a href="http://stackoverflow.com/users/695591/cl%c3%a9ment" title="1852 reputation" class="comment-user">Clément</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment31834890_11162668"><span title="2014-01-15 23:47:42Z" class="relativetime-clean">Jan 15 '14 at 23:47</span></a></span>
+                                                                            </div>
+                    </td>
+    </tr>
+                </tbody>
+		    </table>
+	    </div>
+            <div id="comments-link-11162668" data-rep="50" data-reg="true">
+
+                <a class="js-add-link comments-link disabled-link " title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”.">add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span><a class="js-show-link comments-link dno" title="expand to show all comments on this post, or add one of your own" href="#" onclick=""></a>
+            </div>
+    </td>
+</tr>    </tbody></table>
+</div>
+
+  
+<a name="8761293"></a>
+<div id="answer-8761293" class="answer" data-answerid="8761293" itemscope="" itemtype="http://schema.org/Answer">
+    <table>
+        <tbody><tr>
+            <td class="votecell">
+                
+
+<div class="vote">
+    <input name="_id_" value="8761293" type="hidden">
+    <a class="vote-up-off" title="This answer is useful">up vote</a>
+    <span itemprop="upvoteCount" class="vote-count-post ">8</span>
+    <a class="vote-down-off" title="This answer is not useful">down vote</a>
+    
+
+
+</div>
+
+            </td>
+            
+
+
+<td class="answercell">
+    <div class="post-text" itemprop="text">
+<p>Assuming your WAV file contains 16 bit PCM (which is the most common), you can use <a href="http://naudio.codeplex.com/">NAudio</a>
+ to read it out into a byte array, and then copy that into an array of 
+16 bit integers for convenience. If it is stereo, the samples will be 
+interleaved left, right.</p>
+
+<pre style="" class="lang-cs prettyprint prettyprinted"><code><span class="pln">using </span><span class="pun">(</span><span class="typ">WaveFileReader</span><span class="pln"> reader </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="typ">WaveFileReader</span><span class="pun">(</span><span class="str">"myfile.wav"</span><span class="pun">))</span><span class="pln">
+</span><span class="pun">{</span><span class="pln">
+    </span><span class="typ">Assert</span><span class="pun">.</span><span class="typ">AreEqual</span><span class="pun">(</span><span class="lit">16</span><span class="pun">,</span><span class="pln"> reader</span><span class="pun">.</span><span class="typ">WaveFormat</span><span class="pun">.</span><span class="typ">BitsPerSample</span><span class="pun">,</span><span class="pln"> </span><span class="str">"Only works with 16 bit audio"</span><span class="pun">);</span><span class="pln">
+    </span><span class="kwd">byte</span><span class="pun">[]</span><span class="pln"> buffer </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="kwd">byte</span><span class="pun">[</span><span class="pln">reader</span><span class="pun">.</span><span class="typ">Length</span><span class="pun">];</span><span class="pln">
+    </span><span class="typ">int</span><span class="pln"> read </span><span class="pun">=</span><span class="pln"> reader</span><span class="pun">.</span><span class="typ">Read</span><span class="pun">(</span><span class="pln">buffer</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0</span><span class="pun">,</span><span class="pln"> buffer</span><span class="pun">.</span><span class="typ">Length</span><span class="pun">);</span><span class="pln">
+    </span><span class="kwd">short</span><span class="pun">[]</span><span class="pln"> sampleBuffer </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="kwd">short</span><span class="pun">[</span><span class="pln">read </span><span class="pun">/</span><span class="pln"> </span><span class="lit">2</span><span class="pun">];</span><span class="pln">
+    </span><span class="typ">Buffer</span><span class="pun">.</span><span class="typ">BlockCopy</span><span class="pun">(</span><span class="pln">buffer</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0</span><span class="pun">,</span><span class="pln"> sampleBuffer</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0</span><span class="pun">,</span><span class="pln"> read</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+
+<p>I know you wanted to avoid third party libraries, but if you want to 
+be sure to cope with WAV files with extra chunks, I suggest avoiding 
+approaches like just seeking 44 bytes into the file. </p>
+    </div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+<div class="post-menu"><a href="http://stackoverflow.com/a/8761293/2970449" title="short permalink to this answer" class="short-link" id="link-post-8761293">share</a><span class="lsep">|</span><a href="http://stackoverflow.com/posts/8761293/edit" class="suggest-edit-post" title="revise and improve this post">edit</a></div>                    </td>
+            
+
+
+    <td class="post-signature" align="right">   
+       
+
+    <div class="user-info user-hover">
+    <div class="user-action-time">
+        answered <span title="2012-01-06 16:47:05Z" class="relativetime">Jan 6 '12 at 16:47</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="http://stackoverflow.com/users/7532/mark-heath"><div class="gravatar-wrapper-32"><img src="read_data_wav_to_array_elemei/db4b131b1b1519a5a22f84b1e8737f9b.jpeg" alt="" height="32" width="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="http://stackoverflow.com/users/7532/mark-heath">Mark Heath</a><br>
+        <span class="reputation-score" title="reputation score 24177" dir="ltr">24.2k</span><span title="13 gold badges"><span class="badge1"></span><span class="badgecount">13</span></span><span title="72 silver badges"><span class="badge2"></span><span class="badgecount">72</span></span><span title="136 bronze badges"><span class="badge3"></span><span class="badgecount">136</span></span>
+    </div>
+</div>
+    </td>
+    </tr>
+    </tbody></table>
+</td>
+        </tr>
+        
+<tr>
+    <td class="votecell"></td>
+    <td>
+	    <div id="comments-8761293" class="comments ">
+		    <table>
+                <tbody data-remaining-comments-count="0" data-canpost="false" data-cansee="true" data-comments-unavailable="false" data-addlink-disabled="true">
+
+
+
+    <tr id="comment-29727571" class="comment ">
+        <td class="comment-actions">
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                <span title="number of 'useful comment' votes received" class="cool">1</span>
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">... says the man who created NAudio ;)</span>
+                –&nbsp;
+                    <a href="http://stackoverflow.com/users/116891/pat" title="5345 reputation" class="comment-user">Pat</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment29727571_8761293"><span title="2013-11-14 05:40:42Z" class="relativetime-clean">Nov 14 '13 at 5:40</span></a></span>
+                                                                            </div>
+                    </td>
+    </tr>
+                </tbody>
+		    </table>
+	    </div>
+            <div id="comments-link-8761293" data-rep="50" data-reg="true">
+
+                <a class="js-add-link comments-link disabled-link " title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”.">add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span><a class="js-show-link comments-link dno" title="expand to show all comments on this post, or add one of your own" href="#" onclick=""></a>
+            </div>
+    </td>
+</tr>    </tbody></table>
+</div>
+
+  
+<a name="8755967"></a>
+<div id="answer-8755967" class="answer" data-answerid="8755967" itemscope="" itemtype="http://schema.org/Answer">
+    <table>
+        <tbody><tr>
+            <td class="votecell">
+                
+
+<div class="vote">
+    <input name="_id_" value="8755967" type="hidden">
+    <a class="vote-up-off" title="This answer is useful">up vote</a>
+    <span itemprop="upvoteCount" class="vote-count-post ">3</span>
+    <a class="vote-down-off" title="This answer is not useful">down vote</a>
+    
+
+
+</div>
+
+            </td>
+            
+
+
+<td class="answercell">
+    <div class="post-text" itemprop="text">
+<p><a href="http://hourlyapps.blogspot.com/2008/07/open-source-wave-graph-c-net-control.html" rel="nofollow">http://hourlyapps.blogspot.com/2008/07/open-source-wave-graph-c-net-control.html</a><br>
+ Here is a Control which Display's the Spectrum of a Wav file ,which 
+also Serves a Byte[] of Decoded Wav File where you can play and/or 
+Change their Values .</p>
+
+<p>Just download the Control and it's pretty good for WAV File manipulation.</p>
+    </div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+<div class="post-menu"><a href="http://stackoverflow.com/a/8755967/2970449" title="short permalink to this answer" class="short-link" id="link-post-8755967">share</a><span class="lsep">|</span><a href="http://stackoverflow.com/posts/8755967/edit" class="suggest-edit-post" title="revise and improve this post">edit</a></div>                    </td>
+            
+
+
+    <td class="post-signature" align="right">   
+       
+
+    <div class="user-info user-hover">
+    <div class="user-action-time">
+        answered <span title="2012-01-06 09:47:25Z" class="relativetime">Jan 6 '12 at 9:47</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="http://stackoverflow.com/users/497255/burimi"><div class="gravatar-wrapper-32"><img src="read_data_wav_to_array_elemei/d4427dfe7d92e2ad5113c2fa7e220b8e.jpeg" alt="" height="32" width="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="http://stackoverflow.com/users/497255/burimi">Burimi</a><br>
+        <span class="reputation-score" title="reputation score " dir="ltr">4,182</span><span title="6 gold badges"><span class="badge1"></span><span class="badgecount">6</span></span><span title="31 silver badges"><span class="badge2"></span><span class="badgecount">31</span></span><span title="68 bronze badges"><span class="badge3"></span><span class="badgecount">68</span></span>
+    </div>
+</div>
+    </td>
+    </tr>
+    </tbody></table>
+</td>
+        </tr>
+        
+<tr>
+    <td class="votecell"></td>
+    <td>
+	    <div id="comments-8755967" class="comments  dno">
+		    <table>
+                <tbody data-remaining-comments-count="0" data-canpost="false" data-cansee="true" data-comments-unavailable="false" data-addlink-disabled="true">
+
+                        <tr><td></td><td></td></tr>
+                </tbody>
+		    </table>
+	    </div>
+            <div id="comments-link-8755967" data-rep="50" data-reg="true">
+
+                <a class="js-add-link comments-link disabled-link " title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”.">add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span><a class="js-show-link comments-link dno" title="expand to show all comments on this post, or add one of your own" href="#" onclick=""></a>
+            </div>
+    </td>
+</tr>    </tbody></table>
+</div>
+
+  
+<a name="21500499"></a>
+<div id="answer-21500499" class="answer" data-answerid="21500499" itemscope="" itemtype="http://schema.org/Answer">
+    <table>
+        <tbody><tr>
+            <td class="votecell">
+                
+
+<div class="vote">
+    <input name="_id_" value="21500499" type="hidden">
+    <a class="vote-up-off" title="This answer is useful">up vote</a>
+    <span itemprop="upvoteCount" class="vote-count-post ">2</span>
+    <a class="vote-down-off" title="This answer is not useful">down vote</a>
+    
+
+
+</div>
+
+            </td>
+            
+
+
+<td class="answercell">
+    <div class="post-text" itemprop="text">
+<p>Try <a href="http://alvas.net/alvas.audio,tips.aspx#tip32" rel="nofollow">Play audio data from array</a>  </p>
+
+<pre style="" class="lang-cs prettyprint prettyprinted"><code><span class="typ">PlayerEx</span><span class="pln"> pl </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="typ">PlayerEx</span><span class="pun">();</span><span class="pln">
+
+</span><span class="kwd">private</span><span class="pln"> </span><span class="kwd">static</span><span class="pln"> </span><span class="kwd">void</span><span class="pln"> </span><span class="typ">PlayArray</span><span class="pun">(</span><span class="typ">PlayerEx</span><span class="pln"> pl</span><span class="pun">)</span><span class="pln">
+</span><span class="pun">{</span><span class="pln">
+    </span><span class="kwd">double</span><span class="pln"> fs </span><span class="pun">=</span><span class="pln"> </span><span class="lit">8000</span><span class="pun">;</span><span class="pln"> </span><span class="com">// sample freq</span><span class="pln">
+    </span><span class="kwd">double</span><span class="pln"> freq </span><span class="pun">=</span><span class="pln"> </span><span class="lit">1000</span><span class="pun">;</span><span class="pln"> </span><span class="com">// desired tone</span><span class="pln">
+    </span><span class="kwd">short</span><span class="pun">[]</span><span class="pln"> mySound </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="kwd">short</span><span class="pun">[</span><span class="lit">4000</span><span class="pun">];</span><span class="pln">
+    </span><span class="kwd">for</span><span class="pln"> </span><span class="pun">(</span><span class="typ">int</span><span class="pln"> i </span><span class="pun">=</span><span class="pln"> </span><span class="lit">0</span><span class="pun">;</span><span class="pln"> i </span><span class="pun">&lt;</span><span class="pln"> </span><span class="lit">4000</span><span class="pun">;</span><span class="pln"> i</span><span class="pun">++)</span><span class="pln">
+    </span><span class="pun">{</span><span class="pln">
+        </span><span class="kwd">double</span><span class="pln"> t </span><span class="pun">=</span><span class="pln"> </span><span class="pun">(</span><span class="kwd">double</span><span class="pun">)</span><span class="pln">i </span><span class="pun">/</span><span class="pln"> fs</span><span class="pun">;</span><span class="pln"> </span><span class="com">// current time</span><span class="pln">
+        mySound</span><span class="pun">[</span><span class="pln">i</span><span class="pun">]</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="pun">(</span><span class="kwd">short</span><span class="pun">)(</span><span class="typ">Math</span><span class="pun">.</span><span class="typ">Cos</span><span class="pun">(</span><span class="pln">t </span><span class="pun">*</span><span class="pln"> freq</span><span class="pun">)</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="pun">(</span><span class="kwd">short</span><span class="pun">.</span><span class="typ">MaxValue</span><span class="pun">));</span><span class="pln">
+    </span><span class="pun">}</span><span class="pln">
+    </span><span class="typ">IntPtr</span><span class="pln"> format </span><span class="pun">=</span><span class="pln"> </span><span class="typ">AudioCompressionManager</span><span class="pun">.</span><span class="typ">GetPcmFormat</span><span class="pun">(</span><span class="lit">1</span><span class="pun">,</span><span class="pln"> </span><span class="lit">16</span><span class="pun">,</span><span class="pln"> </span><span class="pun">(</span><span class="typ">int</span><span class="pun">)</span><span class="pln">fs</span><span class="pun">);</span><span class="pln">
+    pl</span><span class="pun">.</span><span class="typ">OpenPlayer</span><span class="pun">(</span><span class="pln">format</span><span class="pun">);</span><span class="pln">
+    </span><span class="kwd">byte</span><span class="pun">[]</span><span class="pln"> mySoundByte </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="kwd">byte</span><span class="pun">[</span><span class="pln">mySound</span><span class="pun">.</span><span class="typ">Length</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="lit">2</span><span class="pun">];</span><span class="pln">
+    </span><span class="typ">Buffer</span><span class="pun">.</span><span class="typ">BlockCopy</span><span class="pun">(</span><span class="pln">mySound</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0</span><span class="pun">,</span><span class="pln"> mySoundByte</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0</span><span class="pun">,</span><span class="pln"> mySoundByte</span><span class="pun">.</span><span class="typ">Length</span><span class="pun">);</span><span class="pln">
+    pl</span><span class="pun">.</span><span class="typ">AddData</span><span class="pun">(</span><span class="pln">mySoundByte</span><span class="pun">);</span><span class="pln">
+    pl</span><span class="pun">.</span><span class="typ">StartPlay</span><span class="pun">();</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+    </div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+<div class="post-menu"><a href="http://stackoverflow.com/a/21500499/2970449" title="short permalink to this answer" class="short-link" id="link-post-21500499">share</a><span class="lsep">|</span><a href="http://stackoverflow.com/posts/21500499/edit" class="suggest-edit-post" title="revise and improve this post">edit</a></div>                    </td>
+    <td class="post-signature" align="right">
+<div class="user-info ">
+    <div class="user-action-time">
+        <a href="http://stackoverflow.com/posts/21500499/revisions" title="show all edits to this post">edited <span title="2014-02-02 13:32:15Z" class="relativetime">Feb 2 '14 at 13:32</span></a>
+    </div>
+    <div class="user-gravatar32">
+        
+    </div>
+    <div class="user-details">
+        <br>
+        
+    </div>
+</div>    </td>
+            
+
+
+    <td class="post-signature" align="right">   
+       
+
+    <div class="user-info ">
+    <div class="user-action-time">
+        answered <span title="2014-02-01 16:24:35Z" class="relativetime">Feb 1 '14 at 16:24</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="http://stackoverflow.com/users/3258422/aleks"><div class="gravatar-wrapper-32"><img src="read_data_wav_to_array_elemei/05fcaa5e9446eb40954da182f9acfcbc.png" alt="" height="32" width="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="http://stackoverflow.com/users/3258422/aleks">Aleks</a><br>
+        <span class="reputation-score" title="reputation score " dir="ltr">233</span><span title="2 silver badges"><span class="badge2"></span><span class="badgecount">2</span></span><span title="3 bronze badges"><span class="badge3"></span><span class="badgecount">3</span></span>
+    </div>
+</div>
+    </td>
+    </tr>
+    </tbody></table>
+</td>
+        </tr>
+        
+<tr>
+    <td class="votecell"></td>
+    <td>
+	    <div id="comments-21500499" class="comments  dno">
+		    <table>
+                <tbody data-remaining-comments-count="0" data-canpost="false" data-cansee="true" data-comments-unavailable="false" data-addlink-disabled="true">
+
+                        <tr><td></td><td></td></tr>
+                </tbody>
+		    </table>
+	    </div>
+            <div id="comments-link-21500499" data-rep="50" data-reg="true">
+
+                <a class="js-add-link comments-link disabled-link " title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”.">add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span><a class="js-show-link comments-link dno" title="expand to show all comments on this post, or add one of your own" href="#" onclick=""></a>
+            </div>
+    </td>
+</tr>    </tbody></table>
+</div>
+
+  
+<a name="8754227"></a>
+<div id="answer-8754227" class="answer" data-answerid="8754227" itemscope="" itemtype="http://schema.org/Answer">
+    <table>
+        <tbody><tr>
+            <td class="votecell">
+                
+
+<div class="vote">
+    <input name="_id_" value="8754227" type="hidden">
+    <a class="vote-up-off" title="This answer is useful">up vote</a>
+    <span itemprop="upvoteCount" class="vote-count-post ">1</span>
+    <a class="vote-down-off" title="This answer is not useful">down vote</a>
+    
+
+
+</div>
+
+            </td>
+            
+
+
+<td class="answercell">
+    <div class="post-text" itemprop="text">
+<p>To get the wav file into an array you can just do this:</p>
+
+<p>byte[] data = File.ReadAllBytes("FilePath");</p>
+
+<p>but like Fletch said you need to isolate the data from the headers. It should be just a simple offset.</p>
+    </div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+<div class="post-menu"><a href="http://stackoverflow.com/a/8754227/2970449" title="short permalink to this answer" class="short-link" id="link-post-8754227">share</a><span class="lsep">|</span><a href="http://stackoverflow.com/posts/8754227/edit" class="suggest-edit-post" title="revise and improve this post">edit</a></div>                    </td>
+            
+
+
+    <td class="post-signature" align="right">   
+       
+
+    <div class="user-info ">
+    <div class="user-action-time">
+        answered <span title="2012-01-06 06:27:59Z" class="relativetime">Jan 6 '12 at 6:27</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="http://stackoverflow.com/users/1131170/axis"><div class="gravatar-wrapper-32"><img src="read_data_wav_to_array_elemei/8daa8891f78f2712a8c32987133e2850.jpeg" alt="" height="32" width="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="http://stackoverflow.com/users/1131170/axis">Axis</a><br>
+        <span class="reputation-score" title="reputation score " dir="ltr">679</span><span title="5 silver badges"><span class="badge2"></span><span class="badgecount">5</span></span><span title="13 bronze badges"><span class="badge3"></span><span class="badgecount">13</span></span>
+    </div>
+</div>
+    </td>
+    </tr>
+    </tbody></table>
+</td>
+        </tr>
+        
+<tr>
+    <td class="votecell"></td>
+    <td>
+	    <div id="comments-8754227" class="comments  dno">
+		    <table>
+                <tbody data-remaining-comments-count="0" data-canpost="false" data-cansee="true" data-comments-unavailable="false" data-addlink-disabled="true">
+
+                        <tr><td></td><td></td></tr>
+                </tbody>
+		    </table>
+	    </div>
+            <div id="comments-link-8754227" data-rep="50" data-reg="true">
+
+                <a class="js-add-link comments-link disabled-link " title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”.">add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span><a class="js-show-link comments-link dno" title="expand to show all comments on this post, or add one of your own" href="#" onclick=""></a>
+            </div>
+    </td>
+</tr>    </tbody></table>
+</div>
+									<a name="new-answer"></a>
+						<form id="post-form" action="/questions/8754111/answer/submit" method="post" class="post-form">
+						    <input id="post-id" value="8754111" type="hidden">
+                            <input id="qualityBanWarningShown" name="qualityBanWarningShown" value="false" type="hidden">
+                            <input name="referrer" value="" type="hidden">
+							<h2 class="space">Your Answer</h2>
+
+
+
+            <script>
+            StackExchange.ifUsing("editor", function () {
+                StackExchange.using("externalEditor", function () {
+                    StackExchange.using("snippets", function () {
+                        StackExchange.snippets.init();
+                    });
+                });
+            }, "code-snippets");
+        </script>
+    
+
+<script>
+    StackExchange.ready(function() {
+        initTagRenderer("".split(" "), "".split(" "));
+       
+        StackExchange.using("externalEditor", function() {
+            // Have to fire editor after snippets, if snippets enabled
+            if (StackExchange.options.snippets.enabled) {
+                StackExchange.using("snippets", function() {
+                    createEditor();
+                });
+            }
+            else {
+                createEditor();
+            }
+        });
+
+        function createEditor() {
+            prepareEditor({
+                heartbeatType: 'answer',
+                bindNavPrevention: true,
+                postfix: "",
+                    onDemand: false,
+                    discardSelector: ".discard-answer"
+                ,immediatelyShowMarkdownHelp:true
+                });
+                
+
+        }
+    });  
+</script>
+
+
+<div id="post-editor" class="post-editor">
+
+    <div style="position: relative;">     
+        <div class="wmd-container">
+            <div id="wmd-button-bar" class="wmd-button-bar"><ul class="wmd-button-row" id="wmd-button-row"><li title="Strong &lt;strong&gt; Ctrl+B" id="wmd-bold-button" style="left: 0px;" class="wmd-button"><span style="background-position: 0px 0px;"></span></li><li title="Emphasis &lt;em&gt; Ctrl+I" id="wmd-italic-button" style="left: 25px;" class="wmd-button"><span style="background-position: -20px 0px;"></span></li><li id="wmd-spacer1" class="wmd-spacer wmd-spacer1"></li><li title="Hyperlink &lt;a&gt; Ctrl+L" id="wmd-link-button" style="left: 75px;" class="wmd-button"><span style="background-position: -40px 0px;"></span></li><li title="Blockquote &lt;blockquote&gt; Ctrl+Q" id="wmd-quote-button" style="left: 100px;" class="wmd-button"><span style="background-position: -60px 0px;"></span></li><li title="Code Sample &lt;pre&gt;&lt;code&gt; Ctrl+K" id="wmd-code-button" style="left: 125px;" class="wmd-button"><span style="background-position: -80px 0px;"></span></li><li title="Image &lt;img&gt; Ctrl+G" id="wmd-image-button" style="left: 150px;" class="wmd-button"><span style="background-position: -100px 0px;"></span></li><li class="wmd-button wmd-snippet-button" style="left:175px" id="wmd-snippet-button" title="Code snippet Ctrl-M"><span style="background-image: url(&quot;/content/balsamiq/wmd-mockup-button.png?v=4&quot;);"></span></li><li style="left: 220px;" id="wmd-spacer2" class="wmd-spacer wmd-spacer2"></li><li title="Numbered List &lt;ol&gt; Ctrl+O" id="wmd-olist-button" style="left: 225px;" class="wmd-button"><span style="background-position: -120px 0px;"></span></li><li title="Bulleted List &lt;ul&gt; Ctrl+U" id="wmd-ulist-button" style="left: 250px;" class="wmd-button"><span style="background-position: -140px 0px;"></span></li><li title="Heading &lt;h1&gt;/&lt;h2&gt; Ctrl+H" id="wmd-heading-button" style="left: 275px;" class="wmd-button"><span style="background-position: -160px 0px;"></span></li><li title="Horizontal Rule &lt;hr&gt; Ctrl+R" id="wmd-hr-button" style="left: 300px;" class="wmd-button"><span style="background-position: -180px 0px;"></span></li><li style="left: 346px;" id="wmd-spacer3" class="wmd-spacer wmd-spacer3"></li><li title="Undo - Ctrl+Z" id="wmd-undo-button" style="left: 350px;" class="wmd-button"><span style="background-position: -200px -20px;"></span></li><li title="Redo - Ctrl+Shift+Z" id="wmd-redo-button" style="left: 375px;" class="wmd-button"><span style="background-position: -220px -20px;"></span></li><li title="Markdown Editing Help" style="right: 0px; left: 639px;" id="wmd-help-button" class="wmd-button wmd-help-button active-help"><span style="background-position: -240px 0px;"></span></li><div style="right: -13px; width: 660px; top: 41px;" id="mdhelp" class="mdhelp">
+    <ul id="mdhelp-tabs" class="mdhelp-tabs">
+        <li data-tab="mdhelp-links" data-buttons="link">Links</li>
+        <li data-tab="mdhelp-images" data-buttons="image">Images</li>
+        <li data-tab="mdhelp-styles" data-buttons="bold,italic,heading">Styling/Headers</li>
+        <li data-tab="mdhelp-lists" data-buttons="olist,ulist">Lists</li>
+        <li data-tab="mdhelp-blockquotes" data-buttons="quote">Blockquotes</li>
+        <li data-tab="mdhelp-code" data-buttons="code">Code</li>
+        <li data-tab="mdhelp-html"> HTML </li>
+        <li style="float:right"><a href="http://stackoverflow.com/editing-help" target="_blank">advanced help »</a></li>
+    </ul>
+    
+    <div class="mdhelp-tab" id="mdhelp-links">
+            <p>
+                In most cases, a plain URL will be recognized as such and automatically linked:
+            </p>
+            <pre>Visit http://area51.stackexchange.com/ regularly!
+Use angle brackets to force linking: Have you seen &lt;http://superuser.com&gt;?
+</pre>
+            <p>
+                To create fancier links, use Markdown:
+            </p>
+                <pre>Here's [a link](http://www.example.com/)! And a reference-style link to [a panda][1].
+References don't have to be [numbers][question].
+
+ [1]: http://notfound.stackexchange.com/
+ [question]: http://english.stackexchange.com/questions/11481
+</pre>
+                <p>You can add tooltips to links:</p>
+<pre>Click [here](http://diy.stackexchange.com<span class="spaces">&nbsp;</span>"this text appears when you mouse over")!
+This works with [reference links][blog] as well.
+
+ [blog]: http://blog.stackoverflow.com/<span class="spaces">&nbsp;</span>"click here for updates"
+</pre>
+    </div>
+
+    <div class="mdhelp-tab" id="mdhelp-images">
+        <p>Images are exactly like links, but they have an exclamation point in front of them:</p>
+        <pre>![a busy cat](http://sstatic.net/stackoverflow/img/error-lolcat-problemz.jpg)
+![two muppets][1]
+
+ [1]: http://i.imgur.com/I5DFV.jpg "tooltip"
+</pre>
+        <p>
+            The word in square brackets is the alt text, which gets displayed if the browser
+ can't show the image. Be sure to include meaningful alt text for screen-reading
+ software.
+        </p>
+   
+    </div>
+    <div class="mdhelp-tab" id="mdhelp-styles">
+        <div class="col1">
+            <p>Be sure to use text styling sparingly; only where it helps readability.</p>
+                <pre>*This is italicized*, and so
+is _this_.
+
+**This is bold**, just like __this__.
+
+You can ***combine*** them
+if you ___really have to___.
+</pre>
+        
+        </div>
+        <div class="col2">
+            <p>
+                To break your text into sections, you can use headers:
+            </p>
+                <pre>A Large Header
+==============
+
+Smaller Subheader
+-----------------
+</pre>
+            <p>
+                Use hash marks if you need several levels of headers:</p>
+    <pre># Header 1 #
+## Header 2 ##
+### Header 3 ###
+</pre>
+
+            
+        </div>
+
+    </div>
+    <div class="mdhelp-tab" id="mdhelp-lists">
+        <p>Both bulleted and numbered lists are possible:</p>
+        <div class="col1">
+<pre>-<span class="spaces">&nbsp;</span>Use a minus sign for a bullet
++<span class="spaces">&nbsp;</span>Or plus sign
+*<span class="spaces">&nbsp;</span>Or an asterisk
+
+1.<span class="spaces">&nbsp;</span>Numbered lists are easy
+2.<span class="spaces">&nbsp;</span>Markdown keeps track of
+ the numbers for you
+7.<span class="spaces">&nbsp;</span>So this will be item 3.
+</pre>
+        </div>
+        <div class="col2">
+<pre>1.<span class="spaces">&nbsp;</span>Lists in a list item:
+<span class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</span>-<span class="spaces">&nbsp;</span>Indented four spaces.
+<span class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>*<span class="spaces">&nbsp;</span>indented eight spaces.
+<span class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</span>-<span class="spaces">&nbsp;</span>Four spaces again.
+2.<span class="spaces">&nbsp;&nbsp;</span>You can have multiple
+<span class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</span>paragraphs in a list items.
+<span class="spaces">&nbsp;</span>
+<span class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</span>Just be sure to indent.
+</pre>        
+        </div>
+    </div>
+
+    <div class="mdhelp-tab" id="mdhelp-blockquotes">
+        <div class="col1">
+            <pre>&gt; Create a blockquote by
+&gt; prepending “&gt;” to each line.
+&gt;
+&gt; Other formatting also works here, e.g.
+&gt;
+&gt; 1. Lists or
+&gt; 2. Headings:
+&gt;
+&gt; ## Quoted Heading ##
+</pre>
+        </div>
+        <div class="col2">
+                <p>
+                    You can even put blockquotes in blockquotes:
+                </p>
+                <pre>&gt; A standard blockquote is indented
+&gt; &gt; A nested blockquote is indented more
+&gt; &gt; &gt; &gt; You can nest to any depth.
+</pre>
+        </div>
+    </div>
+
+    <div class="mdhelp-tab" id="mdhelp-code">
+        <p>
+            To create code blocks or other preformatted text, indent by four spaces:
+        </p>
+        <pre><span class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</span>This will be displayed in a monospaced font. The first four spaces
+<span class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</span>will be stripped off, but all other whitespace will be preserved.
+<span class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</span>Markdown and HTML are turned off in code blocks:
+<span class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</span>&lt;i&gt;This is not italic&lt;/i&gt;, and [this is not a link](http://example.com)
+</pre>
+        <p>
+            To create not a block, but an inline code span, use backticks:
+        </p>
+        <pre>The `$` character is just a shortcut for `window.jQuery`.
+</pre>
+        <p>
+            If you want to have a preformatted block within a list, indent by eight spaces:
+        </p>
+        <pre>1. This is normal text.
+2. So is this, but now follows a code block:
+<span class="spaces">&nbsp;</span>
+<span class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>Skip a line and indent eight spaces.
+<span class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>That's four spaces for the list
+<span class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>and four to trigger the code block.
+</pre>
+    </div>
+
+    <div class="mdhelp-tab" id="mdhelp-html">
+        <p>
+            If you need to do something that Markdown can't handle, use HTML. Note that <a href="http://meta.stackexchange.com/questions/1777/what-html-tags-are-allowed" target="_blank">we only support a very strict subset of HTML!</a>
+        </p>
+        <pre>Strikethrough humor is &lt;strike&gt;funny&lt;/strike&gt;.
+</pre>
+        <p>
+            Markdown is smart enough not to mangle your span-level HTML:
+        </p>
+        <pre>&lt;b&gt;Markdown works *fine* in here.&lt;/b&gt;
+</pre>
+        <p>
+            Block-level HTML elements have a few restrictions:
+        </p>
+        <ol>
+            <li>They must be separated from surrounding text by blank lines.</li>
+            <li>The begin and end tags of the outermost block element must not be indented.</li>
+            <li>Markdown can't be used within HTML blocks.</li>
+        </ol>
+        <br>
+        <pre>&lt;pre&gt;
+ You can &lt;em&gt;not&lt;/em&gt; use Markdown in here.
+&lt;/pre&gt;
+</pre>
+    </div>
+
+    <div class="cbt"></div>
+</div></ul></div>
+            <div style="clear: both; height: 27px;"></div><textarea id="wmd-input" class="wmd-input processed" name="post-text" cols="92" rows="15" tabindex="101" data-min-length=""></textarea>
+        <div style="margin-right: 0px;" class="grippie"></div></div>
+    </div>
+
+    <div class="fl" style="margin-top: 8px; height:24px;">&nbsp;</div>
+    <div id="draft-saved" class="draft-saved community-option fl" style="margin-top: 8px; height:24px; display:none;">draft saved</div>
+
+    <div id="draft-discarded" class="draft-discarded community-option fl" style="margin-top: 8px; height:24px; display:none;">draft discarded</div>
+
+
+
+    <div id="wmd-preview" class="wmd-preview"></div>
+    <div></div>
+    <div class="edit-block">
+        <input id="fkey" name="fkey" value="a67ed21a04befdd759e1a955e87ca8af" type="hidden">
+        <input id="author" name="author" type="text">
+    </div>
+</div>
+							<div style="position: relative;">
+								
+							</div>
+           
+															<div class="form-submit cbt">
+									<input id="submit-button" value="Post Your Answer" tabindex="110" type="submit">
+									<a href="#" class="discard-answer dno">discard</a>
+								</div>
+						</form>
+
+
+
+						<h2 class="bottom-notice" data-loc="1">
+Not the answer you're looking for?							Browse other questions tagged <a href="http://stackoverflow.com/questions/tagged/c%23" class="post-tag" title="show questions tagged 'c#'" rel="tag">c#</a> <a href="http://stackoverflow.com/questions/tagged/file-io" class="post-tag" title="show questions tagged 'file-io'" rel="tag">file-io</a> <a href="http://stackoverflow.com/questions/tagged/audio" class="post-tag" title="show questions tagged 'audio'" rel="tag">audio</a>  or <a href="http://stackoverflow.com/questions/ask">ask your own question</a>.						</h2>
+			</div>
+		</div>
+				<div id="sidebar" class="show-votes">
+
+
+
+<script>
+    window.showNewUser = false;
+
+</script>
+
+<div class="module newuser newuser-greeting" id="newuser-box" style="display:none;">
+    <h4>Hello World!</h4>
+    <div>
+        <p>This is a collaboratively edited question and answer site for <b>professional and enthusiast programmers</b>. It's 100% free, no registration required.</p><p>Got a question about the site itself? <a href="http://meta.stackoverflow.com/">meta</a> is the place to talk about things like what questions are appropriate, what tags we should use, etc.</p>
+        <p class="ar">
+                <a href="http://stackoverflow.com/tour?mnu=1">about »</a>&nbsp;&nbsp;&nbsp;
+            <a href="http://stackoverflow.com/help?mnu=1">help »</a>
+                &nbsp; <a href="http://meta.stackoverflow.com/">meta »</a>
+        </p>
+    </div>
+</div>
+    <script>
+    if (showNewUser) {
+        document.getElementById('newuser-box').style.display = '';
+    }
+    </script>						    <div class="module question-stats">
+			        <table id="qinfo">
+			            <tbody><tr>
+			                <td>
+			                    <p class="label-key">asked</p>
+			                </td>
+			                <td style="padding-left: 10px">
+			                    <p class="label-key" title="2012-01-06 06:13:17Z"><b>3 years ago</b></p>
+			                </td>
+			            </tr>
+			            <tr>
+			                <td>
+			                    <p class="label-key">viewed</p>
+			                </td>
+
+			                <td style="padding-left: 10px">
+			                    <p class="label-key">
+			                        <b>24195 times</b>
+			                    </p>
+			                </td>
+			            </tr>
+			                <tr>
+			                    <td>
+			                        <p class="label-key">active</p>
+			                    </td>
+			                    <td style="padding-left: 10px">
+			                        <p class="label-key"><b><a href="http://stackoverflow.com/questions/8754111/how-to-read-the-data-in-a-wav-file-to-an-array?lastactivity" class="lastactivity-link" title="2014-02-02 13:32:15Z">1 year ago</a></b></p>
+			                    </td>
+			                </tr>
+			        </tbody></table>
+			    </div>
+			<div class="module community-bulletin" data-tracker="cb=1">
+    <div class="related">
+                <div class="bulletin-title">
+                    Featured on Meta
+                </div>
+                <hr>
+    <div class="spacer">
+        <div class="bulletin-item-type">
+                <a href="http://meta.stackexchange.com/questions/249951/help-us-test-the-shiny-new-user-activity-page-plus-a-bunch-of-new-features?cb=1" class="question-hyperlink">
+<div class="favicon favicon-stackexchangemeta" title="Meta Stack Exchange"></div>                </a>
+            </div>
+                <div class="bulletin-item-content">
+                    <a href="http://meta.stackexchange.com/questions/249951/help-us-test-the-shiny-new-user-activity-page-plus-a-bunch-of-new-features?cb=1" class="question-hyperlink">Help us test the shiny new “User Activity” page! (Plus a bunch of new features.)</a>
+                </div>
+                <br class="cbt">
+            </div>
+                <div class="bulletin-title">
+                    Hot Meta Posts
+                </div>
+                <hr>
+    <div class="spacer">
+        <div class="bulletin-item-type">
+                <span title="Vote score (upvotes - downvotes)">12</span>
+            </div>
+                <div class="bulletin-item-content">
+                    <a href="http://meta.stackoverflow.com/questions/287219/canned-responses-for-first-posts-from-new-members?cb=1" class="question-hyperlink">Canned responses for First Posts from new members</a>
+                </div>
+                <br class="cbt">
+            </div>
+    <div class="spacer">
+        <div class="bulletin-item-type">
+                <span title="Vote score (upvotes - downvotes)">6</span>
+            </div>
+                <div class="bulletin-item-content">
+                    <a href="http://meta.stackoverflow.com/questions/287304/top-x-font-size-is-small?cb=1" class="question-hyperlink">top x% font size is small</a>
+                </div>
+                <br class="cbt">
+            </div>
+    <div class="spacer">
+        <div class="bulletin-item-type">
+                <span title="Vote score (upvotes - downvotes)">38</span>
+            </div>
+                <div class="bulletin-item-content">
+                    <a href="http://meta.stackoverflow.com/questions/287119/user-claims-one-of-my-comments-was-an-insult-should-i-apologize?cb=1" class="question-hyperlink">User claims one of my comments was an insult, should I apologize?</a>
+                </div>
+                <br class="cbt">
+            </div>
+    </div>
+</div>			
+			<script>
+                var ados = ados || {};ados.run = ados.run || [];
+                ados.run.push(function() { ados_add_placement(22,8277,"adzerk2121693096",[17,2221]).setZone(45) ; });                    
+            </script>
+            <div class="everyonelovesstackoverflow" id="adzerk2121693096"><a href="http://engine.adzerk.net/r?e=eyJhdiI6NDE0LCJhdCI6MTcsImJ0IjowLCJjbSI6MTg2NjI0LCJjaCI6MTE3OCwiY3IiOjY1ODAyNCwiZGkiOiI3YTlmMThiN2VkMzA0YWZhYTQ3NDU3MDVjZTFlMjA0YiIsImRtIjoxLCJmYyI6Njc5NTAwLCJmbCI6NDEwMTgzLCJpcCI6IjE2MC4xMTQuNDEuMjkiLCJrdyI6ImMjLGZpbGUtaW8sYXVkaW8seC11c2VyLXJlZ2lzdGVyZWQiLCJudyI6MjIsInBjIjowLCJwciI6MTU2OCwicnQiOjEsInN0Ijo4Mjc3LCJ1ayI6InVlMS04OTllY2QzNWQ5MjI0NTEzOTI2MjhjOTU4NzYyZTllYiIsInpuIjo0NSwidHMiOjE0MjU0MjE0Nzg2ODcsImJmIjp0cnVlLCJwbiI6ImFkemVyazIxMjE2OTMwOTYiLCJ1ciI6Imh0dHA6Ly9jYXJlZXJzLnN0YWNrb3ZlcmZsb3cuY29tL2pvYnMvcmVtb3RlP3V0bV9zb3VyY2U9c3RhY2tvdmVyZmxvdy5jb20mdXRtX21lZGl1bT1hZCZ1dG1fY2FtcGFpZ249Y2FuZGlkYXRlcy13ZmgmdXRtX2NvbnRlbnQ9c2Itd2ZoLWNhdCJ9&amp;s=9SMSzqExPqLX1bZqoTGxljXHm60" rel="nofollow" target="_blank" title=""><img class="rlfpryhavqlasavxygqu" src="read_data_wav_to_array_elemei/c050fce5e0094decb57fdb53f4ca4254.jpg" title="" alt="" border="0" height="250" width="220"></a><img class="rlfpryhavqlasavxygqu" src="read_data_wav_to_array_elemei/i_002.gif" style="position:absolute;" border="0" height="0px" width="0px"></div>  
+        <div class="orange looking tagged" id="hireme"><a href="http://careers.stackoverflow.com/jobs?a=2M4lW" target="_blank" data-la="2M4lW" data-hf="h" class="top"> <span>Looking for a job?</span></a><ul class="jobs"><li><a data-cid="167471" data-la="rdzNe2pBw1r" href="http://careers.stackoverflow.com/jobs/81161/data-scientist-support-a-million-open-source-balabit-it-security" target="_blank" title="Data Scientist - support a million open source users at BalaBit IT Security. Click to learn more.">Data Scientist - support a million open source users<br><div class="company">BalaBit IT Security</div><div class="location" title="Budapest, Hungary">Budapest, Hungary</div><span class="post-tag">python</span><span class="post-tag">pandas</span></a></li><li><a data-cid="167469" data-la="rdxdmZkRaRc" href="http://careers.stackoverflow.com/jobs/81159/qa-engineer-support-a-million-open-source-users-balabit-it-security" target="_blank" title="QA Engineer - support a million open source users at BalaBit IT Security. Click to learn more.">QA Engineer - support a million open source users<br><div class="company">BalaBit IT Security</div><div class="location" title="Budapest, Hungary">Budapest, Hungary</div><span class="post-tag">linux</span><span class="post-tag">python</span></a></li></ul><img class="impression" src="read_data_wav_to_array_elemei/i.gif" style="display:none;"><img class="impression" src="read_data_wav_to_array_elemei/rdzNe2pBw1r-rdxdmZkRaRc-2M4lW.gif" style="display:none;"></div>
+			  
+    
+            <div class="module sidebar-linked">
+	<h4 id="h-linked">Linked</h4>
+	<div class="linked" data-tracker="lq=1">
+<div class="spacer">
+	<a href="http://stackoverflow.com/q/17222492?lq=1" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes  default">3</div>
+	</a>
+	<a href="http://stackoverflow.com/questions/17222492/how-to-change-frequency-pitch-and-the-amplitude-in-wave-file-using-c-sharp?lq=1" class="question-hyperlink">how to change frequency ( pitch) and the amplitude in wave file using c#</a>
+</div><div class="spacer">
+	<a href="http://stackoverflow.com/q/17316676?lq=1" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes  default">0</div>
+	</a>
+	<a href="http://stackoverflow.com/questions/17316676/procesing-16bit-sample-audio?lq=1" class="question-hyperlink">Procesing 16bit sample audio</a>
+</div><div class="spacer">
+	<a href="http://stackoverflow.com/q/27517265?lq=1" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes answered-accepted default">0</div>
+	</a>
+	<a href="http://stackoverflow.com/questions/27517265/graphing-wav-file-in-java?lq=1" class="question-hyperlink">Graphing wav file in java</a>
+</div>			</div>
+</div>
+
+				<div class="module sidebar-related">
+					<h4 id="h-related">Related</h4>
+                    <div class="related js-gps-related-questions" data-tracker="rq=1">
+                        <div class="spacer js-gps-track">
+<a href="http://stackoverflow.com/q/82319?rq=1" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes answered-accepted default">18
+    </div>
+</a><a href="http://stackoverflow.com/questions/82319/how-can-i-determine-the-length-of-a-wav-file-in-c?rq=1" class="question-hyperlink">How can I determine the length of a .wav file in C#?</a>
+</div>
+<div class="spacer js-gps-track">
+<a href="http://stackoverflow.com/q/953481?rq=1" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes answered-accepted extra-large">1140
+    </div>
+</a><a href="http://stackoverflow.com/questions/953481/restore-a-deleted-file-in-a-git-repo?rq=1" class="question-hyperlink">Restore a deleted file in a Git repo</a>
+</div>
+<div class="spacer js-gps-track">
+<a href="http://stackoverflow.com/q/1311348?rq=1" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes answered-accepted default">1
+    </div>
+</a><a href="http://stackoverflow.com/questions/1311348/c-sharp-bogus-data-when-loading-a-wav-file-to-byte-array?rq=1" class="question-hyperlink">C# - Bogus data when loading a *.wav file to byte array</a>
+</div>
+<div class="spacer js-gps-track">
+<a href="http://stackoverflow.com/q/3599378?rq=1" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes answered-accepted default">1
+    </div>
+</a><a href="http://stackoverflow.com/questions/3599378/java-read-wav-file-as-a-float-array?rq=1" class="question-hyperlink">Java - read WAV file as a float array</a>
+</div>
+<div class="spacer js-gps-track">
+<a href="http://stackoverflow.com/q/4974531?rq=1" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes answered-accepted default">37
+    </div>
+</a><a href="http://stackoverflow.com/questions/4974531/writing-musical-notes-to-a-wav-file?rq=1" class="question-hyperlink">Writing musical notes to a wav file</a>
+</div>
+<div class="spacer js-gps-track">
+<a href="http://stackoverflow.com/q/20026016?rq=1" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes answered-accepted default">0
+    </div>
+</a><a href="http://stackoverflow.com/questions/20026016/how-do-you-read-this-wav-file-byte-data?rq=1" class="question-hyperlink">How do you read this .wav file byte data?</a>
+</div>
+<div class="spacer js-gps-track">
+<a href="http://stackoverflow.com/q/21224357?rq=1" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes answered-accepted default">1
+    </div>
+</a><a href="http://stackoverflow.com/questions/21224357/c-sharp-converting-short-array-from-mono-wav-file-to-short-array-to-write-as-st?rq=1" class="question-hyperlink">c# converting short array from mono wav file, to short array to write as stereo wav</a>
+</div>
+<div class="spacer js-gps-track">
+<a href="http://stackoverflow.com/q/21567920?rq=1" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes answered-accepted default">3
+    </div>
+</a><a href="http://stackoverflow.com/questions/21567920/how-to-read-bit-rate-of-wav-file-in-c-sharp?rq=1" class="question-hyperlink">How to read Bit rate of .wav file in C#</a>
+</div>
+<div class="spacer js-gps-track">
+<a href="http://stackoverflow.com/q/25178167?rq=1" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes answered-accepted default">7
+    </div>
+</a><a href="http://stackoverflow.com/questions/25178167/reading-a-single-channel-from-a-multi-channel-wav-file?rq=1" class="question-hyperlink">Reading a single channel from a multi-channel wav file</a>
+</div>
+<div class="spacer js-gps-track">
+<a href="http://stackoverflow.com/q/26202134?rq=1" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes default">1
+    </div>
+</a><a href="http://stackoverflow.com/questions/26202134/java-matlab-reading-data-in-wav-file-how-it-differs?rq=1" class="question-hyperlink">Java , Matlab reading Data in Wav File , How it differs?</a>
+</div>
+
+                    </div>
+				</div>
+            
+<div id="hot-network-questions" class="module">
+    <h4>
+        <a href="http://stackexchange.com/questions?tab=hot" class="js-gps-track" data-gps-track="posts_hot_network.click({ item_type:1, location:11 })">
+            Hot Network Questions
+        </a>
+    </h4>
+    <ul>
+            <li>
+                <div class="favicon favicon-ell" title="English Language Learners Stack Exchange"></div><a href="http://ell.stackexchange.com/questions/51963/being-dependent-on-parents-somebody" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:481 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Being dependent on parents/somebody
+                </a>
+
+            </li>
+            <li>
+                <div class="favicon favicon-buddhism" title="Buddhism Stack Exchange"></div><a href="http://buddhism.stackexchange.com/questions/7960/mystics-in-buddhism-there-is-nothing-hidden-in-my-teaching-and-the-like" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:565 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    "Mystics" in buddhism? ("There is nothing hidden in my teaching" and the like)
+                </a>
+
+            </li>
+            <li>
+                <div class="favicon favicon-stackoverflow" title="Stack Overflow"></div><a href="http://stackoverflow.com/questions/28835743/using-css-and-html5-to-create-navigation-buttons-using-trapezoids" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:1 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Using CSS and HTML5 to create navigation buttons using trapezoids
+                </a>
+
+            </li>
+            <li>
+                <div class="favicon favicon-cs" title="Computer Science Stack Exchange"></div><a href="http://cs.stackexchange.com/questions/40019/what-is-the-best-solution-to-find-whether-the-sum-of-an-array-is-even-or-odd" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:419 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    What is the best solution to find whether the sum of an array is even or odd
+                </a>
+
+            </li>
+            <li>
+                <div class="favicon favicon-worldbuilding" title="Worldbuilding Stack Exchange"></div><a href="http://worldbuilding.stackexchange.com/questions/11189/what-kind-of-event-could-stop-electricity" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:579 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    What kind of event could stop electricity?
+                </a>
+
+            </li>
+            <li style="display: list-item;" class="dno js-hidden">
+                <div class="favicon favicon-salesforce" title="Salesforce Stack Exchange"></div><a href="http://salesforce.stackexchange.com/questions/68140/cant-get-this-simple-test-class-to-work" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:459 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Can't get this simple test class to work
+                </a>
+
+            </li>
+            <li style="display: list-item;" class="dno js-hidden">
+                <div class="favicon favicon-puzzling" title="Puzzling Stack Exchange"></div><a href="http://puzzling.stackexchange.com/questions/9763/riddle-divided-by-a-wall" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:559 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Riddle - Divided by a wall
+                </a>
+
+            </li>
+            <li style="display: list-item;" class="dno js-hidden">
+                <div class="favicon favicon-math" title="Mathematics Stack Exchange"></div><a href="http://math.stackexchange.com/questions/1173511/counterexamples-for-every-linear-map-on-an-infinite-dimensional-complex-vector" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:69 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Counterexamples for "every linear map on an infinite dimensional complex vector space has an eigenvalue"
+                </a>
+
+            </li>
+            <li style="display: list-item;" class="dno js-hidden">
+                <div class="favicon favicon-stackoverflow" title="Stack Overflow"></div><a href="http://stackoverflow.com/questions/28837142/stdmap-argument-with-empty-brace-initializers-for-default-argument-segfaults-i" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:1 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    std::map argument with empty brace-initializers for default argument segfaults in GCC
+                </a>
+
+            </li>
+            <li style="display: list-item;" class="dno js-hidden">
+                <div class="favicon favicon-physics" title="Physics Stack Exchange"></div><a href="http://physics.stackexchange.com/questions/167888/why-doesnt-a-cigarette-lighter-generate-thrust" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:151 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Why doesn't a cigarette lighter generate thrust?
+                </a>
+
+            </li>
+            <li style="display: list-item;" class="dno js-hidden">
+                <div class="favicon favicon-rpg" title="Role-playing Games Stack Exchange"></div><a href="http://rpg.stackexchange.com/questions/57522/how-does-the-durable-feat-work" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:122 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    How does the Durable feat work?
+                </a>
+
+            </li>
+            <li style="display: list-item;" class="dno js-hidden">
+                <div class="favicon favicon-gaming" title="Arqade"></div><a href="http://gaming.stackexchange.com/questions/208445/should-i-play-maniac-mansion-before-day-of-the-tentacle" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:41 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Should I play Maniac Mansion before Day of the Tentacle?
+                </a>
+
+            </li>
+            <li style="display: list-item;" class="dno js-hidden">
+                <div class="favicon favicon-codegolf" title="Programming Puzzles &amp; Code Golf Stack Exchange"></div><a href="http://codegolf.stackexchange.com/questions/47201/check-whether-letters-of-word-are-in-alphabetical-order" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:200 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Check whether letters of word are in alphabetical order
+                </a>
+
+            </li>
+            <li style="display: list-item;" class="dno js-hidden">
+                <div class="favicon favicon-mathematica" title="Mathematica Stack Exchange"></div><a href="http://mathematica.stackexchange.com/questions/76335/can-mathematica-be-used-for-developing-normal-stand-alone-softwares" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:387 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Can Mathematica be used for developing "normal" stand-alone softwares?
+                </a>
+
+            </li>
+            <li style="display: list-item;" class="dno js-hidden">
+                <div class="favicon favicon-electronics" title="Electrical Engineering Stack Exchange"></div><a href="http://electronics.stackexchange.com/questions/158003/why-use-an-external-resonator-with-an-atmega-microcontroller-if-it-has-one-built" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:135 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Why use an external resonator with an ATmega microcontroller if it has one built in?
+                </a>
+
+            </li>
+            <li style="display: list-item;" class="dno js-hidden">
+                <div class="favicon favicon-codegolf" title="Programming Puzzles &amp; Code Golf Stack Exchange"></div><a href="http://codegolf.stackexchange.com/questions/47241/the-staircase-challenge" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:200 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    The Staircase Challenge
+                </a>
+
+            </li>
+            <li style="display: list-item;" class="dno js-hidden">
+                <div class="favicon favicon-mathematica" title="Mathematica Stack Exchange"></div><a href="http://mathematica.stackexchange.com/questions/76347/how-do-i-pad-numbers-to-the-left-so-that-all-are-the-same-length" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:387 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    How do I pad numbers to the left so that all are the same length?
+                </a>
+
+            </li>
+            <li style="display: list-item;" class="dno js-hidden">
+                <div class="favicon favicon-worldbuilding" title="Worldbuilding Stack Exchange"></div><a href="http://worldbuilding.stackexchange.com/questions/11208/are-flying-plants-possible" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:579 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Are flying plants possible?
+                </a>
+
+            </li>
+            <li style="display: list-item;" class="dno js-hidden">
+                <div class="favicon favicon-music" title="Music: Practice &amp; Theory Stack Exchange"></div><a href="http://music.stackexchange.com/questions/30472/how-to-tell-if-an-electric-guitar-has-good-quality" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:240 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    How to tell if an electric guitar has good quality?
+                </a>
+
+            </li>
+            <li style="display: list-item;" class="dno js-hidden">
+                <div class="favicon favicon-skeptics" title="Skeptics Stack Exchange"></div><a href="http://skeptics.stackexchange.com/questions/26918/could-people-perceive-the-color-blue-in-ancient-times" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:212 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Could people perceive the color blue in ancient times?
+                </a>
+
+            </li>
+            <li style="display: list-item;" class="dno js-hidden">
+                <div class="favicon favicon-workplace" title="The Workplace Stack Exchange"></div><a href="http://workplace.stackexchange.com/questions/42121/why-is-it-not-a-good-idea-to-badmouth-a-previous-employer" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:423 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Why is it not a good idea to "badmouth" a previous employer?
+                </a>
+
+            </li>
+            <li style="display: list-item;" class="dno js-hidden">
+                <div class="favicon favicon-scifi" title="Science Fiction &amp; Fantasy Stack Exchange"></div><a href="http://scifi.stackexchange.com/questions/83011/are-these-foreshadowing-that-bashir-was-genetically-modified" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:186 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Are these foreshadowing that Bashir was genetically modified?
+                </a>
+
+            </li>
+            <li style="display: list-item;" class="dno js-hidden">
+                <div class="favicon favicon-tex" title="TeX - LaTeX Stack Exchange"></div><a href="http://tex.stackexchange.com/questions/231171/edit-contents-title-and-running-header-separately" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:85 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Edit contents title and running header separately
+                </a>
+
+            </li>
+            <li style="display: list-item;" class="dno js-hidden">
+                <div class="favicon favicon-tex" title="TeX - LaTeX Stack Exchange"></div><a href="http://tex.stackexchange.com/questions/231189/line-numbering-across-verses-in-memoir" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:85 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Line numbering across verses in memoir
+                </a>
+
+            </li>
+    </ul>
+
+        
+</div>
+		</div>
+	
+<div id="feed-link">
+    <div id="feed-link-text">
+        <a href="http://stackoverflow.com/feeds/question/8754111" title="feed of this question and its answers">
+            <span class="feed-icon"></span>question feed
+        </a>
+    </div>
+</div>	<script>
+StackExchange.ready(function(){$.get('/posts/8754111/ivc/241e');});
+</script>
+<noscript>
+    <div><img src="/posts/8754111/ivc/241e" class="dno" alt="" width="0" height="0"></div>
+</noscript><div style="display:none" id="prettify-lang">lang-cs</div></div>
+
+    <script>
+        $('#wmd-input').one("keypress", function() {
+            $.ajax({
+                url: '/accounts/email-settings-form',
+                cache: false,
+                success: function(data) {
+                    $('#submit-button').parent().prepend(data);
+                }
+            });
+        });
+
+    </script>
+
+
+        </div>
+    </div>
+    <div id="footer" class="categories">
+        <div class="footerwrap">
+            <div id="footer-menu">
+                <div class="top-footer-links">
+                        <a href="http://stackoverflow.com/tour">tour</a>
+                    <a href="http://stackoverflow.com/help">help</a>
+                    <a href="http://blog.stackoverflow.com/?blb=1">blog</a>
+                        <a href="http://chat.stackoverflow.com/">chat</a>
+                    <a href="http://data.stackexchange.com/">data</a>
+                    <a href="http://stackexchange.com/legal">legal</a>
+                    <a href="http://stackexchange.com/legal/privacy-policy">privacy policy</a>
+                    <a href="http://stackexchange.com/work-here">work here</a>
+                    <a href="http://stackexchange.com/mediakit">advertising info</a>
+
+                    <a onclick='StackExchange.switchMobile("on")'>mobile</a>
+                    <b><a href="http://stackoverflow.com/contact">contact us</a></b>
+                        <b><a href="http://meta.stackoverflow.com/">feedback</a></b>
+                    
+                </div>
+                <div id="footer-sites">
+                    <table>
+    <tbody><tr>
+            <th colspan="3">
+                Technology
+            </th>
+            <th>
+                Life / Arts
+            </th>
+            <th>
+                Culture / Recreation
+            </th>
+            <th>
+                Science
+            </th>
+            <th>
+                Other
+            </th>
+    </tr>
+    <tr>
+            <td>
+                <ol>
+                        <li><a href="http://stackoverflow.com/" title="professional and enthusiast programmers">Stack Overflow</a></li>
+                        <li><a href="http://serverfault.com/" title="system and network administrators">Server Fault</a></li>
+                        <li><a href="http://superuser.com/" title="computer enthusiasts and power users">Super User</a></li>
+                        <li><a href="http://webapps.stackexchange.com/" title="power users of web applications">Web Applications</a></li>
+                        <li><a href="http://askubuntu.com/" title="Ubuntu users and developers">Ask Ubuntu</a></li>
+                        <li><a href="http://webmasters.stackexchange.com/" title="pro webmasters">Webmasters</a></li>
+                        <li><a href="http://gamedev.stackexchange.com/" title="professional and independent game developers">Game Development</a></li>
+                        <li><a href="http://tex.stackexchange.com/" title="users of TeX, LaTeX, ConTeXt, and related typesetting systems">TeX - LaTeX</a></li>
+                            </ol></td><td><ol>
+                        <li><a href="http://programmers.stackexchange.com/" title="professional programmers interested in conceptual questions about software development">Programmers</a></li>
+                        <li><a href="http://unix.stackexchange.com/" title="users of Linux, FreeBSD and other Un*x-like operating systems.">Unix &amp; Linux</a></li>
+                        <li><a href="http://apple.stackexchange.com/" title="power users of Apple hardware and software">Ask Different (Apple)</a></li>
+                        <li><a href="http://wordpress.stackexchange.com/" title="WordPress developers and administrators">WordPress Development</a></li>
+                        <li><a href="http://gis.stackexchange.com/" title="cartographers, geographers and GIS professionals">Geographic Information Systems</a></li>
+                        <li><a href="http://electronics.stackexchange.com/" title="electronics and electrical engineering professionals, students, and enthusiasts">Electrical Engineering</a></li>
+                        <li><a href="http://android.stackexchange.com/" title="enthusiasts and power users of the Android operating system">Android Enthusiasts</a></li>
+                        <li><a href="http://security.stackexchange.com/" title="Information security professionals">Information Security</a></li>
+                            </ol></td><td><ol>
+                        <li><a href="http://dba.stackexchange.com/" title="database professionals who wish to improve their database skills and learn from others in the community">Database Administrators</a></li>
+                        <li><a href="http://drupal.stackexchange.com/" title="Drupal developers and administrators">Drupal Answers</a></li>
+                        <li><a href="http://sharepoint.stackexchange.com/" title="SharePoint enthusiasts">SharePoint</a></li>
+                        <li><a href="http://ux.stackexchange.com/" title="user experience researchers and experts">User Experience</a></li>
+                        <li><a href="http://mathematica.stackexchange.com/" title="users of Mathematica">Mathematica</a></li>
+                        <li><a href="http://salesforce.stackexchange.com/" title="Salesforce administrators, implementation experts, developers and anybody in-between">Salesforce</a></li>
+                    
+                        <li>
+                            <a href="http://stackexchange.com/sites#technology" class="more">
+                                more (14)
+                            </a>
+                        </li>
+                </ol>
+            </td>
+            <td>
+                <ol>
+                        <li><a href="http://photo.stackexchange.com/" title="professional, enthusiast and amateur photographers">Photography</a></li>
+                        <li><a href="http://scifi.stackexchange.com/" title="science fiction and fantasy enthusiasts">Science Fiction &amp; Fantasy</a></li>
+                        <li><a href="http://graphicdesign.stackexchange.com/" title="Graphic Design professionals, students, and enthusiasts">Graphic Design</a></li>
+                        <li><a href="http://cooking.stackexchange.com/" title="professional and amateur chefs">Seasoned Advice (cooking)</a></li>
+                        <li><a href="http://diy.stackexchange.com/" title="contractors and serious DIYers">Home Improvement</a></li>
+                        <li><a href="http://money.stackexchange.com/" title="people who want to be financially literate">Personal Finance &amp; Money</a></li>
+                        <li><a href="http://academia.stackexchange.com/" title="academics and those enrolled in higher education">Academia</a></li>
+                    
+                        <li>
+                            <a href="http://stackexchange.com/sites#lifearts" class="more">
+                                more (10)
+                            </a>
+                        </li>
+                </ol>
+            </td>
+            <td>
+                <ol>
+                        <li><a href="http://english.stackexchange.com/" title="linguists, etymologists, and serious English language enthusiasts">English Language &amp; Usage</a></li>
+                        <li><a href="http://skeptics.stackexchange.com/" title="scientific skepticism">Skeptics</a></li>
+                        <li><a href="http://judaism.stackexchange.com/" title="those who base their lives on Jewish law and tradition and anyone interested in learning more">Mi Yodeya (Judaism)</a></li>
+                        <li><a href="http://travel.stackexchange.com/" title="road warriors and seasoned travelers">Travel</a></li>
+                        <li><a href="http://christianity.stackexchange.com/" title="committed Christians, experts in Christianity and those interested in learning more">Christianity</a></li>
+                        <li><a href="http://gaming.stackexchange.com/" title="passionate videogamers on all platforms">Arqade (gaming)</a></li>
+                        <li><a href="http://bicycles.stackexchange.com/" title="people who build and repair bicycles, people who train cycling, or commute on bicycles">Bicycles</a></li>
+                        <li><a href="http://rpg.stackexchange.com/" title="gamemasters and players of tabletop, paper-and-pencil role-playing games">Role-playing Games</a></li>
+                    
+                        <li>
+                            <a href="http://stackexchange.com/sites#culturerecreation" class="more">
+                                more (21)
+                            </a>
+                        </li>
+                </ol>
+            </td>
+            <td>
+                <ol>
+                        <li><a href="http://math.stackexchange.com/" title="people studying math at any level and professionals in related fields">Mathematics</a></li>
+                        <li><a href="http://stats.stackexchange.com/" title="people interested in statistics, machine learning, data analysis, data mining, and data visualization">Cross Validated (stats)</a></li>
+                        <li><a href="http://cstheory.stackexchange.com/" title="theoretical computer scientists and researchers in related fields">Theoretical Computer Science</a></li>
+                        <li><a href="http://physics.stackexchange.com/" title="active researchers, academics and students of physics">Physics</a></li>
+                        <li><a href="http://mathoverflow.net/" title="professional mathematicians">MathOverflow</a></li>
+                    
+                        <li>
+                            <a href="http://stackexchange.com/sites#science" class="more">
+                                more (7)
+                            </a>
+                        </li>
+                </ol>
+            </td>
+            <td>
+                <ol>
+                        <li><a href="http://stackapps.com/" title="apps, scripts, and development with the Stack Exchange API">Stack Apps</a></li>
+                        <li><a href="http://meta.stackexchange.com/" title="meta-discussion of the Stack Exchange family of Q&amp;A websites">Meta Stack Exchange</a></li>
+                        <li><a href="http://area51.stackexchange.com/" title="proposing new sites in the Stack Exchange network">Area 51</a></li>
+                        <li><a href="http://careers.stackoverflow.com/">Stack Overflow Careers</a></li>
+                    
+                </ol>
+            </td>
+    </tr>
+</tbody></table>
+                </div>
+            </div>
+
+            <div id="copyright">
+                site design / logo © 2015 stack exchange inc; user contributions licensed under <a href="http://creativecommons.org/licenses/by-sa/3.0/" rel="license">cc by-sa 3.0</a> 
+                with <a href="http://blog.stackoverflow.com/2009/06/attribution-required/" rel="license">attribution required</a>
+            </div>
+            <div id="svnrev">
+                rev 2015.3.3.2353
+            </div>
+            
+        </div>
+    <iframe style="display:none" src="read_data_wav_to_array_elemei/write.html"></iframe></div>
+    <noscript>
+        <div id="noscript-warning">Stack Overflow works best with JavaScript enabled<img src="http://pixel.quantserve.com/pixel/p-c1rF4kxgLUzNc.gif" alt="" class="dno"></div>
+    </noscript>
+<script>var p = "http", d = "static"; if (document.location.protocol == "https:") { p += "s"; d = "engine"; } var z = document.createElement("script"); z.type = "text/javascript"; z.async = true; z.src = p + "://" + d + ".adzerk.net/ados.js"; var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(z, s);</script>
+<script>
+    var ados = ados || {};
+    ados.run = ados.run || [];
+    ados.run.push(function () { ados_setKeywords('c%23,file-io,audio,x-user-registered');; ados_load(); });         
+</script>
+
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () { (i[r].q = i[r].q || []).push(arguments) }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m);
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+        ga('create', 'UA-5620270-1');        
+        ga('set', 'dimension1', '3556921');         
+        ga('set', 'dimension2', '|c#|file-io|audio|');         
+        ga('send', 'pageview');
+        var _qevents = _qevents || [],
+            _comscore = _comscore || [];
+        (function () {
+            var ssl='https:'==document.location.protocol,
+                s=document.getElementsByTagName('script')[0],
+                qc=document.createElement('script');
+            qc.async=true;
+            qc.src=(ssl?'https://secure':'http://edge')+'.quantserve.com/quant.js';
+            s.parentNode.insertBefore(qc, s);
+            var sc=document.createElement('script');
+            sc.async=true;
+            sc.src=(ssl?'https://sb':'http://b') + '.scorecardresearch.com/beacon.js';
+            s.parentNode.insertBefore(sc, s);
+        })();
+        _comscore.push({ c1: "2", c2: "17440561" });
+        _qevents.push({ qacct: "p-c1rF4kxgLUzNc" });
+    </script>        
+    
+    
+<script src="read_data_wav_to_array_elemei/p" type="text/javascript"></script></body></html>

@@ -1,10 +1,9 @@
-2015.02.27
-==========
+2015.01 ~
+=========
+- file open handler
+- mappa struktúra
+- uml terv
 
-? soundData -> fileoperator.cpp
-? PCP -> float?
-? fftw_2d? -> gerfeatures.cpp
-? hanganyag adatbázis
 
 
 2015.02 ~
@@ -23,11 +22,28 @@
 + ablakozva pcp kinyerés
 
 
-2015.01 ~
-=========
-- file open handler
-- mappa struktúra
-- uml terv
 
+2015.02.27
+==========
 
+? soundData -> fileoperator.cpp
+? PCP -> float?
+? fftw_2d? -> gerfeatures.cpp
+? hanganyag adatbázis
+
++ octave - > wave beolvasás
++ sox wave file libary
++ key,cpp!!
 http://classic.scottr.org/presentations/git-in-5-minutes/
+
+
+
+2015.03.03
+==========
+
+? SoundData pass? getFeatures
+? SoundData pass? key
+
+? float * buffer? how ?
+
+wavread("file.name")

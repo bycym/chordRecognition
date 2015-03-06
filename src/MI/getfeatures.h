@@ -7,6 +7,10 @@
 // http://www.fftw.org/download.html
 #include <fftw3.h>
 
+// Key from genchords
+#include "../../genchords/src/Key.h"
+#include "../../genchords/src/utilities.h"
+
 /*
 class GetFeatures
 {

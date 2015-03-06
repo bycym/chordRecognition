@@ -1,4 +1,4 @@
- #include "fileoperator.h"
+#include "fileoperator.h"
 
 FileOperator::FileOperator(QWidget *parent) :
     QWidget(parent)
@@ -189,6 +189,21 @@ bool FileOperator::performLoadOperation(QString fn, SoundData*& sndData)
         sndData->ckDataID(ckDataID);
         sndData->ckDataSize(ckDataSize);
         ////// sndData init END //////
+        sndData->init(ckDataSize);
+
+
+        ////// read data from file START //////
+        float buffer;
+        while (!feof(fp))
+        {
+            fread(&buffer, sizeof(float), 1, fp);
+            sndData->audio_data_f_->push_back((buffer));
+            //cout << buffer << endl;
+            // hit end of file
+            //cout << "Everything worked fine." << endl;
+        }
+
+        ////// read data from file END //////
 
         sndData->info();
 
@@ -234,6 +249,10 @@ bool FileOperator::performLoadOperation(QString fn, SoundData*& sndData)
         sndData->audio_buffer_->open(QIODevice::ReadOnly);
         }
 
+
+        /// convert qbytearray to float for FFTW
+        //bool ok;
+        //sndData->audio_data_ = QByteArray::number(sndData->audio_data_->toFloat(&ok));
     }
 
     cout << "pcm: " << pcm << endl;

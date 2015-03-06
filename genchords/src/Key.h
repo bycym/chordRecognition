@@ -19,7 +19,8 @@
 #include <string>
 #include <iostream>
 #include "PitchName.h"
-
+// Own SoundData:
+#include "../../src/IOMusicHandler/sounddata.h"
 
 class Key {
 	public:
@@ -36,7 +37,9 @@ class Key {
 
 std::ostream& operator<< (std::ostream & s, const Key & k);
 
-Key getkey(Sounddata & sd, int windowSize);
+/// own SoundData
+// Key getkey(Sounddata & sd, int windowSize);
+Key getkey(SoundData *& sd, int windowSize);
 	
 	
 #endif
