@@ -7,6 +7,9 @@
 QT       += core gui multimedia
 
 
+INCLUDEPATH += /usr/include/QtMultimediaKit
+INCLUDEPATH += /usr/include/QtMobility
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = chordRecognition
@@ -18,9 +21,8 @@ QMAKE_CXXFLAGS += -std=c++0x
 # INCLUDEPATH += /usr/include/QtMobility
 # INCLUDEPATH += /usr/include/QtMultimediaKit
 
-LIBS+= -lsndfile \
-       -lfftw3
-       #-lQtMultimedia
+LIBS+= -lfftw3 \
+
 
 
 SOURCES += src/main.cpp\
@@ -33,7 +35,6 @@ SOURCES += src/main.cpp\
     genchords/src/Labelfile.cpp \
     genchords/src/PCP.cpp \
     genchords/src/PitchName.cpp \
-    genchords/src/Sounddata.cpp \
     genchords/src/utilities.cpp \
     src/Utils/neuralutilities.cpp \
     src/IOMusicHandler/fileoperator.cpp \
@@ -53,7 +54,6 @@ HEADERS  += src/mainwindow.h \
     genchords/src/Labelfile.h \
     genchords/src/PCP.h \
     genchords/src/PitchName.h \
-    genchords/src/Sounddata.h \
     genchords/src/utilities.h \
     genchords/src/learnchords.h \
     src/Utils/neuralutilities.h \

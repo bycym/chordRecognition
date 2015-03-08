@@ -11,7 +11,7 @@
 #include "PitchName.h"
 
 #include "PCP.h"
-#include "Sounddata.h"
+//#include "Sounddata.h"
 #include "utilities.h"
 
 
@@ -195,26 +195,30 @@ std::string PCP::tostring() const{
 
 
 
-PCPTrack::PCPTrack(const Sounddata & sd, int algo, int blockSize, bool blockSizeInMs, int windowSize) {
+PCPTrack::PCPTrack(SoundData * & sd, int algo, int blockSize, bool blockSizeInMs, int windowSize) {
 
   mWindowSize = windowSize;
 
   if (blockSizeInMs) {
 	mBlockSizeMs = blockSize;
-	mBlockSize = (int) (((float)sd.samplerate() * blockSize) / 1000);
+    //mBlockSize = (int) (((float)sd.samplerate() * blockSize) / 1000);
+    mBlockSize = (int) (((float)sd->nSamplesPerSec() * blockSize) / 1000);
   }
   else {
 	  mBlockSize = blockSize;
-	  mBlockSizeMs = blockSize / sd.samplerate();
+      mBlockSizeMs = blockSize / sd->nSamplesPerSec();
   }
   int j=0;
-  for (int i=0; i<sd.frames(); i+=mBlockSize) {
+  for (int i=0; i<sd->nAvgBytesPerSec(); i+=mBlockSize) {
 	  int aktBlockSize = mBlockSize;
-	  if (i > sd.frames()-mBlockSize) {
-		  aktBlockSize = sd.frames()-i;
+      if (i > sd->nAvgBytesPerSec()-mBlockSize) {
+          aktBlockSize = sd->nAvgBytesPerSec()-i;
 	  }
-	  // std::cout << "PCPTrack:\t" << i <<"/" << sd.frames() << std::endl;
-	  PCPItem pi = PCPItem(j*mBlockSizeMs, PCP(sd.srcbuffer()+i, aktBlockSize, mWindowSize, sd.samplerate(), algo, 0));
+      // std::cout << "PCPTrack:\t" << i <<"/" << sd->nAvgBytesPerSec() << std::endl;
+      /// TODO:
+      //const float * srcbuffer = sd->audio_data_f_->data();
+      PCPItem pi = PCPItem(j*mBlockSizeMs, PCP(sd->audio_data_f_->data()+i, aktBlockSize, mWindowSize, sd->nSamplesPerSec(), algo, 0));
+      // PCPItem pi = PCPItem(j*mBlockSizeMs, PCP(sd.srcbuffer()+i, aktBlockSize, mWindowSize, sd->nSamplesPerSec(), algo, 0));
 	  mPCPVec.push_back(pi);
 	  j++;
   }
@@ -222,7 +226,7 @@ PCPTrack::PCPTrack(const Sounddata & sd, int algo, int blockSize, bool blockSize
   // std::cout << "PCP_Track erfolgreich angelegt." << std::endl;
 }
 
-PCPTrack::PCPTrack(const Sounddata & sd, int algo, std::string timefile, int windowSize) {
+PCPTrack::PCPTrack(SoundData * & sd, int algo, std::string timefile, int windowSize) {
 	
 	mWindowSize = windowSize;
 	
@@ -261,17 +265,20 @@ PCPTrack::PCPTrack(const Sounddata & sd, int algo, std::string timefile, int win
 	
 	// PCPs erzeugen
 	int aktpos = 0;
-	for (unsigned int i=0; (i<v.size()-1 && aktpos < sd.frames()); i++) {		
+    for (unsigned int i=0; (i<v.size()-1 && aktpos < sd->nAvgBytesPerSec()); i++) {
 		// die blockgroesse aendert sich hier potentiell jedesmal
 		float blockSizeMs = v[i+1] - v[i];
-		int aktBlockSize = (int) (((float)sd.samplerate() * blockSizeMs)/1000); 
+        int aktBlockSize = (int) (((float)sd->nSamplesPerSec() * blockSizeMs)/1000);
 // 		std::cout << aktpos << std::endl;
 // 		std::cout << i << ": " << v[i] << " length(ms) " << blockSizeMs << " = length(frames)" << aktBlockSize << std::endl;
-		if (aktpos > sd.frames()-aktBlockSize) {
-			aktBlockSize = sd.frames()-aktpos;
+        if (aktpos > sd->nAvgBytesPerSec()-aktBlockSize) {
+            aktBlockSize = sd->nAvgBytesPerSec()-aktpos;
 // 			std::cout << "angepasst: "<< aktBlockSize << std::endl;
 		}
-		PCPItem pi = PCPItem(v[i], PCP(sd.srcbuffer()+aktpos, aktBlockSize, mWindowSize, sd.samplerate(), algo, 0));
+        //PCPItem pi = PCPItem(v[i], PCP(sd.srcbuffer()+aktpos, aktBlockSize, mWindowSize, sd->nSamplesPerSec(), algo, 0));
+        /// TODO:
+        //const float * srcbuffer = sd->audio_data_f_->data();
+        PCPItem pi = PCPItem(v[i], PCP(sd->audio_data_f_->data()+aktpos, aktBlockSize, mWindowSize, sd->nSamplesPerSec(), algo, 0));
 		//PCPItem pi = PCPItem(v[i], PCP(sd.srcbuffer()+aktpos, 2*sd.samplerate()/10, mWindowSize, sd.samplerate(), algo));
 		mPCPVec.push_back(pi);
 		aktpos += aktBlockSize;

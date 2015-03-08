@@ -123,10 +123,10 @@ private:
     int ckFormatSize_;               // PCM_OR_NONPCM?(16):(18):(40)
         short wFormatTag_;           // PCM_OR_NONPCM?(WAVE_FORMAT_PCM):(formatcode):(WAVE_FORMAT_EXTENSIBLE)
         short nChannels_;            // Nc
-        int nSamplesPerSec_;         // F
-        int nAvgBytesPerSec_;        // F * M * Nc
+        int nSamplesPerSec_;         // F Sampling rate (blocks per second)
+        int nAvgBytesPerSec_;        // F * M * Nc ??frames
         short nBlockAlign_;          // M * Nc
-        short wBitsPerSample_;       // rounds up to 8 * M
+        short wBitsPerSample_;       // rounds up to 8 * M Bits per sample
 
         // if its NONPCM or EXTENSIBLE format
         short cbSize_;               // Size of the extension:0

@@ -1,4 +1,5 @@
-#include "Sounddata.h"
+//#include "Sounddata.h"
+#include "../../src/IOMusicHandler/sounddata.h"
 #include <vector>
 #include "PitchName.h"
 
@@ -58,8 +59,8 @@ class PCPItem {
 class PCPTrack {
  public:
 	 PCPTrack() {};
-	 PCPTrack(const Sounddata & sd, int algo, int blockSize, bool blockSizeInMs, int windowSize);
-	 PCPTrack(const Sounddata & sd, int algo, std::string timefile, int windowSize);
+     PCPTrack(SoundData * & sd, int algo, int blockSize, bool blockSizeInMs, int windowSize);
+     PCPTrack(SoundData * & sd, int algo, std::string timefile, int windowSize);
 	
 
 	int getblockSizeMs() const { return mBlockSizeMs; } 

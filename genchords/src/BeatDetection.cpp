@@ -13,7 +13,7 @@
 #include <iostream>
 #include <sstream>
 #include <iomanip>
-#include "Sounddata.h"
+//#include "Sounddata.h"
 
 /* Simple Sound Energy Algorithm #2 + #3*/ 
 
