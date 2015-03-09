@@ -54,8 +54,15 @@ public:
     void init();
     bool open(SoundData*& sndData);
     bool performLoadOperation(QString, SoundData*& sndData);
-
     QString fileName() { return fileName_; }
+
+
+    inline int conv_bit_size(unsigned int in, int bps)
+    {
+        const unsigned int max = (1 << (bps-1)) - 1;
+        return in > max ? in - (max<<1) : in;
+    }
+
     //SoundData * sndData_;
 
 signals:

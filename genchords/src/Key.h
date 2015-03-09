@@ -19,6 +19,7 @@
 #include <string>
 #include <iostream>
 #include "PitchName.h"
+#include <QDebug>
 // Own SoundData:
 #include "../../src/IOMusicHandler/sounddata.h"
 

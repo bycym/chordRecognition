@@ -98,6 +98,7 @@ bool FileOperator::performLoadOperation(QString fn, SoundData*& sndData)
 
     fread(waveID, sizeof(char), 4, fp);
     waveID[4] = '\0';
+
     // format:
     fread(ckFormatID, sizeof(char), 4, fp);
     ckFormatID[4] = '\0';
@@ -194,16 +195,38 @@ bool FileOperator::performLoadOperation(QString fn, SoundData*& sndData)
 
 
         ////// read data from file START //////
-        float buffer;
+
+        unsigned char buffer;
+
+        for (unsigned int i = 0; i != nSamplesPerSec; ++i)
+        {
+            for (unsigned int j = 0; j != nChannels; ++j)
+            {
+                unsigned int tmp = 0;
+                for (unsigned int k = 0; k != wBitsPerSample; k+=8)
+                {
+                    fread(&buffer, sizeof(char), 1, fp);
+                    tmp += buffer << k;
+                }
+                int push_me = conv_bit_size(tmp, nSamplesPerSec);
+                //qDebug() << "push me " << push_me << endl;
+                sndData->audio_data_f_.push_back(push_me);
+            }
+        }
+
+/*
+        signed char * buffer = alloca(wBitsPerSample*4);
+        long bytes_read;
+
         while (!feof(fp))
         {
-            fread(&buffer, sizeof(float), 1, fp);
-            sndData->audio_data_f_->push_back((buffer));
+            bytes_read = fread(&buffer, sizeof(double), wBitsPerSample*4, fp);
+            sndData->audio_data_f_->push_back(bytes_read);
             //cout << buffer << endl;
             // hit end of file
             //cout << "Everything worked fine." << endl;
         }
-
+*/
         ////// read data from file END //////
 
         sndData->info();

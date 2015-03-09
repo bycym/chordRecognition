@@ -216,8 +216,8 @@ PCPTrack::PCPTrack(SoundData * & sd, int algo, int blockSize, bool blockSizeInMs
 	  }
       // std::cout << "PCPTrack:\t" << i <<"/" << sd->nAvgBytesPerSec() << std::endl;
       /// TODO:
-      //const float * srcbuffer = sd->audio_data_f_->data();
-      PCPItem pi = PCPItem(j*mBlockSizeMs, PCP(sd->audio_data_f_->data()+i, aktBlockSize, mWindowSize, sd->nSamplesPerSec(), algo, 0));
+      const float * srcbuffer = sd->audio_data_f_.data();
+      PCPItem pi = PCPItem(j*mBlockSizeMs, PCP(srcbuffer+i, aktBlockSize, mWindowSize, sd->nSamplesPerSec(), algo, 0));
       // PCPItem pi = PCPItem(j*mBlockSizeMs, PCP(sd.srcbuffer()+i, aktBlockSize, mWindowSize, sd->nSamplesPerSec(), algo, 0));
 	  mPCPVec.push_back(pi);
 	  j++;
@@ -277,8 +277,8 @@ PCPTrack::PCPTrack(SoundData * & sd, int algo, std::string timefile, int windowS
 		}
         //PCPItem pi = PCPItem(v[i], PCP(sd.srcbuffer()+aktpos, aktBlockSize, mWindowSize, sd->nSamplesPerSec(), algo, 0));
         /// TODO:
-        //const float * srcbuffer = sd->audio_data_f_->data();
-        PCPItem pi = PCPItem(v[i], PCP(sd->audio_data_f_->data()+aktpos, aktBlockSize, mWindowSize, sd->nSamplesPerSec(), algo, 0));
+        const float * srcbuffer = sd->audio_data_f_.data();
+        PCPItem pi = PCPItem(v[i], PCP(srcbuffer+aktpos, aktBlockSize, mWindowSize, sd->nSamplesPerSec(), algo, 0));
 		//PCPItem pi = PCPItem(v[i], PCP(sd.srcbuffer()+aktpos, 2*sd.samplerate()/10, mWindowSize, sd.samplerate(), algo));
 		mPCPVec.push_back(pi);
 		aktpos += aktBlockSize;

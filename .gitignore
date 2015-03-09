@@ -28,5 +28,4 @@
 *.app
 
 
-*/
-chordRecognition.pro
+#*/chordRecognition.pro

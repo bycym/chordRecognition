@@ -46,10 +46,16 @@ Key getkey(SoundData *& sd, int windowSize) {
 
     long frames = sd->ckDataSize()/sizeof(float);
     bool ok;
-    cout << sd->ckDataID() << endl;
+
+    cout << sd->ckFormatID() << endl;
     //const float * srcBuffer = sd->audio_data_::number(srcBuffer.)
 
-    const float * srcBuffer = sd->audio_data_f_->data();
+    const float * srcBuffer = sd->audio_data_f_.data();
+    for(int i = 0; i < sd->audio_data_f_.size(); i++)
+    {
+        cout << "s: " << srcBuffer[i] << endl;
+    }
+
 
 
 	int frontlength=30; // laenge die am anfang und ende des stueckes genommen werden soll in sekunden
@@ -103,7 +109,7 @@ Key getkey(SoundData *& sd, int windowSize) {
 	PCP pcp_dur = PCP(dur);	
 	PCP pcp_moll = PCP(moll);
 
-    /*
+
 	std::vector<Chordtype> keychordtypes;
 	keychordtypes.push_back(Chordtype(pcp_dur, "dur"));
 	keychordtypes.push_back(Chordtype(pcp_moll, "moll"));
@@ -119,7 +125,7 @@ Key getkey(SoundData *& sd, int windowSize) {
 // 		// bei moll gib die korrespondierende durtonart zurueck (a-moll -> C)
 // 		if (cps[0].mChord.getname() == "moll") return cps[0].mChord.getroot()+3;
 // 		else return cps[0].mChord.getroot();
-    }*/
+    }
 	return Key();
 }
 

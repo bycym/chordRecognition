@@ -183,7 +183,8 @@ public:
     //float * audio_data_f_;
 
     // vector -> data()
-    std::vector<float> * audio_data_f_;
+    //vector<float> * audio_data_f_;
+    vector<float> audio_data_f_;
     //QVector<float> * audio_data_f_;
 
 
@@ -193,7 +194,7 @@ public:
 
     // get:
 
-    float* audio_data_f(){ return audio_data_f_->data(); }
+    //float* audio_data_f(){ return audio_data_f_->data(); }
 
 
     short pcm() { return pcm_;}
