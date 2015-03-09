@@ -4,11 +4,11 @@
 #
 #-------------------------------------------------
 
-QT       += core gui multimedia
+QT       += core gui network xml multimedia
 
 
-INCLUDEPATH += /usr/include/QtMultimediaKit
-INCLUDEPATH += /usr/include/QtMobility
+#INCLUDEPATH += /usr/include/QtMultimediaKit
+#INCLUDEPATH += /usr/include/QtMobility
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -17,9 +17,9 @@ TEMPLATE = app
 
 QMAKE_CXXFLAGS += -std=c++0x
 
+CONFIG += mobility
+MOBILITY += multimedia
 
-# INCLUDEPATH += /usr/include/QtMobility
-# INCLUDEPATH += /usr/include/QtMultimediaKit
 
 LIBS+= -lfftw3 \
 
@@ -41,7 +41,8 @@ SOURCES += src/main.cpp\
     src/IOMusicHandler/sounddata.cpp \
     src/Core/gre.cpp \
     src/MI/getfeatures.cpp \
-    src/Core/core.cpp
+    src/Core/core.cpp \
+    src/IOMusicHandler/playsound.cpp
 
 
 HEADERS  += src/mainwindow.h \
@@ -60,6 +61,8 @@ HEADERS  += src/mainwindow.h \
     src/IOMusicHandler/fileoperator.h \
     src/IOMusicHandler/sounddata.h \
     src/MI/getfeatures.h \
-    src/Core/core.h
+    src/Core/core.h \
+    src/IOMusicHandler/playsound.h
 
 FORMS    += src/mainwindow.ui
+

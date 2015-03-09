@@ -46,6 +46,7 @@ void SoundData::init(int sizeOfData)
     //QBuffer* audio_buffer = new QBuffer(&audio_data);
 
     audio_data_f_ = new vector<float>(sizeOfData);
+    //audio_data_f_ = new QVector<float>(sizeOfData);
 }
 
 
@@ -89,7 +90,7 @@ void SoundData::info()
         result += "\nckDataID: " + ckDataID
                 + "\nckDataSize: " + ckDataSize;
     */
-    printf("%s", ckID_);
+    //printf("%s", ckID_);
     cout << "ckID: " << ckID_
                 << "\nckSize: " << ckSize_
                 << "\nwaveID: " << waveID_

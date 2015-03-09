@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "IOMusicHandler/sounddata.h"
 #include "IOMusicHandler/fileoperator.h"
+#include "IOMusicHandler/playsound.h"
 #include "MI/getfeatures.h"
 #include <fftw3.h>
 
@@ -26,6 +27,8 @@ private slots:
 
     void on_openButton_clicked();
 
+    void on_playButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     FileOperator * fileoperator;
@@ -33,6 +36,7 @@ private:
 
     fftw_complex *in_, *out_;
     FileOperator * fileOperator_;
+    PlaySound * playSound_;
 
     SoundData * sndData_;
 };

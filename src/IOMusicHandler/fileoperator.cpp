@@ -170,6 +170,7 @@ bool FileOperator::performLoadOperation(QString fn, SoundData*& sndData)
         sndData->nChannels(nChannels);
         sndData->nSamplesPerSec(nSamplesPerSec);
         sndData->nAvgBytesPerSec(nAvgBytesPerSec);
+        sndData->nBlockAlign(nBlockAlign);
         sndData->wBitsPerSample(wBitsPerSample);
 
 

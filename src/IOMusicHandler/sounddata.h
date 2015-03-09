@@ -6,6 +6,7 @@
 #include <QByteArray>
 #include <QBuffer>
 #include <vector>
+#include <QVector>
 
 using namespace std;
 
@@ -182,7 +183,9 @@ public:
     //float * audio_data_f_;
 
     // vector -> data()
-    vector<float> * audio_data_f_;
+    std::vector<float> * audio_data_f_;
+    //QVector<float> * audio_data_f_;
+
 
     void info();
     void init(int sizeOfData);

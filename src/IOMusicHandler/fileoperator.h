@@ -18,6 +18,7 @@
 #include <QAudioFormat>
 #include <QEventLoop>
 #include <QAudioDeviceInfo>
+#include <QVector>
 //#include <QAudioInput>
 
 
