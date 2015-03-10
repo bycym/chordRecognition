@@ -48,7 +48,50 @@ void SoundData::init(int sizeOfData)
     //audio_data_f_ = new vector<float>(sizeOfData);
     //audio_data_f_ = new QVector<float>(sizeOfData);
 }
+QVector<QString> SoundData::infoQt()
+{
+    QVector<QString> info;
+    info.push_back("ckID: " + QString::fromUtf8(ckID_,5));
 
+    info.push_back("ckSize: " + QString::number(ckSize_));
+    info.push_back("waveID: " + QString::fromUtf8(waveID_,5));
+
+    // format:
+    info.push_back("ckFormatID: " + QString::fromUtf8(ckFormatID_,5));
+    info.push_back("ckFormatSize: " + QString::number(ckFormatSize_));
+    info.push_back("wFormatTag: " + QString::number(wFormatTag_));
+    info.push_back("nChannels: " + QString::number(nChannels_));
+    info.push_back("nSamplesPerSec: " + QString::number(nSamplesPerSec_));
+    info.push_back("nAvgBytesPerSe: " + QString::number(nAvgBytesPerSec_));
+    info.push_back("nBlockAlign: " + QString::number(nBlockAlign_));
+    info.push_back("wBitsPerSample: " + QString::number(wBitsPerSample_));
+    if(pcm_ != 0) // if its not PCM
+    {
+        if(pcm_ == 1) // if its NONPCM format
+        {
+            info.push_back("cbSize: " + QString::number(cbSize_));
+        }
+        if(pcm_ == 2) // if its EXTENSIBLE format
+        {
+            info.push_back("wValidBitsPerSample: " + QString::number(wValidBitsPerSample_));
+            info.push_back("dwChannelMask: " + QString::number(dwChannelMask_));
+            info.push_back("subFormat: " + QString::fromUtf8(subFormat_,5));
+
+        }
+        // fact for NONPCM and EXTENSIBLE format too
+        // fact:
+        info.push_back("ckFactID: " + QString::fromUtf8(ckFactID_,5));
+        info.push_back("ckFactSize: " + QString::number(ckFactSize_));
+        info.push_back("dwSampleLength: " + QString::number(dwSampleLength_));
+    }
+
+    // data:
+    info.push_back("ckDataID: " + QString::fromUtf8(ckDataID_,5));
+    info.push_back("ckDataSize: " + QString::number(ckDataSize_));
+
+
+    return info;
+}
 
 void SoundData::info()
 {
@@ -130,3 +173,5 @@ void SoundData::info()
 
     //return result;
 }
+
+

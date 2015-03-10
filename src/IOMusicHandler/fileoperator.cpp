@@ -196,44 +196,34 @@ bool FileOperator::performLoadOperation(QString fn, SoundData*& sndData)
 
         ////// read data from file START //////
 
+        const unsigned int num_ch = nChannels;
+        const unsigned int bits_per_samp = wBitsPerSample;
+        const unsigned int num_samp = nSamplesPerSec; // Sampling Rate / Sample Rate
         unsigned char buffer;
 
-        for (unsigned int i = 0; i != nSamplesPerSec; ++i)
+        for (unsigned int i = 0; i != num_samp; ++i)
         {
-            for (unsigned int j = 0; j != nChannels; ++j)
+            for (unsigned int j = 0; j != num_ch; ++j)
             {
                 unsigned int tmp = 0;
-                for (unsigned int k = 0; k != wBitsPerSample; k+=8)
+                for (unsigned int k = 0; k != bits_per_samp; k+=8)
                 {
                     fread(&buffer, sizeof(char), 1, fp);
                     tmp += buffer << k;
                 }
-                int push_me = conv_bit_size(tmp, nSamplesPerSec);
+                int push_me = conv_bit_size(tmp, bits_per_samp);
                 //qDebug() << "push me " << push_me << endl;
                 sndData->audio_data_f_.push_back(push_me);
             }
         }
 
-/*
-        signed char * buffer = alloca(wBitsPerSample*4);
-        long bytes_read;
-
-        while (!feof(fp))
-        {
-            bytes_read = fread(&buffer, sizeof(double), wBitsPerSample*4, fp);
-            sndData->audio_data_f_->push_back(bytes_read);
-            //cout << buffer << endl;
-            // hit end of file
-            //cout << "Everything worked fine." << endl;
-        }
-*/
         ////// read data from file END //////
 
         sndData->info();
 
     }
 
-
+/*
     // Qt audio buffering
     QFile audio_file(fn);
 
@@ -248,12 +238,7 @@ bool FileOperator::performLoadOperation(QString fn, SoundData*& sndData)
     format.setByteOrder(QAudioFormat::LittleEndian);
     format.setSampleType(QAudioFormat::SignedInt);
 
-    /*
-    QAudioDeviceInfo info(QAudioDeviceInfo::defaultOutputDevice());
-    if (!info.isFormatSupported(format)) {
-        qWarning()<<"raw audio format not supported by backend, cannot play audio.";
-        return;
-    }*/
+
 
     QEventLoop loop;
 
@@ -277,7 +262,7 @@ bool FileOperator::performLoadOperation(QString fn, SoundData*& sndData)
         /// convert qbytearray to float for FFTW
         //bool ok;
         //sndData->audio_data_ = QByteArray::number(sndData->audio_data_->toFloat(&ok));
-    }
+    }*/
 
     cout << "pcm: " << pcm << endl;
     if(success && pcm != -1)

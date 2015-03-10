@@ -39,22 +39,14 @@ Key getkey(SoundData *& sd, int windowSize) {
 // 				1, // algorithm
 // 				1000 // Bloecke von 1 Sekunde
 // 			   );
-    cout << "1" << endl;
-
-    int samplerate = sd->nSamplesPerSec();
-    cout << "2" << endl;
-
-    long frames = sd->ckDataSize()/sizeof(float);
-    bool ok;
-
-    cout << sd->ckFormatID() << endl;
-    //const float * srcBuffer = sd->audio_data_::number(srcBuffer.)
+    int samplerate = sd->samplerate();
+    long frames = sd->frames();
 
     const float * srcBuffer = sd->audio_data_f_.data();
-    for(int i = 0; i < sd->audio_data_f_.size(); i++)
+    /*for(int i = 0; i < sd->audio_data_f_.size(); i++)
     {
         cout << "s: " << srcBuffer[i] << endl;
-    }
+    }*/
 
 
 

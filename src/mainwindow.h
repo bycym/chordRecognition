@@ -7,7 +7,11 @@
 #include "IOMusicHandler/playsound.h"
 #include "MI/getfeatures.h"
 #include <fftw3.h>
-
+#include <QStandardItemModel>
+#include <QStandardItem>
+#include <QTreeView>
+#include <QTableWidget>
+#include <QVector>
 
 
 namespace Ui {
@@ -21,6 +25,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    void info();
+
 
 private slots:
     void on_pushButton_clicked();
@@ -39,6 +45,9 @@ private:
     PlaySound * playSound_;
 
     SoundData * sndData_;
+
+
+
 };
 
 #endif // MAINWINDOW_H

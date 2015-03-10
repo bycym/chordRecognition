@@ -10,8 +10,8 @@ MainWindow::MainWindow(QWidget *parent) :
     playSound_ = new PlaySound(this);
     sndData_ = new SoundData();
     ui->playButton->setVisible(false);
-}
 
+}
 MainWindow::~MainWindow()
 {
     delete ui;
@@ -34,6 +34,8 @@ void MainWindow::on_pushButton_clicked()
     }
 
     getFeatures(sndData_);
+    info();
+
 }
 
 void MainWindow::on_openButton_clicked()
@@ -52,6 +54,9 @@ void MainWindow::on_openButton_clicked()
         ui->playButton->setVisible(false);
         ui->successLabel->setStyleSheet("QLabel { color: red }");
     }
+
+    getFeatures(sndData_);
+    info();
 }
 
 void MainWindow::on_playButton_clicked()
@@ -64,4 +69,22 @@ void MainWindow::on_playButton_clicked()
         mb.setInformativeText("Raw audio format not supported by backend, cannot play audio.");
         mb.exec();
     }
+}
+
+void MainWindow::info()
+{
+    ui->treeView->reset();
+
+    QVector<QString> info = sndData_->infoQt();
+
+    QStandardItemModel *model = new QStandardItemModel;
+    QStandardItem *parentItem = model->invisibleRootItem();
+
+    for (int i = 0; i < info.size(); ++i) {
+        QStandardItem *item = new QStandardItem(QString("item %0").arg(info[i]));
+        parentItem->appendRow(item);
+    }
+
+    ui->treeView->setModel(model);
+    ui->treeView->show();
 }

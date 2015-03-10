@@ -29,3 +29,8 @@ Projects -> Build&Run
 	*Change build directory*
 	BuildStep (>Details<) -> qmake build conf. : Debug
 
+
+problem: -1: error: cannot find -lGL qt
+solved:
+sudo apt-get install mesa-common-dev
+sudo apt-get install freeglut3-dev

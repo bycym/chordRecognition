@@ -448,14 +448,16 @@ int analysefrequencies(int alg, int windowFunc, int windowSize, const float * mD
    float *in2 = new float[mWindowSize];
    float *out = new float[mWindowSize];
    float *out2 = new float[mWindowSize];
+   float dbg;
 
    int start = 0;
    int windows = 0;
    int hopsize = half; // we tried with windowsize/4 but results get worse although tolonen says 10ms (==4th of a 2014 frame block when sampling rate is 44100) is ideal.
-   std::cout << "start: " << start <<std::endl;
    while (start + mWindowSize <= mDataLen) {
-      for (i = 0; i < mWindowSize; i++)
+      for (i = 0; i < mWindowSize; i++){
+          dbg = mData[start + i];
          in[i] = mData[start + i];
+      }
 
 	  WindowFunc(windowFunc, mWindowSize, in);
 			

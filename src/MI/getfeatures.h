@@ -10,6 +10,8 @@
 // Key from genchords
 #include "../../genchords/src/Key.h"
 #include "../../genchords/src/utilities.h"
+#include "../../genchords/src/PCP.h"
+#include "../../genchords/src/BeatDetection.h"
 
 /*
 class GetFeatures

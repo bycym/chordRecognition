@@ -11,7 +11,7 @@
 #include <QAudioFormat>
 #include <QAudioOutput>
 #include <QDebug>
-
+#include <QMediaPlayer>
 
 class PlaySound : public QWidget
 {

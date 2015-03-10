@@ -32,7 +32,7 @@ std::vector<pitch> getPeaks(float * freq, int freqSize, int samplerate, bool one
 // computes PCP out of floating point buffer
  PCP::PCP(const float * srcbuffer, long srclen, int windowSize, int samplerate, int algo, int ac_BlockSizeMs) {
 	
-	// if ac_BlockSizeMS is 0 do the autocorrelation for the whole srcbuffer at once
+    // if ac_BlockSizeMS is 0 do the autocorrelation for the whole srcbuffer at once
 	// default is 2 Seconds
 	 int ac_BlockSize = srclen;
 	 if (ac_BlockSizeMs) {
@@ -200,89 +200,84 @@ PCPTrack::PCPTrack(SoundData * & sd, int algo, int blockSize, bool blockSizeInMs
   mWindowSize = windowSize;
 
   if (blockSizeInMs) {
-	mBlockSizeMs = blockSize;
-    //mBlockSize = (int) (((float)sd.samplerate() * blockSize) / 1000);
-    mBlockSize = (int) (((float)sd->nSamplesPerSec() * blockSize) / 1000);
+    mBlockSizeMs = blockSize;
+    mBlockSize = (int) (((float)sd->samplerate() * blockSize) / 1000);
   }
   else {
-	  mBlockSize = blockSize;
-      mBlockSizeMs = blockSize / sd->nSamplesPerSec();
+      mBlockSize = blockSize;
+      mBlockSizeMs = blockSize / sd->samplerate();
   }
   int j=0;
-  for (int i=0; i<sd->nAvgBytesPerSec(); i+=mBlockSize) {
-	  int aktBlockSize = mBlockSize;
-      if (i > sd->nAvgBytesPerSec()-mBlockSize) {
-          aktBlockSize = sd->nAvgBytesPerSec()-i;
-	  }
-      // std::cout << "PCPTrack:\t" << i <<"/" << sd->nAvgBytesPerSec() << std::endl;
+  for (int i=0; i<sd->frames(); i+=mBlockSize) {
+      int aktBlockSize = mBlockSize;
+      if (i > sd->frames()-mBlockSize) {
+          aktBlockSize = sd->frames()-i;
+      }
+      // std::cout << "PCPTrack:\t" << i <<"/" << sd->frames() << std::endl;
       /// TODO:
-      const float * srcbuffer = sd->audio_data_f_.data();
-      PCPItem pi = PCPItem(j*mBlockSizeMs, PCP(srcbuffer+i, aktBlockSize, mWindowSize, sd->nSamplesPerSec(), algo, 0));
-      // PCPItem pi = PCPItem(j*mBlockSizeMs, PCP(sd.srcbuffer()+i, aktBlockSize, mWindowSize, sd->nSamplesPerSec(), algo, 0));
-	  mPCPVec.push_back(pi);
-	  j++;
+      PCPItem pi = PCPItem(j*mBlockSizeMs, PCP(sd->audio_data_f_.data()+i, aktBlockSize, mWindowSize, sd->samplerate(), algo, 0));
+      mPCPVec.push_back(pi);
+      j++;
   }
-  
+
   // std::cout << "PCP_Track erfolgreich angelegt." << std::endl;
 }
 
 PCPTrack::PCPTrack(SoundData * & sd, int algo, std::string timefile, int windowSize) {
-	
-	mWindowSize = windowSize;
-	
-	// lese timefile ein	
-	std::ifstream fin(timefile.c_str());
-	std::vector<float> v;	
-	if (!fin) {
-		std::cerr << "File not found " << timefile <<std::endl;
-		throw ("IO Error");
-	}		
-	std::string line;
-	while (getline(fin, line)) {
-		// zahlen mit Beistrich als komma sind erlaubt -> , in . umwandeln
-		std::string::size_type st_ws = line.find_first_of(" \t");
-		std::string::size_type st_komma = line.find_first_of(",");
-		if (st_ws > st_komma) line[st_komma] = '.';
-		if (line.length() > 1 && line[0] != '#') {
-			float second;
-			std::istringstream ist(line);
-			if (!(ist >> second)) {
-				std::cerr << "wrong format: ." << line << "." << std::endl;
-				throw "label format error";
-			}
-			v.push_back(second*1000); // in millisekunden speichern
-		}
-	}
-	if (v.size() == 0) {
-		std::cerr <<  "beatfile " << timefile << " contains no timelabels" << std::endl;
-		throw "label format error";
-	}
-	if (v[0] != 0.0) {
-		v.insert(v.begin(),0); 
-		std::cout << "first time was " << v[1] << ". inserted 0 at the beginning." << std::endl;
-	}
-	
-	
-	// PCPs erzeugen
-	int aktpos = 0;
-    for (unsigned int i=0; (i<v.size()-1 && aktpos < sd->nAvgBytesPerSec()); i++) {
-		// die blockgroesse aendert sich hier potentiell jedesmal
-		float blockSizeMs = v[i+1] - v[i];
-        int aktBlockSize = (int) (((float)sd->nSamplesPerSec() * blockSizeMs)/1000);
+
+    mWindowSize = windowSize;
+
+    // lese timefile ein
+    std::ifstream fin(timefile.c_str());
+    std::vector<float> v;
+    if (!fin) {
+        std::cerr << "File not found " << timefile <<std::endl;
+        throw ("IO Error");
+    }
+    std::string line;
+    while (getline(fin, line)) {
+        // zahlen mit Beistrich als komma sind erlaubt -> , in . umwandeln
+        std::string::size_type st_ws = line.find_first_of(" \t");
+        std::string::size_type st_komma = line.find_first_of(",");
+        if (st_ws > st_komma) line[st_komma] = '.';
+        if (line.length() > 1 && line[0] != '#') {
+            float second;
+            std::istringstream ist(line);
+            if (!(ist >> second)) {
+                std::cerr << "wrong format: ." << line << "." << std::endl;
+                throw "label format error";
+            }
+            v.push_back(second*1000); // in millisekunden speichern
+        }
+    }
+    if (v.size() == 0) {
+        std::cerr <<  "beatfile " << timefile << " contains no timelabels" << std::endl;
+        throw "label format error";
+    }
+    if (v[0] != 0.0) {
+        v.insert(v.begin(),0);
+        std::cout << "first time was " << v[1] << ". inserted 0 at the beginning." << std::endl;
+    }
+
+
+    // PCPs erzeugen
+    int aktpos = 0;
+    for (unsigned int i=0; (i<v.size()-1 && aktpos < sd->frames()); i++) {
+        // die blockgroesse aendert sich hier potentiell jedesmal
+        float blockSizeMs = v[i+1] - v[i];
+        int aktBlockSize = (int) (((float)sd->samplerate() * blockSizeMs)/1000);
 // 		std::cout << aktpos << std::endl;
 // 		std::cout << i << ": " << v[i] << " length(ms) " << blockSizeMs << " = length(frames)" << aktBlockSize << std::endl;
-        if (aktpos > sd->nAvgBytesPerSec()-aktBlockSize) {
-            aktBlockSize = sd->nAvgBytesPerSec()-aktpos;
+        if (aktpos > sd->frames()-aktBlockSize) {
+            aktBlockSize = sd->frames()-aktpos;
 // 			std::cout << "angepasst: "<< aktBlockSize << std::endl;
-		}
-        //PCPItem pi = PCPItem(v[i], PCP(sd.srcbuffer()+aktpos, aktBlockSize, mWindowSize, sd->nSamplesPerSec(), algo, 0));
+        }
         /// TODO:
-        const float * srcbuffer = sd->audio_data_f_.data();
-        PCPItem pi = PCPItem(v[i], PCP(srcbuffer+aktpos, aktBlockSize, mWindowSize, sd->nSamplesPerSec(), algo, 0));
-		//PCPItem pi = PCPItem(v[i], PCP(sd.srcbuffer()+aktpos, 2*sd.samplerate()/10, mWindowSize, sd.samplerate(), algo));
-		mPCPVec.push_back(pi);
-		aktpos += aktBlockSize;
-	}		
+        PCPItem pi = PCPItem(v[i], PCP(sd->audio_data_f_.data()+aktpos, aktBlockSize, mWindowSize, sd->samplerate(), algo, 0));
+        //PCPItem pi = PCPItem(v[i], PCP(sd->srcbuffer()+aktpos, 2*sd->samplerate()/10, mWindowSize, sd->samplerate(), algo));
+        mPCPVec.push_back(pi);
+        aktpos += aktBlockSize;
+    }
 }
 
 std::string PCPTrack::tostring() {

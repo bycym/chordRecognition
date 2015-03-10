@@ -8,6 +8,7 @@
 #include <vector>
 #include <QVector>
 
+
 using namespace std;
 
 #define WAVE_FORMAT_PCM 1
@@ -124,7 +125,13 @@ private:
     int ckFormatSize_;               // PCM_OR_NONPCM?(16):(18):(40)
         short wFormatTag_;           // PCM_OR_NONPCM?(WAVE_FORMAT_PCM):(formatcode):(WAVE_FORMAT_EXTENSIBLE)
         short nChannels_;            // Nc
-        int nSamplesPerSec_;         // F Sampling rate (blocks per second)
+
+        /***
+         * Sampling Rate / Sample Rate – The number of samples (or frames) that exist for each second of data.
+         * This field is represented in Hz, or “per second.” For example, CD-quality audio has 44,100 samples
+         * per second. A higher sampling rate means higher fidelity audio.
+         * */
+        int nSamplesPerSec_;         // F Sampling rate (blocks per second / frames)
         int nAvgBytesPerSec_;        // F * M * Nc ??frames
         short nBlockAlign_;          // M * Nc
         short wBitsPerSample_;       // rounds up to 8 * M Bits per sample
@@ -189,7 +196,19 @@ public:
 
 
     void info();
+    /// qt table view
+    QVector<QString> infoQt();
     void init(int sizeOfData);
+
+
+    /// for genchords
+    // Sampling rate (blocks per second) = nSamplesPerSec
+    int samplerate(){ return nSamplesPerSec_; }
+
+    // Bits per sample = wBitsPerSample
+    long frames(){ return audio_data_f_.size(); }
+    //long frames(){ return wBitsPerSample_; }
+    /// end
 
 
     // get:
