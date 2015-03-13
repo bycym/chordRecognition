@@ -65,7 +65,7 @@ bool PlaySound::Play(SoundData * & sndData)
     {
         /*
         char a[sizeof(float)];
-        memcpy(a, &f, sizeof(float));*/
+        memcpy(a, &f, sizeof(float));*/w
         buffer.write((char*) &sndData->audio_data_f_.at(i), sizeof(float));
     }
     buffer.seek(0);
