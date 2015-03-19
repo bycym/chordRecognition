@@ -277,24 +277,3 @@ bool FileOperator::performLoadOperation(QString fn, SoundData*& sndData)
 
     return success;
 }
-
-
-bool FileOperator::loadBuffer()
-{
-    /*
-    QIODevice device()
-    QDataStream input()
-    QByteArray buffer;
-    int length = ...;
-
-    char temp* = 0;
-    input.readBytes (temp, length);
-    buffer.append (temp, length);
-    delete [] temp;
-
-    if(sndData_->ckDataSize() <= bufferCounter_){
-        bufferCounter_ += bufferLength_;
-        // do some stuff
-    }*/
-    return false;
-}

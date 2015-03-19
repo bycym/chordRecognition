@@ -30,7 +30,7 @@ using namespace std;
 class FileOperator : public QWidget
 {
     Q_OBJECT
-
+NeuralNetworks
 private:
 
     //QByteArray * buffer_;
@@ -50,10 +50,22 @@ public:
 
     ~FileOperator();
 
-    bool loadBuffer();
     void init();
+
+    /*!
+     * \brief open the SoundData sound data what we like to recognize
+     * \param sndData sound data, mainWindow create this
+     * \return everything ok? rue -> yeah
+     */
     bool open(SoundData*& sndData);
-    bool performLoadOperation(QString, SoundData*& sndData);
+
+    /*!
+     * \brief performLoadOperation read the file header and data struct
+     * \param s string filename what the open function opened
+     * \param sndData the SoundData object what represent the wave
+     * \return everything ok? true -> yeah
+     */
+    bool performLoadOperation(QString s, SoundData*& sndData);
     QString fileName() { return fileName_; }
 
 
