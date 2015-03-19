@@ -1,6 +1,7 @@
 #ifndef NEURALNETWORKS_H
 #define NEURALNETWORKS_H
 
+#include "../Utils/matrixhelpers.h"
 
 class NeuralNetworks
 {

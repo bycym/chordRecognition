@@ -30,7 +30,7 @@ using namespace std;
 class FileOperator : public QWidget
 {
     Q_OBJECT
-NeuralNetworks
+
 private:
 
     //QByteArray * buffer_;

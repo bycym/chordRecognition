@@ -5,8 +5,9 @@
 class MatrixHelpers
 {
 public:
-    MatrixHelpers();
-    ~MatrixHelpers();
+    static double** MakeMatrix(int rows, int cols);
+    static void ShowVector(double* vector, int decimals, bool blankLine);
+    static void ShowMatrix(double** matrix, int numRows, int decimals);
 };
 
 #endif // MATRIXHELPERS_H

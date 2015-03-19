@@ -9,6 +9,7 @@ QT       += core gui network xml multimedia
 
 #INCLUDEPATH += /usr/include/QtMultimediaKit
 #INCLUDEPATH += /usr/include/QtMobility
+#INCLUDEPATH += $$PWD/MLPACK/dependencies/armadillo/include
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -22,6 +23,7 @@ MOBILITY += multimedia
 
 
 LIBS+= -lfftw3 \
+       -larmadillo \
 
 
 
