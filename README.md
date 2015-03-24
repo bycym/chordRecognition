@@ -6,7 +6,7 @@ This project is a chord recognition program what use this opensoruce project stu
 Changes:
 * The original program is use libsndfile, but I wrote my own soundData and I linked it.
 * The core is Qt with QtMultimedia.
-* It use music chordDatabase:
+* It uses music chordDatabase:
     http://www.montefiore.ulg.ac.be/services/acous/STSI/file/jim2012Chords.zip
 * It use Neural Network for database search.
 * ... ?
