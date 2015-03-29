@@ -18,8 +18,8 @@
 /* Simple Sound Energy Algorithm #2 + #3*/ 
 
 /* **********************************
- * mProcessed enthält die Zeitpunkte der Beats. 
- * Returnwert ist die anzahl der erkannten beats 
+ * mProcessed contains the timing of beats.
+ * Return value is the number of detected beats
  * **********************************/
 
 int SSE (int windowSize, int samplerate, const float * mData, int mDataLen, float *mProcessed, bool variableC) {

@@ -160,6 +160,7 @@ bool FileOperator::performLoadOperation(QString fn, SoundData*& sndData)
         // buffer = new QByteArray[100*1024];
 
         ////// sndData init START //////
+        sndData->waveFileName(fn.toStdString());
         sndData->pcm(pcm);
         sndData->ckID(ckID);
         sndData->ckSize(ckSize);

@@ -12,6 +12,12 @@
 #include "../../genchords/src/utilities.h"
 #include "../../genchords/src/PCP.h"
 #include "../../genchords/src/BeatDetection.h"
+#include "../../genchords/src/Chordsequence.h"
+#include "../../genchords/src/Chordtype.h"
+#include <set>
+#include <map>
+
+
 
 /*
 class GetFeatures
@@ -22,5 +28,6 @@ public:
 };*/
 
 bool getFeatures(SoundData*& sndData);
+bool getFeatures_OLD(SoundData*& sndData);
 
 #endif // GETFEATURES_H

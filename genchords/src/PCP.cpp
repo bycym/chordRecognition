@@ -273,6 +273,7 @@ PCPTrack::PCPTrack(SoundData * & sd, int algo, std::string timefile, int windowS
 // 			std::cout << "angepasst: "<< aktBlockSize << std::endl;
         }
         /// TODO:
+        //PCPItem pi = PCPItem(v[i], PCP(sd->audio_data_f_.data()+aktpos, aktBlockSize, mWindowSize, sd->samplerate(), algo, 0));
         PCPItem pi = PCPItem(v[i], PCP(sd->audio_data_f_.data()+aktpos, aktBlockSize, mWindowSize, sd->samplerate(), algo, 0));
         //PCPItem pi = PCPItem(v[i], PCP(sd->srcbuffer()+aktpos, 2*sd->samplerate()/10, mWindowSize, sd->samplerate(), algo));
         mPCPVec.push_back(pi);

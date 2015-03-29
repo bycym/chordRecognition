@@ -12,78 +12,31 @@ PlaySound::~PlaySound()
 
 bool PlaySound::Play(SoundData * & sndData)
 {
-    /*
-    QByteArray byteArray;
+    QVector<double> yourData;// = QVector<float>::fromStdVector(sndData->audio_data_f_);
+    for(int i = 0; i < 100; i++)
+        yourData.push_back((double)1000);
 
-    //generate ten random float value
-    QVector<float> v;
-    for (int i =0; i < 10;++i)
-    {
-        v << 100. * qrand()/RAND_MAX;
-    }
-    //ouput vector
-    qDebug() << v;
-
-    //write float value to array
-    {
-        QDataStream out (&byteArray,QIODevice::WriteOnly);
-        foreach(float f,v)
-        {
-            out << f;
-        }
-    }
-
-    //read all float from array
-    QVector<float> v2;
-    {
-        QDataStream in(byteArray);
-        while (!in.atEnd())
-        {
-            float f;
-            in >> f;
-            v2 << f;
-        }
-    }
-    //ouput vector
-    qDebug() << v2;
-
-*/
-
-    /*
-    QByteArray array = query->value(0).toByteArray();
-    QBuffer mediaStream(&array);
-    QMediaPlayer mediaPlayer();
-    //QMediaPlayer::setMedia(const QMediaContent & media, QIODevice * stream = 0);
-    mediaPlayer.setMedia(QMediaContent(), &buffer);
-    mediaPlayer.play();
-*/
-    float * yourData = sndData->audio_data_f_.data();
     QBuffer buffer;
     float tmp = 0;
-
-    for(int i=0; i < sndData->audio_data_f_.size(); i++)
+    for(int i=0; i < yourData.count(); i++)
     {
-        /*
-        char a[sizeof(float)];
-        memcpy(a, &f, sizeof(float));*/
-        buffer.write((char*) &sndData->audio_data_f_.at(i), sizeof(float));
+        tmp = yourData[i];
+        buffer.write((char*) &tmp, 4);
     }
     buffer.seek(0);
-    QAudioOutput * audio;
-    QAudioFormat format;
 
-    // Set up the forat
-    format.setSampleRate(sndData->samplerate());
-    format.setChannelCount(sndData->nChannels());
-    //format.setCodec(sndData->ckID());
+    QAudioOutput* audio;
+    QAudioFormat format;
+    // Set up the format, eg.
+    format.setSampleRate(8000); // adapt this to your needs
+    format.setChannelCount(1); // adapt this to your needs
+    format.setSampleSize(32); // float32
     format.setCodec("audio/pcm");
-    /// TODO:
-    format.setByteOrder(QAudioFormat::LittleEndian);
+    format.setByteOrder(QAudioFormat::LittleEndian); // adapt this to your needs
     format.setSampleType(QAudioFormat::Float);
 
     QAudioDeviceInfo info(QAudioDeviceInfo::defaultOutputDevice());
-    if(!info.isFormatSupported(format))
-    {
+    if (!info.isFormatSupported(format)) {
         qWarning() << "Raw audio format not supported by backend, cannot play audio.";
         return false;
     }

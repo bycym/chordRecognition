@@ -51,6 +51,7 @@ void SoundData::init(int sizeOfData)
 QVector<QString> SoundData::infoQt()
 {
     QVector<QString> info;
+    info.push_back("fileName: " + QString::fromStdString(waveFileName_));
     info.push_back("ckID: " + QString::fromUtf8(ckID_,5));
 
     info.push_back("ckSize: " + QString::number(ckSize_));
@@ -134,6 +135,7 @@ void SoundData::info()
                 + "\nckDataSize: " + ckDataSize;
     */
     //printf("%s", ckID_);
+    cout << "filename: " << waveFileName_ << endl;
     cout << "ckID: " << ckID_
                 << "\nckSize: " << ckSize_
                 << "\nwaveID: " << waveID_

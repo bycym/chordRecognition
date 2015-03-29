@@ -113,7 +113,7 @@ private:
 
 
     ///// <header> /////
-
+    string waveFileName_;
     short pcm_;                       // 0 is PCM, 1 is NON-PCP, 2 extensible format
 
     char ckID_[5];                   // "riff"
@@ -215,7 +215,7 @@ public:
 
     //float* audio_data_f(){ return audio_data_f_->data(); }
 
-
+    string waveFileName(){ return waveFileName_; }
     short pcm() { return pcm_;}
     char* ckID() { return ckID_; }
     int ckSize() { return ckSize_; }
@@ -245,6 +245,7 @@ public:
     int ckDataSize(){ return ckDataSize_; }
 
     // set:
+    void waveFileName(string s){ waveFileName_ = s; }
     void pcm(short p){ pcm_ = p; }
     void ckID(char* c){ strncpy(ckID_, c, 5); }
     void ckSize(int c){ ckSize_ = c; }
@@ -272,6 +273,19 @@ public:
 
     void ckDataID(char* c){ strncpy(ckDataID_, c, 5); }
     void ckDataSize(int c){ ckDataSize_ = c; }
+
+
+    float getSample(long nr) const {
+        // audio_data_f_.size() = frames
+        if( nr < audio_data_f_.size()) {
+            return audio_data_f_[nr];
+        }
+        std::cout << "ERROR: getsample - nr out of range" << endl;
+        std::cerr << "getsample - nr out of range";
+
+        //throw "out of range";
+        return -100;
+    }
 
 };
 
