@@ -2,6 +2,10 @@
 #define NEURALNETWORKS_H
 
 #include "../Utils/matrixhelpers.h"
+#include "neuronlayer.h"
+#import <vector>
+#import <iostream>
+
 
 class NeuralNetworks
 {
@@ -11,7 +15,12 @@ private:
     int numHidden_;
     int numOutput_;
 
-    double * inputs_;                       // input to hidden
+    double learningRate_;
+
+    vector<NeuronLayer> neuronlayer_;
+
+
+    vector<double> inputs_;                       // input to hidden
     double ** ihWeights_;
     double * ihSums_;
     double * ihBiases_;
