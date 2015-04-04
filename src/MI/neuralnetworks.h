@@ -3,57 +3,46 @@
 
 #include "../Utils/matrixhelpers.h"
 #include "neuronlayer.h"
-#import <vector>
-#import <iostream>
-
+#include <vector>
+#include <iostream>
 
 class NeuralNetworks
 {
 private:
 
     int numInput_;
-    int numHidden_;
-    int numOutput_;
 
+    /// number of hidden layer
+    int numHiddenLayer_;
+
+    /// number of neuron in on hidden layer
+    int numHiddenNeuron_;
+
+    /// learining rate
     double learningRate_;
 
-    vector<NeuronLayer> neuronlayer_;
+    int numOutput_;
 
-
-    vector<double> inputs_;                       // input to hidden
-    double ** ihWeights_;
-    double * ihSums_;
-    double * ihBiases_;
-    double * ihOutputs_;
-
-    double ** hoWeights_;                   // hidden-to-output
-    double * hoSums_;
-    double * hoBiases_;
-    double * outputs_;
-
-    double * oGrads_;                       // output gradients for back-propagation
-    double * hGrads_;                       // hidden gradients for back-propagation
-
-    double ** ihPrevWeightsDelta_;          // for momentum with back-propagation
-    double * ihPrevBiasesDelta_;
-
-    double ** hoPrevWeightsDelta_;
-    double * hoPrevBiasesDelta_;
-
-
-    static double StepFunction(double x);
-    static double SidmoidFunction(double x);
-    static double HyperTanFunction(double x);
+    std::vector<NeuronLayer> neuronlayer_;
+    std::vector<double> inputs_;                       // input to hidden
 
 
 public:
-    NeuralNetworks(int numINput, int numHidden, int numOutput);
+    /*!
+     * \brief NeuralNetworks create the whole neural network
+     * \param numInput number of input
+     * \param numHiddenLayer number of hidden layer
+     * \param numHiddenNeuron number of neuron in one hidden layer
+     * \param numOutput number of output
+     * \param learningrate learning rate
+     */
+    NeuralNetworks(int numInput, int numHiddenLayer, int numHiddenNeuron, int numOutput, double learningrate);
     ~NeuralNetworks();
 
-    void UpdateWeights(double * tValues, double eta, double alpha);
-    void setWeights(double * weights);
-    double* GetWeights();
-    double* ComputeOutputs(double * xValues);
+    void UpdateWeights(std::vector<double> tValues, double eta, double alpha);
+    void setWeights(std::vector<double> weights);
+    std::vector<double> GetWeights();
+    std::vector<double> ComputeOutputs(std::vector<double> xValues);
 };
 
 #endif // NEURALNETWORKS_H

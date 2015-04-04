@@ -1,28 +1,47 @@
 #include "neuralnetworks.h"
 
-NeuralNetworks::NeuralNetworks(int numInput, int numHidden, int numOutput)
+NeuralNetworks::NeuralNetworks(int numInput, int numHiddenLayer, int numHiddenNeuron, int numOutput, double learningrate)
 {
+    this->learningRate_ = 10;
+
     this->numInput_ = numInput;
-    this->numHidden_ = numHidden;
+    this->numHiddenLayer_ = numHiddenLayer;
+    this->numHiddenNeuron_ = numHiddenNeuron;
+    this->learningRate_ = learningrate;
     this->numOutput_ = numOutput;
 
-    this->inputs_ = new double[numInput];
-    this->ihWeights_ = MatrixHelpers::MakeMatrix(numInput,numHidden);
-    this->ihSums_ = new double[numHidden];
-    this->ihBiases_ = new double[numHidden];
-    this->ihOutputs_ = new double[numHidden];
-    this->hoWeights_ = MatrixHelpers::MakeMatrix(numHidden, numOutput);
-    this->hoSums_ = new double[numOutput];
-    this->hoBiases_  = new double[numOutput];
-    this->outputs_ = new double[numOutput];
 
-    this->oGrads_ = new double[numOutput];
-    this->hGrads_ = new double[numOutput];
+    if(numHiddenLayer == 1)
+    {
+        /// input -> neuron layer -> output
+        this->neuronlayer_.push_back(NeuronLayer(numInput, numOutput, numHiddenNeuron));
+    }
+    else if(numHiddenLayer == 2)
+    {
+        /// input -> neuron layer -> neuron layer -> output
+        this->neuronlayer_.push_back(NeuronLayer(numInput, numHiddenNeuron, numHiddenNeuron));
+        this->neuronlayer_.push_back(NeuronLayer(numHiddenNeuron, numOutput, numHiddenNeuron));
+    }
+    else if(numHiddenLayer >= 3)
+    {
+        /// input -> neuron layer -> neuron layer (one or more) -> neuron layer -> output
+        this->neuronlayer_.push_back(NeuronLayer(numInput, numHiddenNeuron, numHiddenNeuron));
 
-    this->ihPrevWeightsDelta_ = MatrixHelpers::MakeMatrix(numInput, numHidden);
-    this->ihPrevBiasesDelta_ = new double[numHidden];
-    this->hoPrevWeightsDelta_ = MatrixHelpers::MakeMatrix(numHidden, numOutput);
-    this->hoPrevBiasesDelta_ = new double[numOutput];
+        for(int i = 0; i < numInput; i++)
+        {
+            this->neuronlayer_.push_back(NeuronLayer(numHiddenNeuron, numHiddenNeuron, numHiddenNeuron));
+        }
+
+        this->neuronlayer_.push_back(NeuronLayer(numHiddenNeuron, numOutput, numHiddenNeuron));
+    }
+    else
+    {
+        std::cerr << "Problem with the numHiddenLayer. It must be pozitive!" << std::endl;
+    }
+
+
+
+
 }
 
 NeuralNetworks::~NeuralNetworks()
@@ -30,3 +49,19 @@ NeuralNetworks::~NeuralNetworks()
 
 }
 
+
+std::vector<double> NeuralNetworks::ComputeOutputs(std::vector<double> xValues)
+{
+    if(numHiddenLayer_ == 1)
+    {
+
+    }
+    else if(numHiddenLayer_ == 2)
+    {
+
+    }
+    else if(numHiddenLayer_ >= 3)
+    {
+
+    }
+}
