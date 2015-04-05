@@ -37,6 +37,14 @@ public:
      * \param learningrate learning rate
      */
     NeuralNetworks(int numInput, int numHiddenLayer, int numHiddenNeuron, int numOutput, double learningrate);
+
+
+    /*!
+     * \brief NeuralNetworks default learningrate, number of neurons in the hidden layer and number of hidden layer
+     * \param numInput input
+     * \param numOutput output
+     */
+    NeuralNetworks(int numInput, int numOutput);
     ~NeuralNetworks();
 
     void UpdateWeights(std::vector<double> tValues, double eta, double alpha);

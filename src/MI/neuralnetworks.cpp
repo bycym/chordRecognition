@@ -2,8 +2,6 @@
 
 NeuralNetworks::NeuralNetworks(int numInput, int numHiddenLayer, int numHiddenNeuron, int numOutput, double learningrate)
 {
-    this->learningRate_ = 10;
-
     this->numInput_ = numInput;
     this->numHiddenLayer_ = numHiddenLayer;
     this->numHiddenNeuron_ = numHiddenNeuron;
@@ -39,10 +37,24 @@ NeuralNetworks::NeuralNetworks(int numInput, int numHiddenLayer, int numHiddenNe
         std::cerr << "Problem with the numHiddenLayer. It must be pozitive!" << std::endl;
     }
 
-
-
-
 }
+
+
+NeuralNetworks::NeuralNetworks(int numInput, int numOutput)
+{
+    this->learningRate_ = 0.001;
+    this->numHiddenLayer_ = 1;
+    this->numHiddenNeuron_ = 35;
+
+
+    this->numInput_ = numInput;
+    this->numOutput_ = numOutput;
+
+
+    this->neuronlayer_.push_back(NeuronLayer(numInput_, numOutput_, numHiddenNeuron_));
+}
+
+
 
 NeuralNetworks::~NeuralNetworks()
 {
@@ -52,16 +64,36 @@ NeuralNetworks::~NeuralNetworks()
 
 std::vector<double> NeuralNetworks::ComputeOutputs(std::vector<double> xValues)
 {
+    std::vector<double> inout;
     if(numHiddenLayer_ == 1)
     {
-
+        NeuronLayer n = neuronlayer_[0];
+        inout = n.computeOutputs(xValues);
+        return inout;
     }
     else if(numHiddenLayer_ == 2)
     {
+        NeuronLayer n1 = neuronlayer_[0];
+        NeuronLayer n2 = neuronlayer_[1];
+        inout = n1.computeOutputs(xValues);
+        inout = n2.computeOutputs(inout);
+        return inout;
 
     }
     else if(numHiddenLayer_ >= 3)
     {
+        NeuronLayer n1 = neuronlayer_[0];
+        NeuronLayer nn = neuronlayer_[numHiddenLayer_];
 
+        inout = n1.computeOutputs(xValues);
+        for(int i = 1; i < numHiddenLayer_ - 1; i++)
+        {
+            NeuronLayer n = neuronlayer_[i];
+            inout = n.computeOutputs(inout);
+        }
+        inout = nn.computeOutputs(inout);
+        return inout;
     }
+
+    return inout;
 }

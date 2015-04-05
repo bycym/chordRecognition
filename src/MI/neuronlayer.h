@@ -51,7 +51,7 @@ private:
     /*!
      * \brief activation function for neurons
      * \param x
-     * \param alg What kind of algorithm should we use?
+     * \param alg What kind of algorithm should we use? default (=1): sigmoid
      * \return return with the activatin algorithm result
      */
     double activationFunction(double x, int alg = 1);
@@ -81,7 +81,12 @@ public:
      * \return outputs
      */
     std::vector<double> computeOutputs(std::vector<double> inp, int alg = 1);
+
     void updateWeights();
+
+
+    void updateInputs(std::vector<double>);
+
 
     int numInput(){ return numInput_; }
     int numOutput(){ return numOutput_; }
