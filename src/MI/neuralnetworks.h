@@ -23,8 +23,13 @@ private:
 
     int numOutput_;
 
+
+    NeuronLayer outputNeuronLayer_;
+
     std::vector<NeuronLayer> neuronlayer_;
     std::vector<double> inputs_;                       // input to hidden
+
+
 
 
 public:

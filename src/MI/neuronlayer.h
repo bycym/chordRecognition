@@ -91,6 +91,12 @@ public:
     int numInput(){ return numInput_; }
     int numOutput(){ return numOutput_; }
     int numNeuron(){ return numNeuron_; }
+    std::vector<double> outputs()
+    {
+        std::vector<double> tmp;
+        for(int i = 0; i < outputs_.size(); i++)
+            tmp.push_back(outputs_[i]);
+    }
 
 };
 

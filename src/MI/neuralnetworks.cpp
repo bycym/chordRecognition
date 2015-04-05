@@ -95,5 +95,8 @@ std::vector<double> NeuralNetworks::ComputeOutputs(std::vector<double> xValues)
         return inout;
     }
 
+
+    /// TODO: output layer!!!!
+
     return inout;
 }

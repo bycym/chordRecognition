@@ -11,13 +11,21 @@ NeuronLayer::NeuronLayer(int numInput, int numOutput, int numNeuron)
     this->numOutput_ = numOutput;
     this->numNeuron_ = numNeuron;
 
-    /// neuron
+    /// neuron init
     for(int i = 0; i < numNeuron; i++)
     {
         /// number of input
         for(int j = 0; j < numInput; j++)
             weights_[i].push_back(dist(mt));
     }
+
+    /// outputs init
+    for(int i = 0; i < numOutput; i++)
+        outputs_.push_back(0.00);
+
+    /// biases init
+    for(int i = 0; i < numNeuron; i++)
+        biases_.push_back(1);
 }
 
 NeuronLayer::~NeuronLayer()
