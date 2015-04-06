@@ -28,11 +28,13 @@ private:
 
     std::vector<NeuronLayer> neuronlayer_;
     std::vector<double> inputs_;                       // input to hidden
+    std::vector<double> outputs_;
 
 
 
 
 public:
+
     /*!
      * \brief NeuralNetworks create the whole neural network
      * \param numInput number of input
@@ -47,15 +49,15 @@ public:
     /*!
      * \brief NeuralNetworks default learningrate, number of neurons in the hidden layer and number of hidden layer
      * \param numInput input
-     * \param numOutput output
      */
-    NeuralNetworks(int numInput, int numOutput);
+    NeuralNetworks(int numInput);
     ~NeuralNetworks();
 
-    void UpdateWeights(std::vector<double> tValues, double eta, double alpha);
-    void setWeights(std::vector<double> weights);
-    std::vector<double> GetWeights();
-    std::vector<double> ComputeOutputs(std::vector<double> xValues);
+    void updateWeights(const std::vector<double> tValues, double eta, double alpha);
+    void setWeights(const std::vector<double> weights);
+    std::vector<double> weights();
+    std::vector<double> computeOutputs(const std::vector<double> xValues);
+    std::vector<double> outputs();
 };
 
 #endif // NEURALNETWORKS_H

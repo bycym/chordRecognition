@@ -14,7 +14,8 @@
 #include <vector>
 #include <iostream>
 #include <math.h>
-#include <random>>
+#include <random>
+#include <QDebug>
 
 class NeuronLayer
 {
@@ -27,12 +28,9 @@ private:
     std::vector<double> inputs_;
     std::vector<double> biases_;
 
-
-
-
     /*!
      * \brief weights_ is a two dimensional vector matrix:
-     * row      | column (1)    | column (2)    | ...
+     * row      | input (1)     | input (2)     | ...
      * ---------+---------------+---------------+----
      * neoron(1)| weights_(1)   | weights_(2)   | ...
      * neuron(2)| weights_(1)   | weights_(2)   | ...
@@ -43,9 +41,6 @@ private:
     std::vector<double> outputs_;
 
     // TODO: gradient function
-
-    // TUDO: sum function
-    double sum();
 
     // TODO: activaton function
     /*!
@@ -65,6 +60,10 @@ private:
 
 public:
 
+
+    NeuronLayer() {}
+    NeuronLayer(const NeuronLayer& n);
+
     /*!
      * \brief NeuronLayer create hidden layer
      * \param numInput number of input
@@ -80,22 +79,50 @@ public:
      * \param alg whitch activation function should use
      * \return outputs
      */
-    std::vector<double> computeOutputs(std::vector<double> inp, int alg = 1);
+    std::vector<double> computeOutputs(const std::vector<double> inp, int alg = 1);
 
     void updateWeights();
 
 
-    void updateInputs(std::vector<double>);
+    void updateInputs(const std::vector<double>);
 
 
-    int numInput(){ return numInput_; }
-    int numOutput(){ return numOutput_; }
-    int numNeuron(){ return numNeuron_; }
+    int numInput() const { return numInput_; }
+    int numOutput() const { return numOutput_; }
+    int numNeuron() const { return numNeuron_; }
+
     std::vector<double> outputs()
     {
         std::vector<double> tmp;
         for(int i = 0; i < outputs_.size(); i++)
             tmp.push_back(outputs_[i]);
+        return tmp;
+    }
+
+    /*!
+     * \brief weights
+     * \param x numNeuron_
+     * \param y numInput_
+     * \return weights value
+     */
+    double weights(int x, int y) const
+    {
+        if(!( x >= 0 && x <= numNeuron_ && y >=0 && y <= numInput_))
+        {
+            std::cerr << "Bad weights index" << endl;
+            qDebug() << "Bad weights index" << endl;
+        }
+        return weights_[x][y];
+    }
+
+    double biases(int x) const
+    {
+        if(!( x >= 0 && x <= biases_.size()))
+        {
+            std::cerr << "Bad biases index" << endl;
+            qDebug() << "Bad biases index" << endl;
+        }
+        return biases_[x];
     }
 
 };

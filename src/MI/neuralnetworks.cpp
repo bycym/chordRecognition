@@ -40,15 +40,15 @@ NeuralNetworks::NeuralNetworks(int numInput, int numHiddenLayer, int numHiddenNe
 }
 
 
-NeuralNetworks::NeuralNetworks(int numInput, int numOutput)
+NeuralNetworks::NeuralNetworks(int numInput)
 {
     this->learningRate_ = 0.001;
     this->numHiddenLayer_ = 1;
     this->numHiddenNeuron_ = 35;
+    this->numOutput_ = 10; // a am bm c d dm e em f g
 
 
     this->numInput_ = numInput;
-    this->numOutput_ = numOutput;
 
 
     this->neuronlayer_.push_back(NeuronLayer(numInput_, numOutput_, numHiddenNeuron_));
@@ -62,8 +62,9 @@ NeuralNetworks::~NeuralNetworks()
 }
 
 
-std::vector<double> NeuralNetworks::ComputeOutputs(std::vector<double> xValues)
+std::vector<double> NeuralNetworks::computeOutputs(const std::vector<double> xValues)
 {
+
     std::vector<double> inout;
     if(numHiddenLayer_ == 1)
     {
@@ -99,4 +100,13 @@ std::vector<double> NeuralNetworks::ComputeOutputs(std::vector<double> xValues)
     /// TODO: output layer!!!!
 
     return inout;
+}
+
+
+std::vector<double> NeuralNetworks::outputs()
+{
+    std::vector<double> result;
+    for(int i = 0; i < outputs_.size(); i++)
+        result.push_back(outputs_[i]);
+    return result;
 }

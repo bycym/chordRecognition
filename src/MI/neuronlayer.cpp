@@ -28,6 +28,27 @@ NeuronLayer::NeuronLayer(int numInput, int numOutput, int numNeuron)
         biases_.push_back(1);
 }
 
+NeuronLayer::NeuronLayer(const NeuronLayer& n)
+{
+    numInput_ = n.numInput();
+    numOutput_ = n.numOutput();
+    numNeuron_ = n.numNeuron();
+
+    /// neuron init
+    for(int i = 0; i < numNeuron_; i++)
+    {
+        /// number of input
+        for(int j = 0; j < numInput_; j++)
+            weights_[i][j] = n.weights(i, j);
+    }
+
+    for(int i = 0; i < numNeuron_ ; i++)
+    {
+        biases_[i] = n.biases(i);
+    }
+}
+
+
 NeuronLayer::~NeuronLayer()
 {
 
@@ -46,7 +67,7 @@ double NeuronLayer::activationFunction(double x, int alg)
 }
 
 
-std::vector<double> NeuronLayer::computeOutputs(std::vector<double> inp, int alg)
+std::vector<double> NeuronLayer::computeOutputs(const std::vector<double> inp, int alg)
 {
     /// compute:
     /// 1 -> b(n)
@@ -73,7 +94,11 @@ std::vector<double> NeuronLayer::computeOutputs(std::vector<double> inp, int alg
     for(auto out: outputs_)
         out = activationFunction(out, alg);
 
-    return outputs_;
+    std::vector<double> result;
+    for(int i = 0; i < outputs_.size(); i++)
+        result.push_back(outputs_[i]);
+
+    return result;
 
 }
 
@@ -83,7 +108,7 @@ void NeuronLayer::updateWeights()
 
 }
 
-void NeuronLayer::updateInputs(std::vector<double> inp)
+void NeuronLayer::updateInputs(const std::vector<double> inp)
 {
     for(int i = 0; i < inp.size(); i++)
         inputs_[i] = inp[i];
