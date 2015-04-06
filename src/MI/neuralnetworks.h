@@ -58,6 +58,9 @@ public:
     std::vector<double> weights();
     std::vector<double> computeOutputs(const std::vector<double> xValues);
     std::vector<double> outputs();
+
+    double softMax();
+
 };
 
 #endif // NEURALNETWORKS_H
