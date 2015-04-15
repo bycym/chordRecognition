@@ -12,6 +12,7 @@
 #include <QTreeView>
 #include <QTableWidget>
 #include <QVector>
+#include "MI/neuralnetworks.h"
 
 
 namespace Ui {
@@ -45,6 +46,8 @@ private:
     PlaySound * playSound_;
 
     SoundData * sndData_;
+
+    void coreFunction();
 
 
 

@@ -33,9 +33,7 @@ void MainWindow::on_pushButton_clicked()
         ui->successLabel->setStyleSheet("QLabel { color: red }");
     }
 
-    getFeatures(sndData_);
-    info();
-
+    coreFunction();
 
 }
 
@@ -56,8 +54,7 @@ void MainWindow::on_openButton_clicked()
         ui->successLabel->setStyleSheet("QLabel { color: red }");
     }
 
-    getFeatures(sndData_);
-    info();
+    coreFunction();
 }
 
 void MainWindow::on_playButton_clicked()
@@ -88,4 +85,12 @@ void MainWindow::info()
 
     ui->treeView->setModel(model);
     ui->treeView->show();
+}
+
+
+void MainWindow::coreFunction()
+{
+    getFeatures(sndData_);
+    info();
+
 }

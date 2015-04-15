@@ -21,12 +21,19 @@ class NeuronLayer
 {
 private:
 
+    /*!
+     * \brief hidden_ hidden or output layer
+     * true = hidden layer
+     * false = output layer
+     */
+    bool hidden_;
     int numInput_;
     int numOutput_;
     int numNeuron_;
 
     std::vector<double> inputs_;
     std::vector<double> biases_;
+    std::vector<double> outerror_;
 
     /*!
      * \brief weights_ is a two dimensional vector matrix:
@@ -49,19 +56,21 @@ private:
      * \param alg What kind of algorithm should we use? default (=1): sigmoid
      * \return return with the activatin algorithm result
      */
-    double activationFunction(double x, int alg = 1);
+    // az összes elemen fusson végig ne paraméterrel
+    void activationFunction(int alg = 1);
 
     /// activation functions ///
 
-    double sigmoid(double x);
-    double devSigmoid(double x);
+    void sigmoid();
+    void devSigmoid();
+    void softmax();
 
     /// END activation functions ///
 
 public:
 
 
-    NeuronLayer() {}
+    //NeuronLayer() { assert(!"NOT use the Default NeuronLayer!"); }
     NeuronLayer(const NeuronLayer& n);
 
     /*!
@@ -69,28 +78,39 @@ public:
      * \param numInput number of input
      * \param numOutput number of output
      * \param numNeuron number of neuron
+     * \param hidden is it hidden layer or output layer?
      */
-    NeuronLayer(int numInput, int numOutput, int numNeuron);
+    NeuronLayer(int numInput, int numOutput, int numNeuron, bool hidden);
     ~NeuronLayer();
 
     /*!
      * \brief computeOutputs
      * \param inp input from other neuron layer or simple input
      * \param alg whitch activation function should use
+     * alg 1 = sigmoid (hidden layer)
+     * alg 2 = softmax (output layer)
      * \return outputs
      */
-    std::vector<double> computeOutputs(const std::vector<double> inp, int alg = 1);
+    void computeOutputs(int alg = 1);
 
     void updateWeights();
 
 
+    /*!
+     * \brief updateInputs update the neuron layer input
+     */
     void updateInputs(const std::vector<double>);
-
-
+    void inputToOutput();
     int numInput() const { return numInput_; }
     int numOutput() const { return numOutput_; }
     int numNeuron() const { return numNeuron_; }
 
+    void updateOuterror(const std::vector<double> inp);
+
+    /*!
+     * \brief outputs computed value of the layer
+     * \return outputs of the layer
+     */
     std::vector<double> outputs()
     {
         std::vector<double> tmp;
@@ -123,6 +143,16 @@ public:
             qDebug() << "Bad biases index" << endl;
         }
         return biases_[x];
+    }
+
+    double outerror(int x) const
+    {
+        if(!( x >= 0 && x <= outerror_.size()))
+        {
+            std::cerr << "Bad out error index" << endl;
+            qDebug() << "Bad out error index" << endl;
+        }
+        return outerror_[x];
     }
 
 };

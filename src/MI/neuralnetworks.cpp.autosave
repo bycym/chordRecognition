@@ -115,7 +115,8 @@ void NeuralNetworks::computeOutputs(const std::vector<double> xValues)
         outputNeuronLayer_->computeOutputs(1);
     }
 
-
+    
+    
 
 
     return inout;

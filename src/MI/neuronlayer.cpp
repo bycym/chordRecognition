@@ -1,8 +1,12 @@
 #include "neuronlayer.h"
 
-NeuronLayer::NeuronLayer(int numInput, int numOutput, int numNeuron)
+NeuronLayer::NeuronLayer(int numInput, int numOutput, int numNeuron, bool hidden)
 {
+    this->hidden_ = hidden;
+
+
     // random value between -1 and 1
+    /// TODO: random ellenőrizni, két indiítással
     std::random_device rd;
     std::mt19937 mt(rd());
     std::uniform_real_distribution<double> dist(-1, 1);
@@ -11,6 +15,8 @@ NeuronLayer::NeuronLayer(int numInput, int numOutput, int numNeuron)
     this->numOutput_ = numOutput;
     this->numNeuron_ = numNeuron;
 
+
+    // TODO!
     /// neuron init
     for(int i = 0; i < numNeuron; i++)
     {
@@ -19,13 +25,19 @@ NeuronLayer::NeuronLayer(int numInput, int numOutput, int numNeuron)
             weights_[i].push_back(dist(mt));
     }
 
+    /*
     /// outputs init
     for(int i = 0; i < numOutput; i++)
         outputs_.push_back(0.00);
+    */
 
     /// biases init
     for(int i = 0; i < numNeuron; i++)
-        biases_.push_back(1);
+        biases_.push_back(0);
+
+    /// out error init
+    for(int i = 0; i < numNeuron; i++)
+        outerror_.push_back(0);
 }
 
 NeuronLayer::NeuronLayer(const NeuronLayer& n)
@@ -42,10 +54,17 @@ NeuronLayer::NeuronLayer(const NeuronLayer& n)
             weights_[i][j] = n.weights(i, j);
     }
 
-    for(int i = 0; i < numNeuron_ ; i++)
-    {
-        biases_[i] = n.biases(i);
-    }
+    /// biases copy
+    for(int i = 0; i < n.numNeuron(); i++)
+        biases_.push_back(n.biases(i));
+
+    /// output copy
+    for(auto o : n.outputs_)
+        outputs_.push_back(o);
+
+    /// out error copy
+    for(auto o : n.outerror_)
+        outerror_.push_back(o);
 }
 
 
@@ -55,19 +74,22 @@ NeuronLayer::~NeuronLayer()
 }
 
 
-double NeuronLayer::activationFunction(double x, int alg)
+void NeuronLayer::activationFunction(int alg)
 {
+    /*
+    alg = (hidden_==true?1:2);
+      */
     switch(alg)
     {
         case 1:
-            return sigmoid(x);
+            return sigmoid();
         default:
-            return sigmoid(x);
+            return sigmoid();
     }
 }
 
 
-std::vector<double> NeuronLayer::computeOutputs(const std::vector<double> inp, int alg)
+void NeuronLayer::computeOutputs(int alg)
 {
     /// compute:
     /// 1 -> b(n)
@@ -84,22 +106,18 @@ std::vector<double> NeuronLayer::computeOutputs(const std::vector<double> inp, i
     for(int neuron = 0; neuron < numNeuron_; neuron++)
     {
         // all input * weights
-        for(int i = 0; i < inp.size(); i++)
+        for(int i = 0; i < inputs_.size(); i++)
         {
-            outputs_[neuron] += inp[i] * weights_[neuron][i];
+            outputs_[neuron] += inputs_[i] * weights_[neuron][i];
         }
     }
 
-    // activation compute
-    for(auto out: outputs_)
-        out = activationFunction(out, alg);
+    // activation compute; default is sigmoid
+    activationFunction(alg);
 
-    std::vector<double> result;
-    for(int i = 0; i < outputs_.size(); i++)
-        result.push_back(outputs_[i]);
-
-    return result;
-
+    /// if its output neuron layer then compute softmax
+    if(!hidden_)
+        softmax();
 }
 
 
@@ -114,15 +132,44 @@ void NeuronLayer::updateInputs(const std::vector<double> inp)
         inputs_[i] = inp[i];
 }
 
-
-
-double NeuronLayer::sigmoid(double x)
+void NeuronLayer::updateOuterror(const std::vector<double> inp)
 {
-    return 1 / ( 1 + exp( (-1) * x ) );
+    for(int i = 0; i < inp.size(); i++)
+        outerror_[i] = inp[i];
 }
 
-double NeuronLayer::devSigmoid(double x)
+
+void NeuronLayer::sigmoid()
 {
-    double result = sigmoid(x);
-    return result * ( 1 - result );
+    for(auto x : inputs_)
+        outputs_.push_back(1 / ( 1 + exp( (-1) * x ) ));
+}
+
+void NeuronLayer::devSigmoid()
+{
+    // TODO!!!!!
+    // double result = sigmoid();
+    // TODO: return result * ( 1 - result );
+}
+
+void NeuronLayer::softmax()
+{
+    /// result(z)j = e^(zj) / sum(k=1 to K)(e^(zk)
+
+    double sum = 0.0;
+    /// for(all element) sum+=(e^inp[i])
+    for(int i = 0; i < inputs_.size(); i++)
+        sum += exp(inputs_[i]);
+
+    for(auto x : inputs_)
+    {
+        /// e^(zj) / sum
+        outputs_.push_back(exp(x)/sum);
+    }
+}
+
+void NeuronLayer::inputToOutput()
+{
+    for(int i = 0; i < inputs_.size(); i++)
+        outputs_[i] = inputs_[i];
 }

@@ -23,12 +23,13 @@ private:
 
     int numOutput_;
 
-
-    NeuronLayer outputNeuronLayer_;
+    // pointerként megcsinálni
+    NeuronLayer * outputNeuronLayer_;
 
     std::vector<NeuronLayer> neuronlayer_;
     std::vector<double> inputs_;                       // input to hidden
     std::vector<double> outputs_;
+    std::vector<double> error_;
 
 
 
@@ -43,7 +44,7 @@ public:
      * \param numOutput number of output
      * \param learningrate learning rate
      */
-    NeuralNetworks(int numInput, int numHiddenLayer, int numHiddenNeuron, int numOutput, double learningrate);
+    NeuralNetworks(int numInput, int numOutput, int numHiddenLayer, int numHiddenNeuron, double learningrate);
 
 
     /*!
@@ -56,10 +57,9 @@ public:
     void updateWeights(const std::vector<double> tValues, double eta, double alpha);
     void setWeights(const std::vector<double> weights);
     std::vector<double> weights();
-    std::vector<double> computeOutputs(const std::vector<double> xValues);
+    void computeOutputs(const std::vector<double> xValues);
     std::vector<double> outputs();
 
-    double softMax();
 
 };
 
