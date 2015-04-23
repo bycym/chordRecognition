@@ -118,6 +118,7 @@ void NeuralNetworks::computeOutputs(const std::vector<double> xValues)
 
 
 
+
     return inout;
 }
 
