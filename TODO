@@ -1,3 +1,6 @@
+2015.04.20
+==========
+
 target 1 hogyha ha ahoz az osztályhoz kell tartoznia
 output, szoftmax aktiváció után
 
@@ -13,7 +16,20 @@ aktuális kimenet hidden[x]
 
 külön érték minden neuronhoz hiba jel = devszigmoid * visszaterjesztetthiba
 
-hibajel * tanulási ráta * adott kapcsolat bementi értéke
+
+// ADJUST WEIGHTS OF CONNECTIONS FROM HIDDEN TO OUTPUT UNITS
+weight = hibajel * tanulási ráta * adott kapcsolat bementi értéke
+
+// ADJUST BIASES OF HIDDEN UNITS
+bias[x] += (learning_rate * errorsignal_output[x]
+
+
+// ADJUST WEIGHTS OF CONNECTIONS FROM INPUT TO HIDDEN UNITS
+			weight_i_h[x][y] += (learning_rate * errorsignal_hidden[y] * 
+
+// ADJUST BIASES FOR OUTPUT UNITS
+bias[x] += (learning_rate * errorsignal_hidden[x] / length);
+
 
 kapcsolat értéke a köttő között 
  
