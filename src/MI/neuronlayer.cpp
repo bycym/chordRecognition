@@ -37,7 +37,7 @@ NeuronLayer::NeuronLayer(int numInput, int numOutput, int numNeuron, bool hidden
 
     /// out error init
     for(int i = 0; i < numNeuron; i++)
-        outerror_.push_back(0);
+        errorSignal_.push_back(0);
 }
 
 NeuronLayer::NeuronLayer(const NeuronLayer& n)
@@ -63,8 +63,8 @@ NeuronLayer::NeuronLayer(const NeuronLayer& n)
         outputs_.push_back(o);
 
     /// out error copy
-    for(auto o : n.outerror_)
-        outerror_.push_back(o);
+    for(auto o : n.errorSignal_)
+        errorSignal_.push_back(o);
 }
 
 
@@ -121,23 +121,11 @@ void NeuronLayer::computeOutputs(int alg)
 }
 
 
-void NeuronLayer::updateWeights()
-{
-
-}
-
 void NeuronLayer::updateInputs(const std::vector<double> inp)
 {
     for(int i = 0; i < inp.size(); i++)
         inputs_[i] = inp[i];
 }
-
-void NeuronLayer::updateOuterror(const std::vector<double> inp)
-{
-    for(int i = 0; i < inp.size(); i++)
-        outerror_[i] = inp[i];
-}
-
 
 void NeuronLayer::sigmoid()
 {
@@ -173,3 +161,63 @@ void NeuronLayer::inputToOutput()
     for(int i = 0; i < inputs_.size(); i++)
         outputs_[i] = inputs_[i];
 }
+
+
+std::vector<double> NeuronLayer::updateErrorSignal(std::vector<double> array, std::vector<double> outputErrorSignal)
+{
+
+    std::vector<double> result;
+
+    /// if its output layer
+    if(!hidden_)
+    {
+        /// error signal = target[pattern][i] - output[pattern][i]
+        for(int i = 0; i < errorSignal_.size(); i++)
+        {
+            errorSignal_[i] = array[i] - outputs_[i];
+        }
+
+        /// for previous neuron layer errorSignal update
+        /// iterate for all neuron of hidden neuron layer
+        for(int i = 0; i < numInput_; i++)
+        {
+            /// compute errorSignal for every input neuron of
+            /// last hidden neuron layer
+            /// sooo :
+            /// +------------+--------------+------------+-------------+
+            /// | hiddLay. 1 | hiddLay. ... | hiddLay. n | outputLayer |
+            /// +------------+--------------+------------+-------------+
+            /// iterate on all output layer's neuron
+            double tmp = 0;
+            for(int j = 0; j < numNeuron_; j++)
+            {
+                tmp += weights_[j][i] * errorSignal_[j];
+            }
+            result.push_back(tmp);
+        }
+
+
+    }else
+    {
+        /// if its an hidden layer
+        /// for(x=0; x<hidden_array_size; x++) {
+        ///     for(y=0; y<output_array_size; y++) {
+        ///         temp += (errorsignal_output[y] * weight_h_o[x][y]); // this is the array input
+        ///     }
+        ///     errorsignal_hidden[x] = hidden[x] * (1-hidden[x]) * temp;
+        ///     temp = 0.0;
+        /// }
+        for(int i = 0; i < errorSignal_.size(); i++)
+        {
+            errorSignal_[i] =  outputs_[i] * (1 - outputs_[i]) * array[i];
+        }
+
+
+
+        return result;
+    }
+
+}
+
+
+

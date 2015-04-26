@@ -33,7 +33,7 @@ private:
 
     std::vector<double> inputs_;
     std::vector<double> biases_;
-    std::vector<double> outerror_;
+    std::vector<double> errorSignal_;
 
     /*!
      * \brief weights_ is a two dimensional vector matrix:
@@ -93,7 +93,6 @@ public:
      */
     void computeOutputs(int alg = 1);
 
-    void updateWeights();
 
 
     /*!
@@ -105,7 +104,7 @@ public:
     int numOutput() const { return numOutput_; }
     int numNeuron() const { return numNeuron_; }
 
-    void updateOuterror(const std::vector<double> inp);
+
 
     /*!
      * \brief outputs computed value of the layer
@@ -145,15 +144,49 @@ public:
         return biases_[x];
     }
 
-    double outerror(int x) const
+    double errorSignal(int x) const
     {
-        if(!( x >= 0 && x <= outerror_.size()))
+        if(!( x >= 0 && x <= errorSignal_.size()))
         {
             std::cerr << "Bad out error index" << endl;
             qDebug() << "Bad out error index" << endl;
         }
-        return outerror_[x];
+        return errorSignal_[x];
     }
+
+
+
+    /***
+     * Learning algoritms/functions/value updating
+     * */
+    /// <start> ///
+
+    /*!
+     * \brief updateErrorSignal
+     * it compute the errorsignal for the big neuron network
+     * +---------------+-----------------+--------------------------+-------------+
+     * | hiddLay. 1    | hiddLay. ...    | hiddLay. n               | outputLayer |
+     * | outp * arr(n) | outp * arr(n-1) | outp * arr(outputLayer)  |             |
+     * +---------------+-----------------+--------------------------+-------------+
+     * \param array previous neuron layer computed value for the errorSignal update
+     * \param outputErrorSignal ouput neuron layer errorSignal
+     * \return compute for the next neuron layer
+     */
+    std::vector<double> updateErrorSignal(const std::vector<double> arr, const std::vector<double> outputErrorSignal);
+
+
+
+    /*!
+     * \brief updateWeights calculate the new weight
+     * learning rate x error x
+     *
+     * \param error
+     * \param neuronLayerOutput
+     */
+    void updateWeights(const std::vector<double> error, std::vector<double> neuronLayerOutput);
+
+
+    /// <end> ///
 
 };
 

@@ -60,7 +60,22 @@ public:
     void computeOutputs(const std::vector<double> xValues);
     std::vector<double> outputs();
 
+    /*!
+     * \brief calculateError
+     * error = 0 - result of output[outputIndex]
+     * if positive than that's output the right one, otherwise it's negative value
+     */
+    void calculateError();
 
+    /*!
+     * \brief updateErrorSignal
+     * update all neuron layer errorSignal
+     * \param array previous layer's value for update
+     * more comments in neuronLayer.h
+     */
+    void updateErrorSignal(std::vector<double> array);
+
+    void updateWeights();
 };
 
 #endif // NEURALNETWORKS_H

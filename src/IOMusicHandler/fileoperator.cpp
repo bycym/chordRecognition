@@ -40,7 +40,7 @@ bool FileOperator::open(SoundData*& sndData)
 bool FileOperator::performLoadOperation(QString fn, SoundData*& sndData)
 {
     bool success = false;
-
+    qDebug() << fn << endl;
     FILE * fp = fopen(fn.toUtf8().constData(), "rb");
 
     if( fp == NULL )
@@ -275,6 +275,60 @@ bool FileOperator::performLoadOperation(QString fn, SoundData*& sndData)
         mb.setInformativeText("Hibás wFormatTag!");
         mb.exec();
     }
+
+    return success;
+}
+
+
+bool FileOperator::openDir(QVector<SoundData*> dir)
+{
+    bool success = false;
+
+    QString path = QDir::homePath();
+    if(fileName_ != ""){
+        QFileInfo info(fileName_);
+        path = info.absolutePath();
+    }
+
+    QString dirname = QFileDialog::getExistingDirectory(this,
+                        "Adatbázis mappa megnyitása",
+                        path,
+                        QFileDialog::ShowDirsOnly
+                        | QFileDialog::DontResolveSymlinks);
+
+
+    //if(!fn.isEmpty())
+      //  success = performLoadOperation(fn, sndData);
+
+    QStringList nameFilter("*.wav");
+
+    QStringList all_dirs;
+    all_dirs << dirname;
+    QDirIterator directories(dirname, QDir::Dirs | QDir::NoSymLinks | QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
+
+    // open sub directories
+    while(directories.hasNext())
+    {
+        directories.next();
+        all_dirs << directories.filePath();
+
+        QDir openDir(directories.filePath());
+        QStringList files = openDir.entryList(nameFilter);
+        qDebug() << directories.filePath() << endl;
+
+        // all files in that directory
+        for(auto st : files)
+        {
+            SoundData * sd = new SoundData();
+
+            if(performLoadOperation(st ,sd))
+            {
+                qDebug() << "OK " << st << endl;
+            }
+            dir.push_back(sd);
+        }
+    }
+
 
     return success;
 }

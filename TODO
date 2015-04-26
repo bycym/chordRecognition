@@ -16,7 +16,6 @@ aktuális kimenet hidden[x]
 
 külön érték minden neuronhoz hiba jel = devszigmoid * visszaterjesztetthiba
 
-
 // ADJUST WEIGHTS OF CONNECTIONS FROM HIDDEN TO OUTPUT UNITS
 weight = hibajel * tanulási ráta * adott kapcsolat bementi értéke
 

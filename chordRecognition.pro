@@ -41,9 +41,7 @@ SOURCES += src/main.cpp\
     src/Utils/neuralutilities.cpp \
     src/IOMusicHandler/fileoperator.cpp \
     src/IOMusicHandler/sounddata.cpp \
-    src/Core/gre.cpp \
     src/MI/getfeatures.cpp \
-    src/Core/core.cpp \
     src/IOMusicHandler/playsound.cpp \
     src/MI/neuralnetworks.cpp \
     src/Utils/matrixhelpers.cpp \
@@ -66,7 +64,6 @@ HEADERS  += src/mainwindow.h \
     src/IOMusicHandler/fileoperator.h \
     src/IOMusicHandler/sounddata.h \
     src/MI/getfeatures.h \
-    src/Core/core.h \
     src/IOMusicHandler/playsound.h \
     src/MI/neuralnetworks.h \
     src/Utils/matrixhelpers.h \

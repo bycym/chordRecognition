@@ -81,7 +81,6 @@ NeuralNetworks::~NeuralNetworks()
 void NeuralNetworks::computeOutputs(const std::vector<double> xValues)
 {
 
-    std::vector<double> inout;
     if(numHiddenLayer_ == 1)
     {
         NeuronLayer n = neuronlayer_[0];
@@ -114,12 +113,6 @@ void NeuralNetworks::computeOutputs(const std::vector<double> xValues)
         outputNeuronLayer_->updateInputs(tmp.outputs());
         outputNeuronLayer_->computeOutputs(1);
     }
-
-
-
-
-
-    return inout;
 }
 
 
@@ -133,3 +126,23 @@ std::vector<double> NeuralNetworks::outputs()
 }
 
 
+void NeuralNetworks::calculateError()
+{
+    for (int i = 0; i < outputs_.size(); ++i) {
+        error_[i] = 0 - outputs_[i];
+    }
+}
+
+
+void NeuralNetworks::updateErrorSignal(std::vector<double> array)
+{
+
+    std::vector<double> tmpErrorSignal = outputNeuronLayer_->updateErrorSignal(array, array);
+
+
+
+    for(int i = neuronlayer_.size(); i > 0; i--)
+    {
+        //tmpErrorSignal = neuronlayer_[i].updateErrorSignal(tmpErrorSignal, output);
+    }
+}

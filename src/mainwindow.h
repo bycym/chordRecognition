@@ -36,6 +36,8 @@ private slots:
 
     void on_playButton_clicked();
 
+    void on_readDir_clicked();
+
 private:
     Ui::MainWindow *ui;
     FileOperator * fileoperator;
@@ -46,6 +48,9 @@ private:
     PlaySound * playSound_;
 
     SoundData * sndData_;
+
+    // for database
+    QVector<SoundData*> database_;
 
     void coreFunction();
 

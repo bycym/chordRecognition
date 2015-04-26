@@ -94,3 +94,18 @@ void MainWindow::coreFunction()
     info();
 
 }
+
+void MainWindow::on_readDir_clicked()
+{
+    if(fileOperator_->openDir(database_))
+    {
+        ui->dbSuccessLabel->setText("OK");
+        ui->dbSuccessLabel->setStyleSheet("QLabel { color: green }");
+    }
+    else
+    {
+
+        ui->dbSuccessLabel->setText("ERROR");
+        ui->dbSuccessLabel->setStyleSheet("QLabel { color: red }");
+    }
+}

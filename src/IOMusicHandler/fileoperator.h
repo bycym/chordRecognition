@@ -19,6 +19,7 @@
 #include <QEventLoop>
 #include <QAudioDeviceInfo>
 #include <QVector>
+#include <QDirIterator>
 //#include <QAudioInput>
 
 
@@ -55,7 +56,7 @@ public:
     /*!
      * \brief open the SoundData sound data what we like to recognize
      * \param sndData sound data, mainWindow create this
-     * \return everything ok? rue -> yeah
+     * \return everything ok? yeah -> true
      */
     bool open(SoundData*& sndData);
 
@@ -63,7 +64,7 @@ public:
      * \brief performLoadOperation read the file header and data struct
      * \param s string filename what the open function opened
      * \param sndData the SoundData object what represent the wave
-     * \return everything ok? true -> yeah
+     * \return everything ok? yeah -> true
      */
     bool performLoadOperation(QString s, SoundData*& sndData);
     QString fileName() { return fileName_; }
@@ -75,7 +76,13 @@ public:
         return in > max ? in - (max<<1) : in;
     }
 
-    //SoundData * sndData_;
+
+    /*!
+     * \brief openDir read the database directory
+     * \return everything ok? yeah -> true
+     */
+    bool openDir(QVector<SoundData*>);
+
 
 signals:
 
