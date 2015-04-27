@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "neuralnetworkform.h"
 #include "IOMusicHandler/sounddata.h"
 #include "IOMusicHandler/fileoperator.h"
 #include "IOMusicHandler/playsound.h"
@@ -13,6 +14,7 @@
 #include <QTableWidget>
 #include <QVector>
 #include "MI/neuralnetworks.h"
+#include <QMovie>
 
 
 namespace Ui {
@@ -38,16 +40,17 @@ private slots:
 
     void on_readDir_clicked();
 
+    void on_neuralNetwork_Button_clicked();
+
 private:
     Ui::MainWindow *ui;
-    FileOperator * fileoperator;
-
 
     fftw_complex *in_, *out_;
     FileOperator * fileOperator_;
     PlaySound * playSound_;
 
     SoundData * sndData_;
+    NeuralNetworkForm * nnf_;
 
     // for database
     QVector<SoundData*> database_;

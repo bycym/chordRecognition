@@ -45,7 +45,8 @@ SOURCES += src/main.cpp\
     src/IOMusicHandler/playsound.cpp \
     src/MI/neuralnetworks.cpp \
     src/Utils/matrixhelpers.cpp \
-    src/MI/neuronlayer.cpp
+    src/MI/neuronlayer.cpp \
+    src/neuralnetworkform.cpp
 
 
 HEADERS  += src/mainwindow.h \
@@ -67,7 +68,9 @@ HEADERS  += src/mainwindow.h \
     src/IOMusicHandler/playsound.h \
     src/MI/neuralnetworks.h \
     src/Utils/matrixhelpers.h \
-    src/MI/neuronlayer.h
+    src/MI/neuronlayer.h \
+    src/neuralnetworkform.h
 
-FORMS    += src/mainwindow.ui
+FORMS    += src/mainwindow.ui \
+    src/neuralnetworkform.ui
 

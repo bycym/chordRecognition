@@ -30,6 +30,7 @@ private:
     int numInput_;
     int numOutput_;
     int numNeuron_;
+    double learningRate_;
 
     std::vector<double> inputs_;
     std::vector<double> biases_;
@@ -79,8 +80,9 @@ public:
      * \param numOutput number of output
      * \param numNeuron number of neuron
      * \param hidden is it hidden layer or output layer?
+     * \param learningrate learningra of the neuralnetworks
      */
-    NeuronLayer(int numInput, int numOutput, int numNeuron, bool hidden);
+    NeuronLayer(int numInput, int numOutput, int numNeuron, bool hidden, double learningrate);
     ~NeuronLayer();
 
     /*!
@@ -169,21 +171,20 @@ public:
      * | outp * arr(n) | outp * arr(n-1) | outp * arr(outputLayer)  |             |
      * +---------------+-----------------+--------------------------+-------------+
      * \param array previous neuron layer computed value for the errorSignal update
-     * \param outputErrorSignal ouput neuron layer errorSignal
      * \return compute for the next neuron layer
      */
-    std::vector<double> updateErrorSignal(const std::vector<double> arr, const std::vector<double> outputErrorSignal);
+    std::vector<double> updateErrorSignal(const std::vector<double> arr);
 
 
 
     /*!
      * \brief updateWeights calculate the new weight
-     * learning rate x error x
+     * this->learningRate * errorSignal_[allNeuron] * prevInput[all]
      *
-     * \param error
-     * \param neuronLayerOutput
+     * \param prevInput previous neuron layer's output
+
      */
-    void updateWeights(const std::vector<double> error, std::vector<double> neuronLayerOutput);
+    void updateWeights(const std::vector<double> prevInput);
 
 
     /// <end> ///

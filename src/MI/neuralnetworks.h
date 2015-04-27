@@ -54,9 +54,6 @@ public:
     NeuralNetworks(int numInput);
     ~NeuralNetworks();
 
-    void updateWeights(const std::vector<double> tValues, double eta, double alpha);
-    void setWeights(const std::vector<double> weights);
-    std::vector<double> weights();
     void computeOutputs(const std::vector<double> xValues);
     std::vector<double> outputs();
 
@@ -75,7 +72,17 @@ public:
      */
     void updateErrorSignal(std::vector<double> array);
 
+    /*!
+     * \brief updateWeights update all NeuronLayer weights
+     */
     void updateWeights();
+
+    /*!
+     * \brief updateInputs
+     * refill the inputs_
+     * \param inp input from the project
+     */
+    void updateInputs(std::vector<double> inp);
 };
 
 #endif // NEURALNETWORKS_H

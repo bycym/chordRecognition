@@ -1,6 +1,6 @@
 #include "neuronlayer.h"
 
-NeuronLayer::NeuronLayer(int numInput, int numOutput, int numNeuron, bool hidden)
+NeuronLayer::NeuronLayer(int numInput, int numOutput, int numNeuron, bool hidden, double learningrate)
 {
     this->hidden_ = hidden;
 
@@ -14,7 +14,7 @@ NeuronLayer::NeuronLayer(int numInput, int numOutput, int numNeuron, bool hidden
     this->numInput_ = numInput;
     this->numOutput_ = numOutput;
     this->numNeuron_ = numNeuron;
-
+    this->learningRate_ = learningrate;
 
     // TODO!
     /// neuron init
@@ -163,7 +163,7 @@ void NeuronLayer::inputToOutput()
 }
 
 
-std::vector<double> NeuronLayer::updateErrorSignal(std::vector<double> array, std::vector<double> outputErrorSignal)
+std::vector<double> NeuronLayer::updateErrorSignal(std::vector<double> array)
 {
 
     std::vector<double> result;
@@ -212,7 +212,17 @@ std::vector<double> NeuronLayer::updateErrorSignal(std::vector<double> array, st
             errorSignal_[i] =  outputs_[i] * (1 - outputs_[i]) * array[i];
         }
 
-
+        /// for all prevoius hidden neuron layer's neuron
+        for(int i = 0; i < numInput_; i++)
+        {
+            double tmp = 0.0;
+            /// += weights of previous inputs * global output signal error
+            for(int j = 0; j < numNeuron_; j++)
+            {
+                tmp += weights_[j][i] * errorSignal_[j];
+            }
+            result.push_back(tmp);
+        }
 
         return result;
     }
@@ -221,3 +231,13 @@ std::vector<double> NeuronLayer::updateErrorSignal(std::vector<double> array, st
 
 
 
+void NeuronLayer::updateWeights(const std::vector<double> prevInput)
+{
+    for(int i = 0; i < numNeuron_; i++)
+    {
+        for(int j = 0; j < numInput_; j++)
+        {
+            weights_[i][j] = learningRate_ * prevInput[j] * errorSignal_[i];
+        }
+    }
+}

@@ -5,6 +5,9 @@ FileOperator::FileOperator(QWidget *parent) :
 {
     fileName_ = "NO.DATA";
     //sndData_ = nullptr;
+    movie_ = new QMovie("loading.gif");
+    processLabel_ = new QLabel(this);
+    processLabel_->setMovie(movie_);
 }
 
 FileOperator::~FileOperator()
@@ -40,13 +43,14 @@ bool FileOperator::open(SoundData*& sndData)
 bool FileOperator::performLoadOperation(QString fn, SoundData*& sndData)
 {
     bool success = false;
-    qDebug() << fn << endl;
+
+    if(fn.isEmpty())
+        return false;
+
     FILE * fp = fopen(fn.toUtf8().constData(), "rb");
 
     if( fp == NULL )
-    {
         return false;
-    }
 
     // Header Init:
     short pcm = -1;
@@ -110,20 +114,20 @@ bool FileOperator::performLoadOperation(QString fn, SoundData*& sndData)
         fread(&nAvgBytesPerSec, sizeof(int), 1, fp);
         fread(&nBlockAlign, sizeof(short), 1, fp);
         fread(&wBitsPerSample, sizeof(short), 1, fp);
-
+/*
     cout << endl << "-----------------------" << endl;
     cout << "fn: " << fn.toUtf8().constData() <<  endl;
     cout << "wFormatTag: " << wFormatTag << endl;
     cout << "-----------------------" << endl;
-
+*/
     if(wFormatTag == WAVE_FORMAT_PCM){
-        cout << "WAVE_FORMAT_PCM" << endl;
+        //cout << "WAVE_FORMAT_PCM" << endl;
         pcm = 0;
     } else {
         fread(&cbSize, sizeof(short), 1, fp);
 
         if(wFormatTag == WAVE_FORMAT_EXTENSIBLE){
-            cout << "WAVE_FORMAT_EXTENSIBLE" << endl;
+            //cout << "WAVE_FORMAT_EXTENSIBLE" << endl;
             // EXTENSION format
             pcm = 2;
             fread(&wValidBitsPerSample, sizeof(short), 1, fp);
@@ -133,7 +137,7 @@ bool FileOperator::performLoadOperation(QString fn, SoundData*& sndData)
             subFormat[4] = '\0';
         } else {
             // NONPCM
-            cout << "non pcm" << endl;
+            //cout << "non pcm" << endl;
             pcm = 1;
         }
         fread(ckFactID, sizeof(char), 4, fp);
@@ -147,11 +151,11 @@ bool FileOperator::performLoadOperation(QString fn, SoundData*& sndData)
     ckDataID[4] = '\0';
     fread(&ckDataSize, sizeof(int), 1, fp);
 
-    cout << "ckDataID: " << ckDataID << endl;
+    //cout << "ckDataID: " << ckDataID << endl;
     if(strncmp(ckDataID, "data", 4) == 0)
     {
         success = true;
-        cout << "create object" << endl;
+        //cout << "create object" << endl;
         //sndData_ = new SoundData();
         // buffer init
         //bufferCounter_ = 0;
@@ -219,9 +223,7 @@ bool FileOperator::performLoadOperation(QString fn, SoundData*& sndData)
         }
 
         ////// read data from file END //////
-
-        sndData->info();
-
+        fileName_ = fn;
     }
 
 /*
@@ -265,9 +267,11 @@ bool FileOperator::performLoadOperation(QString fn, SoundData*& sndData)
         //sndData->audio_data_ = QByteArray::number(sndData->audio_data_->toFloat(&ok));
     }*/
 
-    cout << "pcm: " << pcm << endl;
-    if(success && pcm != -1)
+    //cout << "pcm: " << pcm << endl;
+    if(success && pcm != -1){
         fileName_ = fn;
+
+    }
     else{
         QMessageBox mb;
         mb.setIcon(QMessageBox::Critical);
@@ -275,7 +279,7 @@ bool FileOperator::performLoadOperation(QString fn, SoundData*& sndData)
         mb.setInformativeText("Hibás wFormatTag!");
         mb.exec();
     }
-
+    delete fp;
     return success;
 }
 
@@ -297,8 +301,6 @@ bool FileOperator::openDir(QVector<SoundData*> dir)
                         | QFileDialog::DontResolveSymlinks);
 
 
-    //if(!fn.isEmpty())
-      //  success = performLoadOperation(fn, sndData);
 
     QStringList nameFilter("*.wav");
 
@@ -306,29 +308,75 @@ bool FileOperator::openDir(QVector<SoundData*> dir)
     all_dirs << dirname;
     QDirIterator directories(dirname, QDir::Dirs | QDir::NoSymLinks | QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
 
-    // open sub directories
-    while(directories.hasNext())
+    // if just one root dir
+    if(!(directories.hasNext()))
     {
-        directories.next();
-        all_dirs << directories.filePath();
-
-        QDir openDir(directories.filePath());
+        //qDebug() << dirname << endl;
+        QDir openDir(dirname);
         QStringList files = openDir.entryList(nameFilter);
-        qDebug() << directories.filePath() << endl;
+
 
         // all files in that directory
         for(auto st : files)
         {
             SoundData * sd = new SoundData();
 
-            if(performLoadOperation(st ,sd))
+            QString tmp = dirname + "/" + st;
+            if(performLoadOperation(tmp, sd))
             {
-                qDebug() << "OK " << st << endl;
+                qDebug() << "OK!" << st << endl;
+                dir.push_back(sd);
             }
-            dir.push_back(sd);
+            else
+            {
+                qDebug() << "PROBLEM!" << tmp << endl;
+            }
+
         }
     }
+    else
+    {
 
+        // open sub directories
+        while(directories.hasNext())
+        {
+            directories.next();
+            all_dirs << directories.filePath();
+            //qDebug() << directories.filePath() << endl;
+            QDir openDir(directories.filePath());
+            QStringList files = openDir.entryList(nameFilter);
+
+
+            // all files in that directory
+            for(auto st : files)
+            {
+                SoundData * sd = new SoundData();
+
+                QString tmp = directories.filePath() + "/" + st;
+                if(performLoadOperation(tmp, sd))
+                {
+                    qDebug() << "OK!" << st << endl;
+                    dir.push_back(sd);
+                }
+                else
+                {
+                    qDebug() << "PROBLEM!" << tmp << endl;
+                }
+            }
+        }
+    }
+    cout << endl;
+    qDebug() << dir.size() << " piece of wav" << endl;
+    if(dir.size() > 0)
+    {
+        success = true;
+    }
 
     return success;
+}
+
+void FileOperator::loading()
+{
+
+    movie_->start();
 }

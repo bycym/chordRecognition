@@ -11,9 +11,19 @@ MainWindow::MainWindow(QWidget *parent) :
     sndData_ = new SoundData();
     ui->playButton->setVisible(false);
 
+
+
 }
 MainWindow::~MainWindow()
 {
+    delete sndData_;
+    delete playSound_;
+    delete fileOperator_;
+    delete nnf_;
+    for(auto x : database_)
+        delete x;
+    database_.clear();
+
     delete ui;
 }
 
@@ -26,6 +36,7 @@ void MainWindow::on_pushButton_clicked()
         ui->successLabel->setText("OK");
         ui->playButton->setVisible(true);
         ui->successLabel->setStyleSheet("QLabel { color: green }");
+        sndData_->info();
     }
     else {
         ui->successLabel->setText("ERROR");
@@ -45,6 +56,7 @@ void MainWindow::on_openButton_clicked()
         ui->successLabel->setText("OK");
         ui->playButton->setVisible(true);
         ui->successLabel->setStyleSheet("QLabel { color: green }");
+        sndData_->info();
     }
     else
     {
@@ -104,8 +116,46 @@ void MainWindow::on_readDir_clicked()
     }
     else
     {
-
         ui->dbSuccessLabel->setText("ERROR");
         ui->dbSuccessLabel->setStyleSheet("QLabel { color: red }");
     }
+}
+
+void MainWindow::on_neuralNetwork_Button_clicked()
+{
+    bool ok = false;
+    int numInput = 10;
+    int numOutput = 10;
+    int numHiddenLayer = 1;
+    int numHiddenNeuron = 35;
+    double learningrate = 0.001;
+
+    nnf_ = new NeuralNetworkForm(this);
+    nnf_->show();
+
+    numInput = nnf_->numInput();
+    numOutput = nnf_->numOutput();
+        numHiddenLayer = nnf_->numHiddenLayer();
+        numHiddenNeuron = nnf_->numHiddenNeuron();
+        learningrate = nnf_->learningrate();
+        if(!(numInput == -1 ||
+                numOutput == -1 ||
+                numHiddenLayer == -1 ||
+                numHiddenNeuron == -1 ||
+                learningrate == -1))
+        {
+            ok = true;
+            qDebug() << "Everything ok!";
+        }
+        else
+        {
+            qDebug() << "Problem with parameters";
+            QMessageBox mb;
+            mb.setIcon(QMessageBox::Critical);
+            mb.setText("Nem sikerült létrehozni.");
+            mb.setInformativeText("Rossz paraméterek!");
+            mb.exec();
+        }
+
+
 }

@@ -20,6 +20,8 @@
 #include <QAudioDeviceInfo>
 #include <QVector>
 #include <QDirIterator>
+#include <QMovie>
+#include <QLabel>
 //#include <QAudioInput>
 
 
@@ -42,6 +44,9 @@ private:
 
     QString fileName_;
 
+    /// for loading stuff
+    QMovie *movie_;
+    QLabel *processLabel_;
 
 
 public:
@@ -83,6 +88,8 @@ public:
      */
     bool openDir(QVector<SoundData*>);
 
+    /// loading stuff
+    void loading();
 
 signals:
 

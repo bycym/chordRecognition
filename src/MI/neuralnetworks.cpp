@@ -12,19 +12,19 @@ NeuralNetworks::NeuralNetworks(int numInput, int numOutput, int numHiddenLayer, 
     if(numHiddenLayer == 1)
     {
         /// input -> hidden neuron layer -> output
-        this->neuronlayer_.push_back(NeuronLayer(numInput, numHiddenNeuron, numHiddenNeuron, true));
+        this->neuronlayer_.push_back(NeuronLayer(numInput, numHiddenNeuron, numHiddenNeuron, true, learningrate));
         /// neuron output layer
-        this->outputNeuronLayer_ = new NeuronLayer(numHiddenNeuron, numOutput, numHiddenNeuron, false);
+        this->outputNeuronLayer_ = new NeuronLayer(numHiddenNeuron, numOutput, numHiddenNeuron, false, learningrate);
     }
     else if(numHiddenLayer >= 2)
     {
         /// input -> hidden neuron layer -> hidden neuron layer -> output
-        this->neuronlayer_.push_back(NeuronLayer(numInput, numHiddenNeuron, numHiddenNeuron, true));
+        this->neuronlayer_.push_back(NeuronLayer(numInput, numHiddenNeuron, numHiddenNeuron, true, learningrate));
         for(int i = 0; i < numInput; i++)
-            this->neuronlayer_.push_back(NeuronLayer(numHiddenNeuron, numHiddenNeuron, numHiddenNeuron, true));
+            this->neuronlayer_.push_back(NeuronLayer(numHiddenNeuron, numHiddenNeuron, numHiddenNeuron, true, learningrate));
 
         /// neuron output layer
-        this->outputNeuronLayer_ = new NeuronLayer(numHiddenNeuron, numOutput, numOutput, false);
+        this->outputNeuronLayer_ = new NeuronLayer(numHiddenNeuron, numOutput, numOutput, false, learningrate);
     }
     else
     {
@@ -54,9 +54,9 @@ NeuralNetworks::NeuralNetworks(int numInput)
     this->numInput_ = numInput;
 
     /// hidden neuron layer
-    this->neuronlayer_.push_back(NeuronLayer(numInput_, numOutput_, numHiddenNeuron_, true));
+    this->neuronlayer_.push_back(NeuronLayer(numInput_, numOutput_, numHiddenNeuron_, true, learningRate_));
     /// output neuron layer
-    this->outputNeuronLayer_ = new NeuronLayer(numHiddenNeuron_, numOutput_, numOutput_, false);
+    this->outputNeuronLayer_ = new NeuronLayer(numHiddenNeuron_, numOutput_, numOutput_, false, learningRate_);
 
 
     /// init output
@@ -99,7 +99,7 @@ void NeuralNetworks::computeOutputs(const std::vector<double> xValues)
         /// tmp NeuronLayer help to pass outputs
         /// now every n th neuron layer can pass their ouputs
         /// to the nex neuron layer
-        NeuronLayer tmp(n1.numOutput(), n1.numOutput(), n1.numNeuron(), true);
+        NeuronLayer tmp(n1.numOutput(), n1.numOutput(), n1.numNeuron(), true, learningRate_);
         tmp.updateInputs(n1.outputs());
         tmp.inputToOutput();
         for(int i = 1; i < numHiddenLayer_; i++)
@@ -137,12 +137,31 @@ void NeuralNetworks::calculateError()
 void NeuralNetworks::updateErrorSignal(std::vector<double> array)
 {
 
-    std::vector<double> tmpErrorSignal = outputNeuronLayer_->updateErrorSignal(array, array);
-
+    std::vector<double> tmpErrorSignal = outputNeuronLayer_->updateErrorSignal(array);
 
 
     for(int i = neuronlayer_.size(); i > 0; i--)
     {
-        //tmpErrorSignal = neuronlayer_[i].updateErrorSignal(tmpErrorSignal, output);
+        tmpErrorSignal = neuronlayer_[i].updateErrorSignal(tmpErrorSignal);
     }
+}
+
+
+void NeuralNetworks::updateWeights()
+{
+    std::vector<double> out = inputs_;
+
+    for(NeuronLayer nl : neuronlayer_)
+    {
+        nl.updateWeights(out);
+        out = nl.outputs();
+    }
+    outputNeuronLayer_->updateWeights(out);
+}
+
+void NeuralNetworks::updateInputs(std::vector<double> inp)
+{
+    inputs_.clear();
+    for(auto i : inp)
+        inputs_.push_back(i);
 }

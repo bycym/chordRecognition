@@ -272,7 +272,7 @@ void backward_pass(int pattern)
 
 // ADJUST WEIGHTS OF CONNECTIONS FROM HIDDEN TO OUTPUT UNITS
 	double length = 0.0;
-	for (x=0; x<hidden_array_size; x++) {
+	for (x=0; x<hidden_array_size; x++) {	
 		length += hidden[x]*hidden[x];
 	}
 	if (length<=0.1) length = 0.1;
