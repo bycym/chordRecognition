@@ -7,6 +7,7 @@
 #include "IOMusicHandler/fileoperator.h"
 #include "IOMusicHandler/playsound.h"
 #include "MI/getfeatures.h"
+#include "MI/neuralnetworks.h"
 #include <fftw3.h>
 #include <QStandardItemModel>
 #include <QStandardItem>
@@ -42,21 +43,29 @@ private slots:
 
     void on_neuralNetwork_Button_clicked();
 
+    NeuralNetworks* createNeuralNetwork(int numInput, int numOutput, int numHiddenLayer, int numHiddenNeuron, double learningrate);
+
+
 private:
     Ui::MainWindow *ui;
 
     fftw_complex *in_, *out_;
     FileOperator * fileOperator_;
     PlaySound * playSound_;
-
     SoundData * sndData_;
     NeuralNetworkForm * nnf_;
+
+    GetFeatures * sndDataFeatures_;
+    QVector<GetFeatures* > * databaseFeatures_;
+
 
     // for database
     QVector<SoundData*> database_;
 
     void coreFunction();
 
+    bool databaseRead_;
+    bool sampleRead_;
 
 
 };

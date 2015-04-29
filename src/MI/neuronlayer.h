@@ -106,6 +106,8 @@ public:
     int numOutput() const { return numOutput_; }
     int numNeuron() const { return numNeuron_; }
 
+    void setLearningrate(double l){ learningRate_ = l; }
+    double learningrate(){ return learningRate_; }
 
 
     /*!
@@ -119,6 +121,17 @@ public:
             tmp.push_back(outputs_[i]);
         return tmp;
     }
+
+    double outputs(int x) const
+    {
+        if(!( x >= 0 && x <= outputs_.size()))
+        {
+            std::cerr << "Bad outputs index" << endl;
+            qDebug() << "Bad outputs index" << endl;
+        }
+        return outputs_[x];
+    }
+
 
     /*!
      * \brief weights

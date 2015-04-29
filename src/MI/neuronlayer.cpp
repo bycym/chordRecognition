@@ -18,18 +18,22 @@ NeuronLayer::NeuronLayer(int numInput, int numOutput, int numNeuron, bool hidden
 
     // TODO!
     /// neuron init
+
+
     for(int i = 0; i < numNeuron; i++)
     {
+        std::vector<double> row;
         /// number of input
         for(int j = 0; j < numInput; j++)
-            weights_[i].push_back(dist(mt));
+            row.push_back(dist(mt));
+        weights_.push_back(row);
     }
 
-    /*
+
     /// outputs init
     for(int i = 0; i < numOutput; i++)
         outputs_.push_back(0.00);
-    */
+
 
     /// biases init
     for(int i = 0; i < numNeuron; i++)
@@ -49,9 +53,11 @@ NeuronLayer::NeuronLayer(const NeuronLayer& n)
     /// neuron init
     for(int i = 0; i < numNeuron_; i++)
     {
+        std::vector<double> row;
         /// number of input
         for(int j = 0; j < numInput_; j++)
-            weights_[i][j] = n.weights(i, j);
+            row.push_back(n.weights_[i][j]);
+        weights_.push_back(row);
     }
 
     /// biases copy
@@ -123,6 +129,7 @@ void NeuronLayer::computeOutputs(int alg)
 
 void NeuronLayer::updateInputs(const std::vector<double> inp)
 {
+    numInput_ = inp.size();
     for(int i = 0; i < inp.size(); i++)
         inputs_[i] = inp[i];
 }
@@ -174,7 +181,9 @@ std::vector<double> NeuronLayer::updateErrorSignal(std::vector<double> array)
         /// error signal = target[pattern][i] - output[pattern][i]
         for(int i = 0; i < errorSignal_.size(); i++)
         {
-            errorSignal_[i] = array[i] - outputs_[i];
+            // TODO!!! hiba kalkuláció
+            //errorSignal_[i] = array[i] - outputs_[i];
+            errorSignal_[i] = 1 - outputs_[i];
         }
 
         /// for previous neuron layer errorSignal update

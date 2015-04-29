@@ -48,7 +48,7 @@ NeuralNetworks::NeuralNetworks(int numInput)
     this->learningRate_ = 0.001;
     this->numHiddenLayer_ = 1;
     this->numHiddenNeuron_ = 35;
-    this->numOutput_ = 10; // a am bm c d dm e em f g
+    this->numOutput_ = 11; // a am b bm c d dm e em f g
 
 
     this->numInput_ = numInput;
@@ -78,13 +78,13 @@ NeuralNetworks::~NeuralNetworks()
 }
 
 
-void NeuralNetworks::computeOutputs(const std::vector<double> xValues)
+void NeuralNetworks::computeOutputs()
 {
 
     if(numHiddenLayer_ == 1)
     {
         NeuronLayer n = neuronlayer_[0];
-        n.updateInputs(xValues);
+        n.updateInputs(inputs_);
         n.computeOutputs(1);
         outputNeuronLayer_->updateInputs(n.outputs());
         outputNeuronLayer_->computeOutputs(1);
@@ -93,7 +93,7 @@ void NeuralNetworks::computeOutputs(const std::vector<double> xValues)
     {
         NeuronLayer n1 = neuronlayer_[0];
 
-        n1.updateInputs(xValues);
+        n1.updateInputs(inputs_);
         n1.computeOutputs(1);
 
         /// tmp NeuronLayer help to pass outputs
@@ -126,19 +126,16 @@ std::vector<double> NeuralNetworks::outputs()
 }
 
 
-void NeuralNetworks::calculateError()
-{
-    for (int i = 0; i < outputs_.size(); ++i) {
-        error_[i] = 0 - outputs_[i];
-    }
-}
-
 
 void NeuralNetworks::updateErrorSignal(std::vector<double> array)
 {
 
     std::vector<double> tmpErrorSignal = outputNeuronLayer_->updateErrorSignal(array);
 
+    for(int i = 0; i < numOutput_; i++)
+    {
+        outputs_[i] = outputNeuronLayer_->outputs(i);
+    }
 
     for(int i = neuronlayer_.size(); i > 0; i--)
     {
@@ -164,4 +161,44 @@ void NeuralNetworks::updateInputs(std::vector<double> inp)
     inputs_.clear();
     for(auto i : inp)
         inputs_.push_back(i);
+}
+
+void NeuralNetworks::setLearningRate(double l)
+{
+    outputNeuronLayer_->setLearningrate(l);
+    for(NeuronLayer n : neuronlayer_)
+        n.setLearningrate(l);
+}
+
+
+bool NeuralNetworks::setTag(std::vector<std::string> t)
+{
+    if(t.size() != outputs_.size())
+    {
+        qDebug() << "Input tag list too big!\nTag list size must equals with outputs size";
+        qDebug() << "outputs_.size() = " << outputs_.size() << " | t.size() = " << t.size();
+        return false;
+    }
+    tags_.clear();
+    for(auto i : t)
+        tags_.push_back(i);
+
+    if(t.size() == tags_.size())
+        return true;
+
+}
+
+std::string NeuralNetworks::getTag()
+{
+    int index = 0;
+    double max = -2.0;
+    for(int i = 0; i < outputs_.size(); i++)
+    {
+        if(outputs_[i] > max)
+        {
+            index = i;
+            max = outputs_[i];
+        }
+    }
+    return tags_[index];
 }

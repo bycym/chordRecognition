@@ -28,8 +28,10 @@ private:
 
     std::vector<NeuronLayer> neuronlayer_;
     std::vector<double> inputs_;                       // input to hidden
+    std::vector<std::string> tags_;
     std::vector<double> outputs_;
     std::vector<double> error_;
+
 
 
 
@@ -54,15 +56,16 @@ public:
     NeuralNetworks(int numInput);
     ~NeuralNetworks();
 
-    void computeOutputs(const std::vector<double> xValues);
-    std::vector<double> outputs();
+
 
     /*!
-     * \brief calculateError
-     * error = 0 - result of output[outputIndex]
-     * if positive than that's output the right one, otherwise it's negative value
+     * \brief computeOutputs
+     * compute input to output with the neural network
      */
-    void calculateError();
+    void computeOutputs();
+    std::vector<double> outputs();
+
+
 
     /*!
      * \brief updateErrorSignal
@@ -83,6 +86,23 @@ public:
      * \param inp input from the project
      */
     void updateInputs(std::vector<double> inp);
+
+    double learningRate(){ return learningRate_; }
+
+    /*!
+     * \brief setLearningRate update all NeuronLayer's learningrate
+     * \param l input learning rate parameter
+     */
+    void setLearningRate(double l);
+
+    std::string getTag();
+
+    /*!
+     * \brief setTag create the tag list
+     * \param t tags list
+     * \return any problem then false
+     */
+    bool setTag(std::vector<std::string> t);
 };
 
 #endif // NEURALNETWORKS_H

@@ -279,15 +279,16 @@ bool FileOperator::performLoadOperation(QString fn, SoundData*& sndData)
         mb.setInformativeText("Hibás wFormatTag!");
         mb.exec();
     }
-    delete fp;
+    fclose(fp);
     return success;
 }
 
 
-bool FileOperator::openDir(QVector<SoundData*> dir)
+bool FileOperator::openDir(QVector<SoundData*> &dir)
 {
     bool success = false;
 
+    dir.clear();
     QString path = QDir::homePath();
     if(fileName_ != ""){
         QFileInfo info(fileName_);

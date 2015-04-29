@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QDebug>
+#include <QMessageBox>
 
 namespace Ui {
 class NeuralNetworkForm;
@@ -26,6 +27,12 @@ public:
 
 private:
     Ui::NeuralNetworkForm *ui_nnform;
+
+signals:
+    void setParameters(const int numInput, const int numOutput, const int numHiddenLayer, const int numHiddenNeuron, const double learningrate);
+
+private slots:
+    void on_buttonBox_accepted();
 };
 
 #endif // NEURALNETWORKFORM_H

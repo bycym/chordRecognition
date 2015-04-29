@@ -86,7 +86,7 @@ public:
      * \brief openDir read the database directory
      * \return everything ok? yeah -> true
      */
-    bool openDir(QVector<SoundData*>);
+    bool openDir(QVector<SoundData*> &dir);
 
     /// loading stuff
     void loading();

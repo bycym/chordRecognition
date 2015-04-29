@@ -25,7 +25,7 @@ void outdated(std::map<std::string, bool> & uptodate) {
     uptodate["Chordsequence"] = false;
 }
 
-bool getFeatures(SoundData*& sd)
+GetFeatures::GetFeatures(SoundData*& sd)
 {
 
     // verbosity falgs
@@ -38,16 +38,19 @@ bool getFeatures(SoundData*& sd)
     bool oBeatfile = false;
     std::string beatfile;
     int oGenerateBeatfile = 0;
-    int blockSizeMSec = 100;
-    int windowSize = 0;
     bool oOptimize = false;
     bool oProbability = false;
     unsigned int number_of_chords = 1; // default output 1 chord
     int verbositylevel = 1;
-    int pcpalgo=3;
     //std::string outdir = "tmp/";
     std::string outdir = "";
     std::string argfile;
+
+
+
+    windowSize = 0;
+    blockSizeMSec = 100;
+    pcpalgo=3;
 
 
     std::string basename = sd->waveFileName() ;
@@ -61,9 +64,7 @@ bool getFeatures(SoundData*& sd)
     //std::string soundfilename = "";
 
     //Sounddata sd;
-    Key key;
-    PCPTrack pcptrack;
-    Chordsequence cs;
+
 
     //std::map<std::string, bool> uptodate;
     // initialisiere uptodate-map mit false werten
@@ -221,7 +222,8 @@ bool getFeatures(SoundData*& sd)
             //std::cin >> restrict;
             // create input file for autocomp
             //Chordsequence cs = Chordsequence(pcptrack, (restrict=="yes")? key : -1);
-            cs.csound_sco(filename);
+
+            //cs.csound_sco(filename);
             std::cout << "output written to file " << filename << "[.sco|.wav]"
                       << std::endl << std::endl;
             std::cout << "*********************************" << std::endl << std::endl;
@@ -237,9 +239,6 @@ bool getFeatures(SoundData*& sd)
             break;
     }
     //std::cout << std::endl;
-
-
-    return false;
 }
 
 

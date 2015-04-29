@@ -19,15 +19,24 @@
 
 
 
-/*
+
 class GetFeatures
 {
 public:
-    GetFeatures();
+    GetFeatures(SoundData*& sndData);
     ~GetFeatures();
-};*/
 
-bool getFeatures(SoundData*& sndData);
+    int windowSize;
+    Key key;
+    PCPTrack pcptrack;
+    Chordsequence cs;
+    int pcpalgo;
+    int blockSizeMSec;
+
+
+
+};
+
 bool getFeatures_OLD(SoundData*& sndData);
 
 #endif // GETFEATURES_H
