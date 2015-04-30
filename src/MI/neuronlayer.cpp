@@ -140,11 +140,12 @@ void NeuronLayer::sigmoid()
         outputs_.push_back(1 / ( 1 + exp( (-1) * x ) ));
 }
 
-void NeuronLayer::devSigmoid()
+double NeuronLayer::devSigmoid(double x)
 {
     // TODO!!!!!
     // double result = sigmoid();
     // TODO: return result * ( 1 - result );
+    return (1 / ( 1 + exp( (-1) * x ) )) * (1- (1 / ( 1 + exp( (-1) * x ) )));
 }
 
 void NeuronLayer::softmax()
@@ -170,6 +171,7 @@ void NeuronLayer::inputToOutput()
 }
 
 
+// array a target ami itt 1-es a cél 0 a nem cél
 std::vector<double> NeuronLayer::updateErrorSignal(std::vector<double> array)
 {
 
@@ -183,7 +185,7 @@ std::vector<double> NeuronLayer::updateErrorSignal(std::vector<double> array)
         {
             // TODO!!! hiba kalkuláció
             //errorSignal_[i] = array[i] - outputs_[i];
-            errorSignal_[i] = 1 - outputs_[i];
+            errorSignal_[i] = array[i] - outputs_[i];
         }
 
         /// for previous neuron layer errorSignal update
@@ -218,7 +220,10 @@ std::vector<double> NeuronLayer::updateErrorSignal(std::vector<double> array)
         /// }
         for(int i = 0; i < errorSignal_.size(); i++)
         {
-            errorSignal_[i] =  outputs_[i] * (1 - outputs_[i]) * array[i];
+            /// TODOOOOOOOOOOOOOOOOO!!!!
+
+            //errorSignal_[i] =  outputs_[i] * (1 - outputs_[i]) * array[i];
+            errorSignal_[i] =  devSigmoid(outputs_[i]) * array[i];
         }
 
         /// for all prevoius hidden neuron layer's neuron
@@ -232,7 +237,12 @@ std::vector<double> NeuronLayer::updateErrorSignal(std::vector<double> array)
             }
             result.push_back(tmp);
         }
-
+        /*
+        // ADJUST BIASES OF HIDDEN UNITS
+            for(x=hidden_array_size; x<bias_array_size; x++) {
+                bias[x] += (learning_rate * errorsignal_output[x] / length);
+            }
+*/
         return result;
     }
 
@@ -246,7 +256,7 @@ void NeuronLayer::updateWeights(const std::vector<double> prevInput)
     {
         for(int j = 0; j < numInput_; j++)
         {
-            weights_[i][j] = learningRate_ * prevInput[j] * errorSignal_[i];
+            weights_[i][j] += learningRate_ * prevInput[j] * errorSignal_[i];
         }
     }
 }

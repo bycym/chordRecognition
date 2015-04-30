@@ -63,7 +63,7 @@ private:
     /// activation functions ///
 
     void sigmoid();
-    void devSigmoid();
+    double devSigmoid(double x);
     void softmax();
 
     /// END activation functions ///

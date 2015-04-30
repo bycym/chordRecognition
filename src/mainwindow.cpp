@@ -158,6 +158,13 @@ void MainWindow::on_readDir_clicked()
 
 void MainWindow::on_neuralNetwork_Button_clicked()
 {
+
+    /// végig menni xszer a cikk alapján az adatbázison, majd tesztelni, hogy megy
+    /// majd pedig mehet az ablakozott pcp-s cucc
+    /// a pcp-ből ott van a vektor ami kell a pcptrackben
+    ///
+
+
     /// if all stipulation ok
     /// like read the database and read input file
     /// then we can create the neural network
