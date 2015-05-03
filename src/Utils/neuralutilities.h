@@ -3,6 +3,7 @@
 
 
 #include "../../genchords/src/FFT.h"
+#include "../MI/neuralnetworks.h"
 
 /*!
  * \brief transforms a fragment of the input sound to a discrete Fourier transform (DFT) spectrum
@@ -62,6 +63,8 @@ float M(float l);
  */
 //int idealWindowSize(int samplerate);
 
+
+//void teachNeuralNetwork(NeuralNetworks& nn);
 
 
 

@@ -1,5 +1,11 @@
 #include "neuralutilities.h"
 
+/*
+void teachNeuralNetwork(NeuralNetworks &nn, std::vector<SoundData>)
+{
+
+}*/
+
 
 
 

@@ -118,9 +118,14 @@ GetFeatures::GetFeatures(SoundData*& sd)
             //uptodate["PCPTrack"] = true;
         //}
         //if (not uptodate["Chordsequence"] && chordOptions.find(option) != chordOptions.end()) {
+
+            if(false){
             std::cout << "...init chordsequence..." << std::endl;
             key = getkey(sd,windowSize);
             cs = Chordsequence(pcptrack, key);
+            }
+
+
 
 /*
             std::cout << "...beat detection..." << std::endl;
@@ -147,11 +152,20 @@ GetFeatures::GetFeatures(SoundData*& sd)
             printSfInfo(soundfilename);
         }*/
         //else if (option == "k" | option == "key") {
+
+
+
+
+
             std::cout << "********* Key of the song ************" << std::endl;
             std::cout <<  key << std::endl;
             std::cout << "*********************************" << std::endl << std::endl;
         //}
 
+
+
+
+        /*
         if (option == "f" || option == "labelfile") {
             std::string filename = "";
             std::cout << "outputfilename: ";
@@ -161,23 +175,31 @@ GetFeatures::GetFeatures(SoundData*& sd)
             std::cout << "output written to file " << filename << std::endl << std::endl;
             std::cout << "*********************************" << std::endl << std::endl;
         }
+        */
+
+
+
         //else if (option == "pcp" || option == "chord" || option == "p&c" || option == "getsample") {
             long nr;
             int sum;
             nr = 0; sum = pcptrack.size();
-            //cout << "sum: " << sum << endl;
-            //std::cout << "start block: ";
-            //std::cin >> nr;
-            //std::cout << "nr of blocks: ";
-            //std::cin >> sum;
-            //if (sum < 1) sum = 1;
+            std::cout << "PCPTrack size (windows): " << pcptrack.size() << endl;
 
+
+            /// pcptrack.at(i).tostring()
+            /*
             cout << "pcptrack.at(i)" << endl;
             for(int i = 0; i < pcptrack.size(); i++)
             {
                 cout << pcptrack.at(i).tostring() << endl;
             }
 
+            */
+
+
+
+            /// pcp bargraph
+            /*
 
             for (int i=0; i<sum; i++) {
                // if (option == "pcp" or option == "p&c") {
@@ -199,6 +221,17 @@ GetFeatures::GetFeatures(SoundData*& sd)
                // }//
             }
             std::cout << std::endl;
+
+
+            */
+
+
+
+
+
+
+
+
         //}
         /*
             else if (option == "c" || option == "autocomp") {
@@ -213,6 +246,19 @@ GetFeatures::GetFeatures(SoundData*& sd)
             }
             */
         //else if (option == "s" || option == "scorefile") {
+
+
+
+
+
+
+
+
+
+
+
+
+            /*
             std::string filename = "";
             std::cout << "outputfilename: ";
             //std::cin >> filename;
@@ -229,6 +275,15 @@ GetFeatures::GetFeatures(SoundData*& sd)
             std::cout << "*********************************" << std::endl << std::endl;
         //}
         //else if (option == "q" or option == "quit") {
+
+
+
+
+            */
+
+
+
+
             std::cout << "good bye ...." << std::endl << std::endl;
        //     break;
         //}

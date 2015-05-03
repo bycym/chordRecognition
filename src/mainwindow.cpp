@@ -201,39 +201,117 @@ void MainWindow::on_neuralNetwork_Button_clicked()
             }
             */
 
-        NeuralNetworks * nn = new NeuralNetworks(10);
 
-        int value = 1;
-        for(int i = 0; i < value; i++)
+
+
+
+
+
+
+
+
+
+        /// tag init
+        std::vector<std::string> tags;
+        tags.push_back("a");
+        tags.push_back("am");
+        tags.push_back("b");
+        tags.push_back("bm");
+        tags.push_back("c");
+        tags.push_back("d");
+        tags.push_back("dm");
+        tags.push_back("e");
+        tags.push_back("em");
+        tags.push_back("f");
+        tags.push_back("g");
+
+
+
+        // PCPLEN = 12
+        NeuralNetworks * nn = new NeuralNetworks(12, tags.size(),2,35,0.001);
+        nn->setTag(tags);
+
+
+
+
+        // D.B. teaching
+        for(int i = 0; i < databaseFeatures_->size(); i++)
         {
-            cout << "i : " << i << endl;
+            cout << endl << endl << endl <<"i : " << i << endl;
+
+
+            std::vector<double> target;
+            target.clear();
+            target.push_back(1.0);
+            target.push_back(0.0);
+            target.push_back(0.0);
+            target.push_back(0.0);
+            target.push_back(0.0);
+            target.push_back(0.0);
+            target.push_back(0.0);
+            target.push_back(0.0);
+            target.push_back(0.0);
+            target.push_back(0.0);
+
+
+
+            GetFeatures * feature = databaseFeatures_->at(i);
             std::vector<double> input;
-            //nn->updateInputs(input);
-            // melyik pcp track-es cuccot kell beletuszkolni?
-            // a pcp.h-ból?
 
 
-            /// tag init
-            std::vector<std::string> tags;
-            tags.push_back("a");
-            tags.push_back("am");
-            tags.push_back("b");
-            tags.push_back("bm");
-            tags.push_back("c");
-            tags.push_back("d");
-            tags.push_back("dm");
-            tags.push_back("e");
-            tags.push_back("em");
-            tags.push_back("f");
-            tags.push_back("g");
-            nn->setTag(tags);
+            for(int j = 0; j < feature->pcptrack.size(); j++)
+            {
+                for(auto pcp : feature->pcptrack.at(j).pcp)
+                {
+                    input.push_back((double)pcp);
+                }
+
+                /*
+                cout << "input size: " << input.size() << endl;
+                for(auto x : input)
+                    cout << x << ", ";
+                cout << endl;
+                */
+                cout << endl << endl << endl;
+                cout << "update input" << endl;
+                nn->updateInputs(input);
+
+                cout << "compute outputs" << endl;
+                nn->computeOutputs();
+
+                cout << "update error signal" << endl;
+                /*
+                cout << "target size: " << target.size() << endl;
+                for(auto x : target)
+                    cout << x << ", ";
+                cout << endl;
+                */
+                nn->updateErrorSignal(target);
+
+                cout << "update weights" << endl;
+                nn->updateWeights();
+
+                cout <<endl<< "outputs:"<<endl;
+                for(auto o : nn->outputs())
+                    cout << o << ", ";
+                cout <<endl;
+
+                cout << nn->getTag();
+                //qDebug() << QString::fromStdString(nn->getTag());
 
 
-            //nn->computeOutputs();
-            //nn->updateErrorSignal();
-            //nn->updateWeights();
-            cout << nn->getTag();
-            qDebug() << QString::fromStdString(nn->getTag());
+
+
+                input.clear();
+
+            }
+
+
+
+
+
+
+
         }
 
     }

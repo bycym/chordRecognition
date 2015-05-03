@@ -114,7 +114,7 @@ public:
      * \brief outputs computed value of the layer
      * \return outputs of the layer
      */
-    std::vector<double> outputs()
+    std::vector<double> outputs() const
     {
         std::vector<double> tmp;
         for(int i = 0; i < outputs_.size(); i++)
@@ -183,6 +183,10 @@ public:
      * | hiddLay. 1    | hiddLay. ...    | hiddLay. n               | outputLayer |
      * | outp * arr(n) | outp * arr(n-1) | outp * arr(outputLayer)  |             |
      * +---------------+-----------------+--------------------------+-------------+
+     * 1) output layer:
+     *      arr array is for the target array where the goal index 1, other's zero
+     * 2) hidden neuron layer:
+     *      arr array is for the previous neuron layer assistant array
      * \param array previous neuron layer computed value for the errorSignal update
      * \return compute for the next neuron layer
      */

@@ -26,7 +26,7 @@ private:
     // pointerként megcsinálni
     NeuronLayer * outputNeuronLayer_;
 
-    std::vector<NeuronLayer> neuronlayer_;
+    std::vector<NeuronLayer*> neuronlayer_;
     std::vector<double> inputs_;                       // input to hidden
     std::vector<std::string> tags_;
     std::vector<double> outputs_;
@@ -69,7 +69,10 @@ public:
 
     /*!
      * \brief updateErrorSignal
-     * update all neuron layer errorSignal
+     * 1) output layer:
+     *      arr array is for the target array where the goal index 1, other's zero
+     * 2) hidden neuron layer:
+     *      arr array is for the previous neuron layer assistant array
      * \param array previous layer's value for update
      * more comments in neuronLayer.h
      */
