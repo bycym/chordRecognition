@@ -228,8 +228,9 @@ void MainWindow::on_neuralNetwork_Button_clicked()
 
 
         // PCPLEN = 12
-        NeuralNetworks * nn = new NeuralNetworks(12, tags.size(),2,35,0.001);
-        nn->setTag(tags);
+        neuralnetworks_ = NULL;
+        neuralnetworks_ = new NeuralNetworks(12, tags.size(),2,35,0.001);
+        neuralnetworks_->setTag(tags);
 
 
 
@@ -274,10 +275,10 @@ void MainWindow::on_neuralNetwork_Button_clicked()
                 */
                 cout << endl << endl << endl;
                 cout << "update input" << endl;
-                nn->updateInputs(input);
+                neuralnetworks_->updateInputs(input);
 
                 cout << "compute outputs" << endl;
-                nn->computeOutputs();
+                neuralnetworks_->computeOutputs();
 
                 cout << "update error signal" << endl;
                 /*
@@ -286,17 +287,17 @@ void MainWindow::on_neuralNetwork_Button_clicked()
                     cout << x << ", ";
                 cout << endl;
                 */
-                nn->updateErrorSignal(target);
+                neuralnetworks_->updateErrorSignal(target);
 
                 cout << "update weights" << endl;
-                nn->updateWeights();
+                neuralnetworks_->updateWeights();
 
                 cout <<endl<< "outputs:"<<endl;
-                for(auto o : nn->outputs())
+                for(auto o : neuralnetworks_->outputs())
                     cout << o << ", ";
                 cout <<endl;
 
-                cout << nn->getTag();
+                cout << neuralnetworks_->getTag();
                 //qDebug() << QString::fromStdString(nn->getTag());
 
 

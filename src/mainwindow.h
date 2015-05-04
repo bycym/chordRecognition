@@ -54,6 +54,8 @@ private:
     PlaySound * playSound_;
     SoundData * sndData_;
     NeuralNetworkForm * nnf_;
+    NeuralNetworks * neuralnetworks_;
+
 
     GetFeatures * sndDataFeatures_;
     QVector<GetFeatures* > * databaseFeatures_;

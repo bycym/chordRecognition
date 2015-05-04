@@ -259,8 +259,8 @@ void NeuronLayer::updateWeights(const std::vector<double> prevInput)
     {
         for(int j = 0; j < numInput_; j++)
         {
-            std::cout << "previnputs: " << prevInput[j] << " , errorSignal: " << errorSignal_[i] << endl;
-            std::cout << "weights: " << weights_[i][j] << endl;
+            //std::cout << "previnputs: " << prevInput[j] << " , errorSignal: " << errorSignal_[i] << endl;
+            //std::cout << "weights: " << weights_[i][j] << endl;
             weights_[i][j] += learningRate_ * prevInput[j] * errorSignal_[i];
         }
     }
