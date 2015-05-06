@@ -117,6 +117,11 @@ void NeuralNetworks::computeOutputs()
         outputNeuronLayer_->updateInputs(tmp.outputs());
         outputNeuronLayer_->computeOutputs(1);
     }
+
+    for(int i = 0; i < numOutput_; i++)
+    {
+        outputs_[i] = outputNeuronLayer_->outputs(i);
+    }
 }
 
 
@@ -136,10 +141,6 @@ void NeuralNetworks::updateErrorSignal(std::vector<double> array)
 
     std::vector<double> tmpErrorSignal = outputNeuronLayer_->updateErrorSignal(array);
 
-    for(int i = 0; i < numOutput_; i++)
-    {
-        outputs_[i] = outputNeuronLayer_->outputs(i);
-    }
 
     for(int i = neuronlayer_.size()-1; i >= 0; i--)
     {
@@ -198,11 +199,15 @@ std::string NeuralNetworks::getTag()
     double max = -2.0;
     for(int i = 0; i < outputs_.size(); i++)
     {
+        std::cout <<outputs_[i] << ", ";
         if(outputs_[i] > max)
         {
             index = i;
             max = outputs_[i];
         }
     }
+    std::cout << std::endl;
+    std::cout << outputs_[index] << std::endl;
+    std::cout << tags_[index] << std::endl;
     return tags_[index];
 }

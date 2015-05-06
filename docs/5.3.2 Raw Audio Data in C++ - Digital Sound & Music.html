@@ -1,0 +1,2720 @@
+<!DOCTYPE html>
+<html data-useragent="Mozilla/5.0 (X11; Linux i686; rv:31.0) Gecko/20100101 Firefox/31.0 Iceweasel/31.6.0" class="wf-ptsans-n4-active wf-ptsans-i4-active wf-anticslab-n4-active wf-anticslab-i4-active wf-anticslab-n7-active wf-anticslab-i7-active wf-ptsans-n7-active wf-ptsans-i7-active js flexbox canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths wf-fontawesome-n4-inactive wf-active" xmlns="http://www.w3.org/1999/xhtml" prefix="og: http://ogp.me/ns#" lang="en-US"><head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<title>
+	5.3.2 Raw Audio Data in C++ - Digital Sound &amp; Music	</title>
+
+	
+		<style type="text/css">Avada_3.4.3{color:green;}</style>
+
+	
+			
+			
+	
+	
+				<script style="" src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/analytics.js" async=""></script><script async="" type="text/javascript" src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/webfont.js"></script><script type="text/javascript">
+	WebFontConfig = {
+		google: { families: [ "PT+Sans:400,400italic,700,700italic:latin,greek-ext,cyrillic,latin-ext,greek,cyrillic-ext,vietnamese", "Antic+Slab:400,400italic,700,700italic:latin,greek-ext,cyrillic,latin-ext,greek,cyrillic-ext,vietnamese" ] },		custom: { families: ['FontAwesome'], urls: ['http://digitalsoundandmusic.com/wp-content/themes/Avada/fonts/fontawesome.css'] }
+	};
+	(function() {
+		var wf = document.createElement('script');
+		wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+		  '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+		wf.type = 'text/javascript';
+		wf.async = 'true';
+		var s = document.getElementsByTagName('script')[0];
+		s.parentNode.insertBefore(wf, s);
+	})();
+	</script>
+
+		<!--[if lte IE 8]>
+	<link rel="stylesheet" href="http://digitalsoundandmusic.com/wp-content/themes/Avada/css/ie8.css" />
+	<![endif]-->
+
+	<!--[if IE]>
+	<link rel="stylesheet" href="http://digitalsoundandmusic.com/wp-content/themes/Avada/css/ie.css" />
+	<![endif]-->
+
+	
+	
+			<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+						<style type="text/css">
+		@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait){
+			#wrapper .ei-slider{width:100% !important;}
+		}
+		@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape){
+			#wrapper .ei-slider{width:100% !important;}
+		}
+		</style>
+			
+			<style type="text/css">
+	.animated { visibility:hidden;}
+	</style>
+		
+	<!--[if lt IE 10]>
+	<style type="text/css">
+	.animated { visibility:visible;}
+	</style>
+	<![endif]-->
+
+	
+	
+	
+		
+	
+		<link rel="shortcut icon" href="http://digitalsoundandmusic.schwartzsound.com/wp-content/uploads/2014/05/favicon.ico" type="image/x-icon">
+	
+	
+	
+	
+	
+	
+	
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.4 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://digitalsoundandmusic.com/5-3-2-raw-audio-data-in-c/">
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="5.3.2 Raw Audio Data in C++ - Digital Sound &amp; Music">
+<meta property="og:description" content="In Chapters 2 and 3, we showed you how to generate sinusoidal waveforms as arrays of values that could be sent directly to the sound device and played.&nbsp; But what if you want to work with more complicated sounds and music in C++?&nbsp; In this case, you'll need to be able to read audio files into your programs in order to experiment with audio processing. In C++, raw audio data in 8-bit or 16-bit format can be read into an array of characters (char) or short integers (short), respectively, assuming that characters are stored in 8 bits and short integers …">
+<meta property="og:url" content="http://digitalsoundandmusic.com/5-3-2-raw-audio-data-in-c/">
+<meta property="og:site_name" content="Digital Sound &amp; Music">
+<meta property="article:section" content="Chapter 5">
+<meta property="article:published_time" content="2014-05-20T23:37:15+00:00">
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="Digital Sound &amp; Music » Feed" href="http://digitalsoundandmusic.com/feed/">
+<link rel="alternate" type="application/rss+xml" title="Digital Sound &amp; Music » Comments Feed" href="http://digitalsoundandmusic.com/comments/feed/">
+<link rel="alternate" type="application/rss+xml" title="Digital Sound &amp; Music » 5.3.2 Raw Audio Data in C++ Comments Feed" href="http://digitalsoundandmusic.com/5-3-2-raw-audio-data-in-c/feed/">
+<link rel="stylesheet" id="wpfb-css" href="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/wp-filebase.css" type="text/css" media="all">
+<link rel="stylesheet" id="style-css-css" href="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/style_003.css" type="text/css" media="all">
+<link rel="stylesheet" id="media-css-css" href="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/media.css" type="text/css" media="all">
+<link rel="stylesheet" id="animate-css-css" href="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/animate-custom.css" type="text/css" media="all">
+<link rel="stylesheet" id="contact-form-7-css" href="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/styles.css" type="text/css" media="all">
+<link rel="stylesheet" id="rs-plugin-settings-css" href="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/settings.css" type="text/css" media="all">
+<style type="text/css">
+.avada_huge_white_text{
+			position: absolute; 
+			color: #ffffff; 
+			font-size: 130px; 
+			line-height: 45px; 
+			font-family: museoslab500regular;
+            text-shadow: 0px 2px 5px rgba(0, 0, 0, 1);
+		}
+
+.avada_huge_black_text{
+			position: absolute; 
+			color: #000000; 
+			font-size: 130px; 
+			line-height: 45px; 
+			font-family: museoslab500regular;
+		}
+
+.avada_big_black_text{
+			position: absolute; 
+			color: #333333; 
+			font-size: 42px; 
+			line-height: 45px; 
+			font-family: museoslab500regular;
+		}
+
+.avada_big_white_text{
+			position: absolute; 
+			color: #fff; 
+			font-size: 42px; 
+			line-height: 45px; 
+			font-family: museoslab500regular;
+		}
+
+.avada_big_black_text_center{
+			position: absolute; 
+			color: #333333; 
+			font-size: 38px; 
+			line-height: 45px; 
+			font-family: museoslab500regular;
+                        text-align: center;
+		}
+
+
+.avada_med_green_text{
+			position: absolute; 
+			color: #A0CE4E; 
+			font-size: 24px; 
+			line-height: 24px; 
+			font-family: PTSansRegular, Arial, Helvetica, sans-serif;
+		}
+
+
+.avada_small_gray_text{
+			position: absolute; 
+			color: #747474; 
+			font-size: 13px; 			
+            line-height: 20px; 
+			font-family: PTSansRegular, Arial, Helvetica, sans-serif;
+		}
+
+.avada_small_white_text{
+			position: absolute; 
+			color: #fff; 
+			font-size: 13px; 			
+            line-height: 20px; 
+			font-family: PTSansRegular, Arial, Helvetica, sans-serif;
+    		text-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
+  			font-weight: 700; 
+
+		}
+
+
+.avada_block_black{
+			position: absolute; 
+			color: #A0CE4E; 
+			text-shadow: none; 
+			font-size: 22px; 
+			line-height: 34px; 
+			padding: 0px 10px; 
+			padding-top: 1px;
+			margin: 0px; 
+			border-width: 0px; 
+			border-style: none; 
+			background-color:#000;	
+			font-family: PTSansRegular, Arial, Helvetica, sans-serif;
+	}
+
+.avada_block_green{
+			position: absolute; 
+			color: #000; 
+			text-shadow: none; 
+			font-size: 22px; 
+			line-height: 34px; 
+			padding: 0px 10px; 
+			padding-top: 1px;
+			margin: 0px; 
+			border-width: 0px; 
+			border-style: none; 
+			background-color:#A0CE4E;	
+			font-family: PTSansRegular, Arial, Helvetica, sans-serif;
+	}
+
+.avada_block_white{
+			position: absolute; 
+			color: #fff; 
+			text-shadow: none; 
+			font-size: 22px; 
+			line-height: 34px; 
+			padding: 0px 10px; 
+			padding-top: 1px;
+			margin: 0px; 
+			border-width: 0px; 
+			border-style: none; 
+			background-color:#000;	
+			font-family: PTSansRegular, Arial, Helvetica, sans-serif;
+	}
+
+
+.avada_block_white_trans{
+			position: absolute; 
+			color: #fff; 
+			text-shadow: none; 
+			font-size: 22px; 
+			line-height: 34px; 
+			padding: 0px 10px; 
+			padding-top: 1px;
+			margin: 0px; 
+			border-width: 0px; 
+			border-style: none; 
+			background-color:rgba(0, 0, 0, 0.6);    		
+			font-family: PTSansRegular, Arial, Helvetica, sans-serif;
+	}
+.tp-caption a {
+color:#ff7302;
+text-shadow:none;
+-webkit-transition:all 0.2s ease-out;
+-moz-transition:all 0.2s ease-out;
+-o-transition:all 0.2s ease-out;
+-ms-transition:all 0.2s ease-out;
+}
+
+.tp-caption a:hover {
+color:#ffa902;
+}
+</style>
+<link rel="stylesheet" id="rs-plugin-captions-css" href="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/captions.css" type="text/css" media="all">
+<link rel="stylesheet" id="sidebar-login-css" href="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/sidebar-login.css" type="text/css" media="all">
+<link rel="stylesheet" id="toc-screen-css" href="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/screen.css" type="text/css" media="all">
+<link rel="stylesheet" id="layerslider-css" href="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/layerslider.css" type="text/css" media="all">
+<link rel="stylesheet" id="ls-google-fonts-css" href="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/css_002.css" type="text/css" media="all">
+<link rel="stylesheet" id="wooslider-flexslider-css" href="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/flexslider.css" type="text/css" media="all">
+<link rel="stylesheet" id="wooslider-common-css" href="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/style_002.css" type="text/css" media="all">
+<link rel="stylesheet" id="easy_table_style-css" href="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/style.css" type="text/css" media="all">
+<link media="all" href="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/css.css" rel="stylesheet"><link media="all" href="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/fontawesome.css" rel="stylesheet"><script type="text/javascript" src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/jquery_002.js"></script>
+<script type="text/javascript" src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/jquery-migrate.js"></script>
+<script type="text/javascript" src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/jquery_006.js"></script>
+<script type="text/javascript" src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/jquery_004.js"></script>
+<script type="text/javascript" src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/blockui.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var sidebar_login_params = {"ajax_url":"http:\/\/digitalsoundandmusic.com\/wp-admin\/admin-ajax.php","force_ssl_login":"0","force_ssl_admin":"0","is_ssl":"0","i18n_username_required":"Please enter your username","i18n_password_required":"Please enter your password","error_class":"sidebar_login_error"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/sidebar-login.js"></script>
+<script type="text/javascript" src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/layerslider.js"></script>
+<script type="text/javascript" src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/greensock.js"></script>
+<script type="text/javascript" src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/layerslider_002.js"></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://digitalsoundandmusic.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://digitalsoundandmusic.com/wp-includes/wlwmanifest.xml"> 
+<meta name="generator" content="WordPress 3.9.5">
+<link rel="shortlink" href="http://digitalsoundandmusic.com/?p=1304">
+<link href="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/shCore.css" type="text/css" rel="stylesheet"><link href="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/shThemeDefault.css" type="text/css" rel="stylesheet"><style type="text/css" id="syntaxhighlighteranchor"></style>
+
+	
+	<!--[if lte IE 8]>
+	<script type="text/javascript">
+	jQuery(document).ready(function() {
+	var imgs, i, w;
+	var imgs = document.getElementsByTagName( 'img' );
+	for( i = 0; i < imgs.length; i++ ) {
+	    w = imgs[i].getAttribute( 'width' );
+	    imgs[i].removeAttribute( 'width' );
+	    imgs[i].removeAttribute( 'height' );
+	}
+	});
+	</script>
+	<![endif]-->
+	<script type="text/javascript">
+	/*@cc_on
+		@if (@_jscript_version == 10)
+	    	document.write('<style type="text/css">.avada-select-parent .avada-select-arrow,.select-arrow{height:33px;background-color:#ffffff !important;}.search input{padding-left:5px;}header .tagline{margin-top:3px !important;}.star-rating span:before {letter-spacing: 0;}.avada-select-parent .avada-select-arrow,.gravity-select-parent .select-arrow,.wpcf7-select-parent .select-arrow,.select-arrow{background: #fff;}.star-rating{width: 5.2em!important;}.star-rating span:before {letter-spacing: 0.1em!important;}</style>');
+		@end
+	@*/
+
+	var doc = document.documentElement;
+	doc.setAttribute('data-useragent', navigator.userAgent);
+
+	function insertParam(url, parameterName, parameterValue, atStart){
+    replaceDuplicates = true;
+
+    if(url.indexOf('#') > 0){
+        var cl = url.indexOf('#');
+        urlhash = url.substring(url.indexOf('#'),url.length);
+    } else {
+        urlhash = '';
+        cl = url.length;
+    }
+    sourceUrl = url.substring(0,cl);
+
+    var urlParts = sourceUrl.split("?");
+    var newQueryString = "";
+
+    if (urlParts.length > 1)
+    {
+        var parameters = urlParts[1].split("&");
+        for (var i=0; (i < parameters.length); i++)
+        {
+            var parameterParts = parameters[i].split("=");
+            if (!(replaceDuplicates && parameterParts[0] == parameterName))
+            {
+                if (newQueryString == "") {
+                    newQueryString = "?" + parameterParts[0] + "=" + (parameterParts[1]?parameterParts[1]:'');
+                }
+                else {
+                    newQueryString += "&";
+                newQueryString += parameterParts[0] + "=" + (parameterParts[1]?parameterParts[1]:'');
+            	}
+            }
+        }
+    }
+    if (newQueryString == "")
+        newQueryString = "?";
+
+    if(atStart){
+        newQueryString = '?'+ parameterName + "=" + parameterValue + (newQueryString.length>1?'&'+newQueryString.substring(1):'');
+    } else {
+        if (newQueryString !== "" && newQueryString != '?')
+            newQueryString += "&";
+        newQueryString += parameterName + "=" + (parameterValue?parameterValue:'');
+    }
+    return urlParts[0] + newQueryString + urlhash;
+};
+
+function ytVidId(url) {
+  var p = /^(?:https?:)?(\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+  return (url.match(p)) ? RegExp.$1 : false;
+  //return (url.match(p)) ? true : false;
+}
+
+jQuery(document).ready(function() {
+	jQuery('.portfolio-wrapper').hide();
+	jQuery('.portfolio-tabs ').hide();
+	jQuery('.faq-tabs ').hide();
+	if(jQuery('.portfolio').length >= 1) {
+		jQuery('#content').append('<div class="loading-container"><img src="data:image/gif;base64,R0lGODlh3AATAPQeAPDy+MnQ6LW/4N3h8MzT6rjC4sTM5r/I5NHX7N7j8c7U6tvg8OLl8uXo9Ojr9b3G5MfP6Ovu9tPZ7PT1+vX2+tbb7vf4+8/W69jd7rC73vn5/O/x+K243ai02////wAAACH/C05FVFNDQVBFMi4wAwEAAAAh+QQECgD/ACwAAAAA3AATAAAF/6AnjmRpnmiqrmzrvnAsz3Rt33iu73zv/8CgcEj0BAScpHLJbDqf0Kh0Sq1ar9isdioItAKGw+MAKYMFhbF63CW438f0mg1R2O8EuXj/aOPtaHx7fn96goR4hmuId4qDdX95c4+RBIGCB4yAjpmQhZN0YGYGXitdZBIVGAsLoq4BBKQDswm1CQRkcG6ytrYKubq8vbfAcMK9v7q7EMO1ycrHvsW6zcTKsczNz8HZw9vG3cjTsMIYqQkCLBwHCgsMDQ4RDAYIqfYSFxDxEfz88/X38Onr16+Bp4ADCco7eC8hQYMAEe57yNCew4IVBU7EGNDiRn8Z831cGLHhSIgdFf9chIeBg7oA7gjaWUWTVQAGE3LqBDCTlc9WOHfm7PkTqNCh54rePDqB6M+lR536hCpUqs2gVZM+xbrTqtGoWqdy1emValeXKzggYBBB5y1acFNZmEvXAoN2cGfJrTv3bl69Ffj2xZt3L1+/fw3XRVw4sGDGcR0fJhxZsF3KtBTThZxZ8mLMgC3fRatCbYMNFCzwLEqLgE4NsDWs/tvqdezZf13Hvk2A9Szdu2X3pg18N+68xXn7rh1c+PLksI/Dhe6cuO3ow3NfV92bdArTqC2Ebd3A8vjf5QWfH6Bg7Nz17c2fj69+fnq+8N2Lty+fuP78/eV2X13neIcCeBRwxorbZrA1ANoCDGrgoG8RTshahQ9iSKEEzUmYIYfNWViUhheCGJyIP5E4oom7WWjgCeBFAJNv1DVV01MAdJhhjdkplWNzO/5oXI846njjVEIqR2OS2B1pE5PVscajkxhMycqLJghQSwT40PgfAl4GqNSXYdZXJn5gSkmmmmJu1aZYb14V51do+pTOCmA40AqVCIhG5IJ9PvYnhIFOxmdqhpaI6GeHCtpooisuutmg+Eg62KOMKuqoTaXgicQWoIYq6qiklmoqFV0UoeqqrLbq6quwxirrrLTWauutJ4QAACH5BAUKABwALAcABADOAAsAAAX/IPd0D2dyRCoUp/k8gpHOKtseR9yiSmGbuBykler9XLAhkbDavXTL5k2oqFqNOxzUZPU5YYZd1XsD72rZpBjbeh52mSNnMSC8lwblKZGwi+0QfIJ8CncnCoCDgoVnBHmKfByGJimPkIwtiAeBkH6ZHJaKmCeVnKKTHIihg5KNq4uoqmEtcRUtEREMBggtEr4QDrjCuRC8h7/BwxENeicSF8DKy82pyNLMOxzWygzFmdvD2L3P0dze4+Xh1Arkyepi7dfFvvTtLQkZBC0T/FX3CRgCMOBHsJ+EHYQY7OinAGECgQsB+Lu3AOK+CewcWjwxQeJBihtNGHSoQOE+iQ3//4XkwBBhRZMcUS6YSXOAwIL8PGqEaSJCiYt9SNoCmnJPAgUVLChdaoFBURN8MAzl2PQphwQLfDFd6lTowglHve6rKpbjhK7/pG5VinZP1qkiz1rl4+tr2LRwWU64cFEihwEtZgbgR1UiHaMVvxpOSwBA37kzGz9e8G+B5MIEKLutOGEsAH2ATQwYfTmuX8aETWdGPZmiZcccNSzeTCA1Sw0bdiitC7LBWgu8jQr8HRzqgpK6gX88QbrB14z/kF+ELpwB8eVQj/JkqdylAudji/+ts3039vEEfK8Vz2dlvxZKG0CmbkKDBvllRd6fCzDvBLKBDSCeffhRJEFebFk1k/Mv9jVIoIJZSeBggwUaNeB+Qk34IE0cXlihcfRxkOAJFFhwGmKlmWDiakZhUJtnLBpnWWcnKaAZcxI0piFGGLBm1mc90kajSCveeBVWKeYEoU2wqeaQi0PetoE+rr14EpVC7oAbAUHqhYExbn2XHHsVqbcVew9tx8+XJKk5AZsqqdlddGpqAKdbAYBn1pcczmSTdWvdmZ17c1b3FZ99vnTdCRFM8OEcAhLwm1NdXnWcBBSMRWmfkWZqVlsmLIiAp/o1gGV2vpS4lalGYsUOqXrddcKCmK61aZ8SjEpUpVFVoCpTj4r661Km7kBHjrDyc1RAIQAAIfkEBQoAGwAsBwAEAM4ACwAABf/gtmUCd4goQQgFKj6PYKi0yrrbc8i4ohQt12EHcal+MNSQiCP8gigdz7iCioaCIvUmZLp8QBzW0EN2vSlCuDtFKaq4RyHzQLEKZNdiQDhRDVooCwkbfm59EAmKi4SGIm+AjIsKjhsqB4mSjT2IOIOUnICeCaB/mZKFNTSRmqVpmJqklSqskq6PfYYCDwYHDC4REQwGCBLGxxIQDsHMwhAIX8bKzcENgSLGF9PU1j3Sy9zX2NrgzQziChLk1BHWxcjf7N046tvN82715czn9Pryz6Ilc4ACj4EBOCZM8KEnAYYADBRKnACAYUMFv1wotIhCEcaJCisqwJFgAUSQGyX/kCSVUUTIdKMwJlyo0oXHlhskwrTJciZHEXsgaqS4s6PJiCAr1uzYU8kBBSgnWFqpoMJMUjGtDmUwkmfVmVypakWhEKvXsS4nhLW5wNjVroJIoc05wSzTr0PtiigpYe4EC2vj4iWrFu5euWIMRBhacaVJhYQBEFjA9jHjyQ0xEABwGceGAZYjY0YBOrRLCxUp29QM+bRkx5s7ZyYgVbTqwwti2ybJ+vLtDYpycyZbYOlptxdx0kV+V7lC5iJAyyRrwYKxAdiz82ng0/jnAdMJFz0cPi104Ec1Vj9/M6F173vKL/feXv156dw11tlqeMMnv4V5Ap53GmjQQH97nFfg+IFiucfgRX5Z8KAgbUlQ4IULIlghhhdOSB6AgX0IVn8eReghen3NRIBsRgnH4l4LuEidZBjwRpt6NM5WGwoW0KSjCwX6yJSMab2GwwAPDXfaBCtWpluRTQqC5JM5oUZAjUNS+VeOLWpJEQ7VYQANW0INJSZVDFSnZphjSikfmzE5N4EEbQI1QJmnWXCmHulRp2edwDXF43txukenJwvI9xyg9Q26Z3MzGUcBYFEChZh6DVTq34AU8Iflh51Sd+CnKFYQ6mmZkhqfBKfSxZWqA9DZanWjxmhrWwi0qtCrt/43K6WqVjjpmhIqgEGvculaGKklKstAACEAACH5BAUKABwALAcABADOAAsAAAX/ICdyQmaMYyAUqPgIBiHPxNpy79kqRXH8wAPsRmDdXpAWgWdEIYm2llCHqjVHU+jjJkwqBTecwItShMXkEfNWSh8e1NGAcLgpDGlRgk7EJ/6Ae3VKfoF/fDuFhohVeDeCfXkcCQqDVQcQhn+VNDOYmpSWaoqBlUSfmowjEA+iEAEGDRGztAwGCDcXEA60tXEiCrq8vREMEBLIyRLCxMWSHMzExnbRvQ2Sy7vN0zvVtNfU2tLY3rPgLdnDvca4VQS/Cpk3ABwSLQkYAQwT/P309vcI7OvXr94jBQMJ/nskkGA/BQBRLNDncAIAiDcG6LsxAWOLiQzmeURBKWSLCQbv/1F0eDGinJUKR47YY1IEgQASKk7Yc7ACRwZm7mHweRJoz59BJUogisKCUaFMR0x4SlJBVBFTk8pZivTR0K73rN5wqlXEAq5Fy3IYgHbEzQ0nLy4QSoCjXLoom96VOJEeCosK5n4kkFfqXjl94wa+l1gvAcGICbewAOAxY8l/Ky/QhAGz4cUkGxu2HNozhwMGBnCUqUdBg9UuW9eUynqSwLHIBujePef1ZGQZXcM+OFuEBeBhi3OYgLyqcuaxbT9vLkf4SeqyWxSQpKGB2gQpm1KdWbu72rPRzR9Ne2Nu9Kzr/1Jqj0yD/fvqP4aXOt5sW/5qsXXVcv1Nsp8IBUAmgswGF3llGgeU1YVXXKTN1FlhWFXW3gIE+DVChApysACHHo7Q4A35lLichh+ROBmLKAzgYmYEYDAhCgxKGOOMn4WR4kkDaoBBOxJtdNKQxFmg5JIWIBnQc07GaORfUY4AEkdV6jHlCEISSZ5yTXpp1pbGZbkWmcuZmQCaE6iJ0FhjMaDjTMsgZaNEHFRAQVp3bqXnZED1qYcECOz5V6BhSWCoVJQIKuKQi2KFKEkEFAqoAo7uYSmO3jk61wUUMKmknJ4SGimBmAa0qVQBhAAAIfkEBQoAGwAsBwAEAM4ACwAABf/gJm5FmRlEqhJC+bywgK5pO4rHI0D3pii22+Mg6/0Ej96weCMAk7cDkXf7lZTTnrMl7eaYoy10JN0ZFdco0XAuvKI6qkgVFJXYNwjkIBcNBgR8TQoGfRsJCRuCYYQQiI+ICosiCoGOkIiKfSl8mJkHZ4U9kZMbKaI3pKGXmJKrngmug4WwkhA0lrCBWgYFCCMQFwoQDRHGxwwGCBLMzRLEx8iGzMMO0cYNeCMKzBDW19lnF9DXDIY/48Xg093f0Q3s1dcR8OLe8+Y91OTv5wrj7o7B+7VNQqABIoRVCMBggsOHE36kSoCBIcSH3EbFangxogJYFi8CkJhqQciLJEf/LDDJEeJIBT0GsOwYUYJGBS0fjpQAMidGmyVP6sx4Y6VQhzs9VUwkwqaCCh0tmKoFtSMDmBOf9phg4SrVrROuasRQAaxXpVUhdsU6IsECZlvX3kwLUWzRt0BHOLTbNlbZG3vZinArge5Dvn7wbqtQkSYAAgtKmnSsYKVKo2AfW048uaPmG386i4Q8EQMBAIAnfB7xBxBqvapJ9zX9WgRS2YMpnvYMGdPK3aMjt/3dUcNI4blpj7iwkMFWDXDvSmgAlijrt9RTR78+PS6z1uAJZIe93Q8g5zcsWCi/4Y+C8bah5zUv3vv89uft30QP23punGCx5954oBBwnwYaNCDY/wYrsYeggnM9B2Fpf8GG2CEUVWhbWAtGouEGDy7Y4IEJVrbSiXghqGKIo7z1IVcXIkKWWR361QOLWWnIhwERpLaaCCee5iMBGJQmJGyPFTnbkfHVZGRtIGrg5HALEJAZbu39BuUEUmq1JJQIPtZilY5hGeSWsSk52G9XqsmgljdIcABytq13HyIM6RcUA+r1qZ4EBF3WHWB29tBgAzRhEGhig8KmqKFv8SeCeo+mgsF7YFXa1qWSbkDpom/mqR1PmHCqJ3fwNRVXjC7S6CZhFVCQ2lWvZiirhQq42SACt25IK2hv8TprriUV1usGgeka7LFcNmCldMLi6qZMgFLgpw16Cipb7bC1knXsBiEAACH5BAUKABsALAcABADOAAsAAAX/4FZsJPkUmUGsLCEUTywXglFuSg7fW1xAvNWLF6sFFcPb42C8EZCj24EJdCp2yoegWsolS0Uu6fmamg8n8YYcLU2bXSiRaXMGvqV6/KAeJAh8VgZqCX+BexCFioWAYgqNi4qAR4ORhRuHY408jAeUhAmYYiuVlpiflqGZa5CWkzc5fKmbbhIpsAoQDRG8vQwQCBLCwxK6vb5qwhfGxxENahvCEA7NzskSy7vNzzzK09W/PNHF1NvX2dXcN8K55cfh69Luveol3vO8zwi4Yhj+AQwmCBw4IYclDAAJDlQggVOChAoLKkgFkSCAHDwWLKhIEOONARsDKryogFPIiAUb/95gJNIiw4wnI778GFPhzBKFOAq8qLJEhQpiNArjMcHCmlTCUDIouTKBhApELSxFWiGiVKY4E2CAekPgUphDu0742nRrVLJZnyrFSqKQ2ohoSYAMW6IoDpNJ4bLdILTnAj8KUF7UeENjAKuDyxIgOuGiOI0EBBMgLNew5AUrDTMGsFixwBIaNCQuAXJB57qNJ2OWm2Aj4skwCQCIyNkhhtMkdsIuodE0AN4LJDRgfLPtn5YDLdBlraAByuUbBgxQwICxMOnYpVOPej074OFdlfc0TqC62OIbcppHjV4o+LrieWhfT8JC/I/T6W8oCl29vQ0XjLdBaA3s1RcPBO7lFvpX8BVoG4O5jTXRQRDuJ6FDTzEWF1/BCZhgbyAKE9qICYLloQYOFtahVRsWYlZ4KQJHlwHS/IYaZ6sZd9tmu5HQm2xi1UaTbzxYwJk/wBF5g5EEYOBZeEfGZmNdFyFZmZIR4jikbLThlh5kUUVJGmRT7sekkziRWUIACABk3T4qCsedgO4xhgGcY7q5pHJ4klBBTQRJ0CeHcoYHHUh6wgfdn9uJdSdMiebGJ0zUPTcoS286FCkrZxnYoYYKWLkBowhQoBeaOlZAgVhLidrXqg2GiqpQpZ4apwSwRtjqrB3muoF9BboaXKmshlqWqsWiGt2wphJkQbAU5hoCACH5BAUKABsALAcABADOAAsAAAX/oGFw2WZuT5oZROsSQnGaKjRvilI893MItlNOJ5v5gDcFrHhKIWcEYu/xFEqNv6B1N62aclysF7fsZYe5aOx2yL5aAUGSaT1oTYMBwQ5VGCAJgYIJCnx1gIOBhXdwiIl7d0p2iYGQUAQBjoOFSQR/lIQHnZ+Ue6OagqYzSqSJi5eTpTxGcjcSChANEbu8DBAIEsHBChe5vL13G7fFuscRDcnKuM3H0La3EA7Oz8kKEsXazr7Cw9/Gztar5uHHvte47MjktznZ2w0G1+D3BgirAqJmJMAQgMGEgwgn5Ei0gKDBhBMALGRYEOJBb5QcWlQo4cbAihZz3GgIMqFEBSM1/4ZEOWPAgpIIJXYU+PIhRG8ja1qU6VHlzZknJNQ6UanCjQkWCIGSUGEjAwVLjc44+DTqUQtPPS5gejUrTa5TJ3g9sWCr1BNUWZI161StiQUDmLYdGfesibQ3XMq1OPYthrwuA2yU2LBs2cBHIypYQPPlYAKFD5cVvNPtW8eVGbdcQADATsiNO4cFAPkvHpedPzc8kUcPgNGgZ5RNDZG05reoE9s2vSEP79MEGiQGy1qP8LA4ZcdtsJE48ONoLTBtTV0B9LsTnPceoIDBDQvS7W7vfjVY3q3eZ4A339J4eaAmKqU/sV58HvJh2RcnIBsDUw0ABqhBA5aV5V9XUFGiHfVeAiWwoFgJJrIXRH1tEMiDFV4oHoAEGlaWhgIGSGBO2nFomYY3mKjVglidaNYJGJDkWW2xxTfbjCbVaOGNqoX2GloR8ZeTaECS9pthRGJH2g0b3Agbk6hNANtteHD2GJUucfajCQBy5OOTQ25ZgUPvaVVQmbKh9510/qQpwXx3SQdfk8tZJOd5b6JJFplT3ZnmmX3qd5l1eg5q00HrtUkUn0AKaiGjClSAgKLYZcgWXwocGRcCFGCKwSB6ceqphwmYRUFYT/1WKlOdUpipmxW0mlCqHjYkAaeoZlqrqZ4qd+upQKaapn/AmgAegZ8KUtYtFAQQAgAh+QQFCgAbACwHAAQAzgALAAAF/+C2PUcmiCiZGUTrEkKBis8jQEquKwU5HyXIbEPgyX7BYa5wTNmEMwWsSXsqFbEh8DYs9mrgGjdK6GkPY5GOeU6ryz7UFopSQEzygOGhJBjoIgMDBAcBM0V/CYqLCQqFOwobiYyKjn2TlI6GKC2YjJZknouaZAcQlJUHl6eooJwKooobqoewrJSEmyKdt59NhRKFMxLEEA4RyMkMEAjDEhfGycqAG8TQx9IRDRDE3d3R2ctD1RLg0ttKEnbY5wZD3+zJ6M7X2RHi9Oby7u/r9g38UFjTh2xZJBEBMDAboogAgwkQI07IMUORwocSJwCgWDFBAIwZOaJIsOBjRogKJP8wTODw5ESVHVtm3AhzpEeQElOuNDlTZ0ycEUWKWFASqEahGwYUPbnxoAgEdlYSqDBkgoUNClAlIHbSAoOsqCRQnQHxq1axVb06FWFxLIqyaze0Tft1JVqyE+pWXMD1pF6bYl3+HTqAWNW8cRUFzmih0ZAAB2oGKukSAAGGRHWJgLiR6AylBLpuHKKUMlMCngMpDSAa9QIUggZVVvDaJobLeC3XZpvgNgCmtPcuwP3WgmXSq4do0DC6o2/guzcseECtUoO0hmcsGKDgOt7ssBd07wqesAIGZC1YIBa7PQHvb1+SFo+++HrJSQfB33xfav3i5eX3Hnb4CTJgegEq8tH/YQEOcIJzbm2G2EoYRLgBXFpVmFYDcREV4HIcnmUhiGBRouEMJGJGzHIspqgdXxK0yCKHRNXoIX4uorCdTyjkyNtdPWrA4Up82EbAbzMRxxZRR54WXVLDIRmRcag5d2R6ugl3ZXzNhTecchpMhIGVAKAYpgJjjsSklBEd99maZoo535ZvdamjBEpusJyctg3h4X8XqodBMx0tiNeg/oGJaKGABpogS40KSqiaEgBqlQWLUtqoVQnytekEjzo0hHqhRorppOZt2p923M2AAV+oBtpAnnPNoB6HaU6mAAIU+IXmi3j2mtFXuUoHKwXpzVrsjcgGOauKEjQrwq157hitGq2NoWmjh7z6Wmxb0m5w66+2VRAuXN/yFUAIACH5BAUKABsALAcABADOAAsAAAX/4CZuRiaM45MZqBgIRbs9AqTcuFLE7VHLOh7KB5ERdjJaEaU4ClO/lgKWjKKcMiJQ8KgumcieVdQMD8cbBeuAkkC6LYLhOxoQ2PF5Ys9PKPBMen17f0CCg4VSh32JV4t8jSNqEIOEgJKPlkYBlJWRInKdiJdkmQlvKAsLBxdABA4RsbIMBggtEhcQsLKxDBC2TAS6vLENdJLDxMZAubu8vjIbzcQRtMzJz79S08oQEt/guNiyy7fcvMbh4OezdAvGrakLAQwyABsELQkY9BP+//ckyPDD4J9BfAMh1GsBoImMeQUN+lMgUJ9CiRMa5msxoB9Gh/o8GmxYMZXIgxtR/yQ46S/gQAURR0pDwYDfywoyLPip5AdnCwsMFPBU4BPFhKBDi444quCmDKZOfwZ9KEGpCKgcN1jdALSpPqIYsabS+nSqvqplvYqQYAeDPgwKwjaMtiDl0oaqUAyo+3TuWwUAMPpVCfee0cEjVBGQq2ABx7oTWmQk4FglZMGN9fGVDMCuiH2AOVOu/PmyxM630gwM0CCn6q8LjVJ8GXvpa5Uwn95OTC/nNxkda1/dLSK475IjCD6dHbK1ZOa4hXP9DXs5chJ00UpVm5xo2qRpoxptwF2E4/IbJpB/SDz9+q9b1aNfQH08+p4a8uvX8B53fLP+ycAfemjsRUBgp1H20K+BghHgVgt1GXZXZpZ5lt4ECjxYR4ScUWiShEtZqBiIInRGWnERNnjiBglw+JyGnxUmGowsyiiZg189lNtPGACjV2+S9UjbU0JWF6SPvEk3QZEqsZYTk3UAaRSUnznJI5LmESCdBVSyaOWUWLK4I5gDUYVeV1T9l+FZClCAUVA09uSmRHBCKAECFEhW51ht6rnmWBXkaR+NjuHpJ40D3DmnQXt2F+ihZxlqVKOfQRACACH5BAUKABwALAcABADOAAsAAAX/ICdyUCkUo/g8mUG8MCGkKgspeC6j6XEIEBpBUeCNfECaglBcOVfJFK7YQwZHQ6JRZBUqTrSuVEuD3nI45pYjFuWKvjjSkCoRaBUMWxkwBGgJCXspQ36Bh4EEB0oKhoiBgyNLjo8Ki4QElIiWfJqHnISNEI+Ql5J9o6SgkqKkgqYihamPkW6oNBgSfiMMDQkGCBLCwxIQDhHIyQwQCGMKxsnKVyPCF9DREQ3MxMPX0cu4wt7J2uHWx9jlKd3o39MiuefYEcvNkuLt5O8c1ePI2tyELXGQwoGDAQf+iEC2xByDCRAjTlAgIUWCBRgCPJQ4AQBFXAs0coT40WLIjRxL/47AcHLkxIomRXL0CHPERZkpa4q4iVKiyp0tR/7kwHMkTUBBJR5dOCEBAVcKKtCAyOHpowXCpk7goABqBZdcvWploACpBKkpIJI1q5OD2rIWE0R1uTZu1LFwbWL9OlKuWb4c6+o9i3dEgw0RCGDUG9KlRw56gDY2qmCByZBaASi+TACA0TucAaTteCcy0ZuOK3N2vJlx58+LRQyY3Xm0ZsgjZg+oPQLi7dUcNXi0LOJw1pgNtB7XG6CBy+U75SYfPTSQAgZTNUDnQHt67wnbZyvwLgKiMN3oCZB3C76tdewpLFgIP2C88rbi4Y+QT3+8S5USMICZXWj1pkEDeUU3lOYGB3alSoEiMIjgX4WlgNF2EibIwQIXauWXSRg2SAOHIU5IIIMoZkhhWiJaiFVbKo6AQEgQXrTAazO1JhkBrBG3Y2Y6EsUhaGn95hprSN0oWpFE7rhkeaQBchGOEWnwEmc0uKWZj0LeuNV3W4Y2lZHFlQCSRjTIl8uZ+kG5HU/3sRlnTG2ytyadytnD3HrmuRcSn+0h1dycexIK1KCjYaCnjCCVqOFFJTZ5GkUUjESWaUIKU2lgCmAKKQIUjHapXRKE+t2og1VgankNYnohqKJ2CmKplso6GKz7WYCgqxeuyoF8u9IQAgA7" alt="Loading..."><div class="loading-msg">'+js_local_vars.portfolio_loading_text+'</div>');
+	}
+	if(jQuery('.faqs').length >= 1) {
+		jQuery('#content').append('<div class="loading-container"><img src="data:image/gif;base64,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" alt="Loading..."><div class="loading-msg">'+js_local_vars.faqs_loading_text+'</div>');
+	}
+
+	var iframes = jQuery('iframe');
+	jQuery.each(iframes, function(i, v) {
+		var src = jQuery(this).attr('src');
+		if(src) {
+						if(src.indexOf('vimeo') >= 1) {
+				jQuery(this).attr('id', 'player_'+(i+1));
+				var new_src = insertParam(src, 'api', '1', false);
+				var new_src_2 = insertParam(new_src, 'player_id', 'player_'+(i+1), false);
+
+				jQuery(this).attr('src', new_src_2);
+			}
+									if(ytVidId(src)) {
+                jQuery(this).attr('id', 'player_'+(i+1));
+				jQuery(this).parent().wrap('<span class="play3" />');
+				window.yt_vid_exists = true;
+
+                var new_src = insertParam(src, 'enablejsapi', '1', false);
+                jQuery(this).attr('src', new_src);
+			}
+					}
+	});
+
+        if(window.yt_vid_exists == true) {
+        var tag = document.createElement('script');
+        tag.src = window.location.protocol + "//www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    }
+    });
+
+// Define YT_ready function.
+var YT_ready = (function() {
+    var onReady_funcs = [], api_isReady = false;
+    /* @param func function     Function to execute on ready
+     * @param func Boolean      If true, all qeued functions are executed
+     * @param b_before Boolean  If true, the func will added to the first
+                                 position in the queue*/
+    return function(func, b_before) {
+        if (func === true) {
+            api_isReady = true;
+            while (onReady_funcs.length) {
+                // Removes the first func from the array, and execute func
+                onReady_funcs.shift()();
+            }
+        } else if (typeof func == "function") {
+            if (api_isReady) func();
+            else onReady_funcs[b_before?"unshift":"push"](func);
+        }
+    }
+})();
+
+// This function will be called when the API is fully loaded
+function onYouTubePlayerAPIReady() {YT_ready(true)}
+
+jQuery(window).load(function() {
+	if(jQuery('#sidebar').is(':visible')) {
+		jQuery('.post-content div.portfolio').each(function() {
+			var columns = jQuery(this).data('columns');
+			jQuery(this).addClass('portfolio-'+columns+'-sidebar');
+		});
+	}
+
+	if(jQuery().isotope) {
+		  // modified Isotope methods for gutters in masonry
+		  jQuery.Isotope.prototype._getMasonryGutterColumns = function() {
+		    var gutter = this.options.masonry && this.options.masonry.gutterWidth || 0;
+		        containerWidth = this.element.width();
+
+		    this.masonry.columnWidth = this.options.masonry && this.options.masonry.columnWidth ||
+		                  // or use the size of the first item
+		                  this.$filteredAtoms.outerWidth(true) ||
+		                  // if there's no items, use size of container
+		                  containerWidth;
+
+		    this.masonry.columnWidth += gutter;
+
+		    this.masonry.cols = Math.floor( ( containerWidth + gutter ) / this.masonry.columnWidth );
+		    this.masonry.cols = Math.max( this.masonry.cols, 1 );
+		  };
+
+		  jQuery.Isotope.prototype._masonryReset = function() {
+		    // layout-specific props
+		    this.masonry = {};
+		    // FIXME shouldn't have to call this again
+		    this._getMasonryGutterColumns();
+		    var i = this.masonry.cols;
+		    this.masonry.colYs = [];
+		    while (i--) {
+		      this.masonry.colYs.push( 0 );
+		    }
+		  };
+
+		  jQuery.Isotope.prototype._masonryResizeChanged = function() {
+		    var prevSegments = this.masonry.cols;
+		    // update cols/rows
+		    this._getMasonryGutterColumns();
+		    // return if updated cols/rows is not equal to previous
+		    return ( this.masonry.cols !== prevSegments );
+		  };
+
+		imagesLoaded(jQuery('.portfolio-one .portfolio-wrapper'), function() {
+			jQuery('.portfolio-wrapper').fadeIn();
+			jQuery('.portfolio-tabs').fadeIn();
+			jQuery('.faq-tabs').fadeIn();
+			jQuery('.loading-container').fadeOut();
+			jQuery('.portfolio-one .portfolio-wrapper').isotope({
+				// options
+				itemSelector: '.portfolio-item',
+				layoutMode: 'straightDown',
+				transformsEnabled: false
+			});
+			jQuery('[data-spy="scroll"]').each(function () {
+				  var $spy = jQuery(this).scrollspy('refresh');
+			});
+		});
+
+		imagesLoaded(jQuery('.portfolio-two .portfolio-wrapper, .portfolio-three .portfolio-wrapper, .portfolio-four .portfolio-wrapper'),function() {
+			jQuery('.portfolio-wrapper').fadeIn();
+			jQuery('.portfolio-tabs').fadeIn();
+			jQuery('.loading-container').fadeOut();
+			jQuery('.portfolio-two .portfolio-wrapper, .portfolio-three .portfolio-wrapper, .portfolio-four .portfolio-wrapper').isotope({
+				// options
+				itemSelector: '.portfolio-item',
+				layoutMode: 'fitRows',
+				transformsEnabled: false
+			});
+			jQuery('[data-spy="scroll"]').each(function () {
+				  var $spy = jQuery(this).scrollspy('refresh');
+			});
+		});
+
+		var masonryContainer = jQuery('.portfolio-masonry .portfolio-wrapper');
+		imagesLoaded(masonryContainer, function() {
+			jQuery('.portfolio-wrapper').fadeIn();
+			jQuery('.portfolio-tabs').fadeIn();
+			jQuery('.loading-container').fadeOut();
+			var gridTwo = masonryContainer.parent().hasClass('portfolio-grid-2');
+			var columns;
+			if(gridTwo) {
+				columns = 2;
+			} else {
+				columns = 3;
+			}
+			masonryContainer.isotope({
+				// options
+				itemSelector: '.portfolio-item',
+				layoutMode: 'masonry',
+				transformsEnabled: false,
+				masonry: { columnWidth: masonryContainer.width() / columns }
+			});
+			jQuery('[data-spy="scroll"]').each(function () {
+				  var $spy = jQuery(this).scrollspy('refresh');
+			});
+		});
+	}
+
+	if(jQuery().flexslider) {
+		var avada_ytplayer;
+
+				function ready(player_id) {
+		    var froogaloop = $f(player_id);
+
+		    froogaloop.addEvent('play', function(data) {
+		    	jQuery('#'+player_id).parents('li').parent().parent().flexslider("pause");
+		    });
+
+		    froogaloop.addEvent('pause', function(data) {
+		        jQuery('#'+player_id).parents('li').parent().parent().flexslider("play");
+		    });
+		}
+
+		var vimeoPlayers = jQuery('.flexslider').find('iframe'), player;
+
+		jQuery('.flexslider').find('iframe').each(function() {
+			var id = jQuery(this).attr('id');
+
+			if(id) {
+				$f(id).addEvent('ready', ready);
+			}
+		});
+
+		function addEvent(element, eventName, callback) {
+		    if (element.addEventListener) {
+		        element.addEventListener(eventName, callback, false)
+		    } else {
+		        element.attachEvent(eventName, callback, false);
+		    }
+		}
+		
+		jQuery('.full-video, .video-shortcode, .wooslider .slide-content').not('#bbpress-forums full-video, #bbpress-forums .video-shortcode, #bbpress-forums .wooslider .slide-content').fitVids();
+		jQuery('#bbpress-forums').fitVids();
+
+		if(jQuery('.tfs-slider').length >= 1) {
+			//jQuery('.tfs-slider').flexslider('destroy');
+
+			jQuery('.tfs-slider').flexslider({
+				animation: "fade",
+				slideshow: true,
+				slideshowSpeed: 7000,
+				animationSpeed: 600,
+				smoothHeight: true,
+				pauseOnHover: false,
+				useCSS: false,
+				video: true,
+				start: function(slider) {
+			        if(typeof(slider.slides) !== 'undefined' && slider.slides.eq(slider.currentSlide).find('iframe').length !== 0) {
+			           			           jQuery(slider).find('.flex-control-nav').hide();
+			           			           			           if(window.yt_vid_exists == true) {
+						YT_ready(function() {
+							new YT.Player(slider.slides.eq(slider.currentSlide).find('iframe').attr('id'), {
+								events: {
+									'onStateChange': onPlayerStateChange(slider.slides.eq(slider.currentSlide).find('iframe').attr('id'), slider)
+								}
+							});
+						});
+						}
+									       } else {
+			           			           jQuery(slider).find('.flex-control-nav').show();
+			           			       }
+				},
+			    before: function(slider) {
+			        if(slider.slides.eq(slider.currentSlide).find('iframe').length !== 0) {
+			        				           	$f( slider.slides.eq(slider.currentSlide).find('iframe')[0] ).api('pause');
+			           
+			           			           if(window.yt_vid_exists == true) {
+						YT_ready(function() {
+							new YT.Player(slider.slides.eq(slider.currentSlide).find('iframe').attr('id'), {
+								events: {
+									'onStateChange': onPlayerStateChange(slider.slides.eq(slider.currentSlide).find('iframe').attr('id'), slider)
+								}
+							});
+						});
+						}
+						
+			           /* ------------------  YOUTUBE FOR AUTOSLIDER ------------------ */
+			           playVideoAndPauseOthers(slider);
+			       }
+			    },
+			   	after: function(slider) {
+			        if(slider.slides.eq(slider.currentSlide).find('iframe').length !== 0) {
+			           			           jQuery(slider).find('.flex-control-nav').hide();
+			           
+			           			           if(window.yt_vid_exists == true) {
+						YT_ready(function() {
+							new YT.Player(slider.slides.eq(slider.currentSlide).find('iframe').attr('id'), {
+								events: {
+									'onStateChange': onPlayerStateChange(slider.slides.eq(slider.currentSlide).find('iframe').attr('id'), slider)
+								}
+							});
+						});
+						}
+									       } else {
+			           			           jQuery(slider).find('.flex-control-nav').show();
+			           			       }
+					jQuery('[data-spy="scroll"]').each(function () {
+						  var $spy = jQuery(this).scrollspy('refresh');
+					});
+			    }
+			});
+		}
+
+		if(js_local_vars.page_smoothHeight === 'false') {
+			page_smoothHeight = false;
+		} else {
+			page_smoothHeight = true;
+		}
+
+        jQuery('.grid-layout .flexslider').flexslider({
+            slideshow: true,
+            slideshowSpeed: 7000,
+            video: true,
+            smoothHeight: page_smoothHeight,
+            pauseOnHover: false,
+            useCSS: false,
+            start: function(slider) {
+                if (typeof(slider.slides) !== 'undefined' && slider.slides.eq(slider.currentSlide).find('iframe').length !== 0) {
+                                        jQuery(slider).find('.flex-control-nav').hide();
+                    
+                                        if(window.yt_vid_exists == true) {
+                    YT_ready(function() {
+                        new YT.Player(slider.slides.eq(slider.currentSlide).find('iframe').attr('id'), {
+                            events: {
+                                'onStateChange': onPlayerStateChange(slider.slides.eq(slider.currentSlide).find('iframe').attr('id'), slider)
+                            }
+                        });
+                    });
+                	}
+                                    } else {
+                                        jQuery(slider).find('.flex-control-nav').show();
+                                    }
+            },
+            before: function(slider) {
+                if (slider.slides.eq(slider.currentSlide).find('iframe').length !== 0) {
+                    $f(slider.slides.eq(slider.currentSlide).find('iframe')[0] ).api('pause');                                        if(window.yt_vid_exists == true) {
+                    YT_ready(function() {
+                        new YT.Player(slider.slides.eq(slider.currentSlide).find('iframe').attr('id'), {
+                            events: {
+                                'onStateChange': onPlayerStateChange(slider.slides.eq(slider.currentSlide).find('iframe').attr('id'), slider)
+                            }
+                        });
+                    });
+                	}
+                    
+                    /* ------------------  YOUTUBE FOR AUTOSLIDER ------------------ */
+                    playVideoAndPauseOthers(slider);
+                }
+            },
+            after: function(slider) {
+                if (slider.slides.eq(slider.currentSlide).find('iframe').length !== 0) {
+                                        jQuery(slider).find('.flex-control-nav').hide();
+                                                            if(window.yt_vid_exists == true) {
+                    YT_ready(function() {
+                        new YT.Player(slider.slides.eq(slider.currentSlide).find('iframe').attr('id'), {
+                            events: {
+                                'onStateChange': onPlayerStateChange(slider.slides.eq(slider.currentSlide).find('iframe').attr('id'), slider)
+                            }
+                        });
+                    });
+                	}
+                                    } else {
+                                        jQuery(slider).find('.flex-control-nav').show();
+                                    }
+				jQuery('[data-spy="scroll"]').each(function () {
+					  var $spy = jQuery(this).scrollspy('refresh');
+				});
+            }
+        });
+
+		if(js_local_vars.flex_smoothHeight === 'false') {
+			flex_smoothHeight = false;
+		} else {
+			flex_smoothHeight = true;
+		}
+
+		jQuery('.flexslider').flexslider({
+			slideshow: true,
+			slideshowSpeed: 7000,
+			video: true,
+			smoothHeight: flex_smoothHeight,
+			pauseOnHover: false,
+			useCSS: false,
+			start: function(slider) {
+		        if (typeof(slider.slides) !== 'undefined' && slider.slides.eq(slider.currentSlide).find('iframe').length !== 0) {
+		           		           jQuery(slider).find('.flex-control-nav').hide();
+		           
+		           		           if(window.yt_vid_exists == true) {
+					YT_ready(function() {
+						new YT.Player(slider.slides.eq(slider.currentSlide).find('iframe').attr('id'), {
+							events: {
+								'onStateChange': onPlayerStateChange(slider.slides.eq(slider.currentSlide).find('iframe').attr('id'), slider)
+							}
+						});
+					});
+					}
+							       } else {
+		           		           jQuery(slider).find('.flex-control-nav').show();
+		           		       }
+			},
+		    before: function(slider) {
+		        if(slider.slides.eq(slider.currentSlide).find('iframe').length !== 0) {
+		           $f(slider.slides.eq(slider.currentSlide).find('iframe')[0] ).api('pause');		           		           if(window.yt_vid_exists == true) {
+					YT_ready(function() {
+						new YT.Player(slider.slides.eq(slider.currentSlide).find('iframe').attr('id'), {
+							events: {
+								'onStateChange': onPlayerStateChange(slider.slides.eq(slider.currentSlide).find('iframe').attr('id'), slider)
+							}
+						});
+					});
+					}
+					
+		           /* ------------------  YOUTUBE FOR AUTOSLIDER ------------------ */
+		           playVideoAndPauseOthers(slider);
+		       }
+		    },
+		   	after: function(slider) {
+		        if (slider.slides.eq(slider.currentSlide).find('iframe').length !== 0) {
+		           		           jQuery(slider).find('.flex-control-nav').hide();
+		           		           		           if(window.yt_vid_exists == true) {
+					YT_ready(function() {
+						new YT.Player(slider.slides.eq(slider.currentSlide).find('iframe').attr('id'), {
+							events: {
+								'onStateChange': onPlayerStateChange(slider.slides.eq(slider.currentSlide).find('iframe').attr('id'), slider)
+							}
+						});
+					});
+					}
+							       } else {
+		           		           jQuery(slider).find('.flex-control-nav').show();
+		           		       }
+				jQuery('[data-spy="scroll"]').each(function () {
+					  var $spy = jQuery(this).scrollspy('refresh');
+				});
+		    }
+		});
+
+		function playVideoAndPauseOthers(slider) {
+			jQuery(slider).find('iframe').each(function(i) {
+				var func = 'stopVideo';
+				this.contentWindow.postMessage('{"event":"command","func":"' + func + '","args":""}', '*');
+				if(jQuery(this).is(':visible') && jQuery(this).parents('li').attr('data-autoplay') == 'yes') {
+					this.contentWindow.postMessage('{"event":"command","func":"' + 'playVideo' + '","args":""}', '*');
+
+					if(jQuery(this).parents('li').attr('data-mute') == 'yes') {
+						this.contentWindow.postMessage('{"event":"command","func":"' + 'mute' + '","args":""}', '*');
+					}
+				}
+			});
+		}
+
+		/* ------------------ PREV & NEXT BUTTON FOR FLEXSLIDER (YOUTUBE) ------------------ */
+		jQuery('.flex-next, .flex-prev').click(function() {
+			playVideoAndPauseOthers(jQuery(this).parents('.flexslider, .tfs-slider'));
+		});
+
+		function onPlayerStateChange(frame, slider) {
+			return function(event) {
+		        if(event.data == YT.PlayerState.PLAYING) {
+		            jQuery(slider).flexslider("pause");
+		        }
+		        if(event.data == YT.PlayerState.PAUSED) {
+		        	jQuery(slider).flexslider("play");
+		        }
+                if(event.data == YT.PlayerState.BUFFERING) {
+                    jQuery(slider).flexslider("pause");
+                }
+	    	}
+		}
+	}
+
+	if(jQuery().isotope) {
+		var gridwidth = (jQuery('.grid-layout').width() / 2) - 22;
+		jQuery('.grid-layout .post').css('width', gridwidth);
+		jQuery('.grid-layout').isotope({
+			layoutMode: 'masonry',
+			itemSelector: '.post',
+			transformsEnabled: false,
+			masonry: {
+				columnWidth: gridwidth,
+				gutterWidth: 40
+			},
+		});
+
+		var gridwidth = (jQuery('.grid-full-layout-3').width() / 3) - 30;
+		jQuery('.grid-full-layout-3 .post').css('width', gridwidth);
+		jQuery('.grid-full-layout-3').isotope({
+			layoutMode: 'masonry',
+			itemSelector: '.post',
+			transformsEnabled: false,
+			masonry: {
+				columnWidth: gridwidth,
+				gutterWidth: 40
+			},
+		});
+
+		var gridwidth = (jQuery('.grid-full-layout-4').width() / 4) - 35;
+		jQuery('.grid-full-layout-4 .post').css('width', gridwidth);
+		jQuery('.grid-full-layout-4').isotope({
+			layoutMode: 'masonry',
+			itemSelector: '.post',
+			transformsEnabled: false,
+			masonry: {
+				columnWidth: gridwidth,
+				gutterWidth: 40
+			},
+		});
+	}
+
+		jQuery('.rev_slider_wrapper').each(function() {
+		if(jQuery(this).length >=1 && jQuery(this).find('.tp-bannershadow').length == 0) {
+			jQuery('<div class="shadow-left">').appendTo(this);
+			jQuery('<div class="shadow-right">').appendTo(this);
+
+			jQuery(this).addClass('avada-skin-rev');
+		}
+	});
+	});
+jQuery(document).ready(function() {
+	function onAfter(curr, next, opts, fwd) {
+	  var $ht = jQuery(this).height();
+
+	  //set the container's height to that of the current slide
+	  jQuery(this).parent().css('height', $ht);
+	}
+	if(jQuery().cycle) {
+	    jQuery('.reviews').cycle({
+			fx: 'fade',
+			after: onAfter,
+						timeout: 4000					});
+	}
+
+
+});
+jQuery(window).load(function($) {
+	jQuery('.header-social .menu > li').height(jQuery('.header-social').height());
+	jQuery('.header-social .menu > li').css('line-height', jQuery('.header-social').height()+'px');
+	jQuery('.header-social .menu > li.cart').css('line-height', jQuery('.header-social').height()+'px');
+
+	if(jQuery('.top-menu .cart').width() > 150) {
+		new_width = jQuery('.top-menu .cart').width();
+		jQuery('.top-menu .cart-contents').css("width", new_width+'px');
+		new_width -= 26;
+		jQuery('.top-menu .cart-content a').css("width", new_width+'px');
+		new_width -= 56;
+		jQuery('.top-menu .cart-content a .cart-desc').css("width", new_width+'px');
+	};
+	
+    /* wpml flag in center */
+	var wpml_flag = jQuery('ul#navigation > li > a > .iclflag');
+	var wpml_h = wpml_flag.height();
+	wpml_flag.css('margin-top', +wpml_h / - 2 + "px");
+
+	if(jQuery().prettyPhoto) {
+		var ppArgs = {
+						animation_speed: 'fast',
+						overlay_gallery: true,
+			autoplay_slideshow: false,
+						slideshow: 5000,
+									opacity: 0.8,
+						show_title: true,
+			show_desc: true,
+					};
+		var ppArgsRelated = ppArgs;
+
+		jQuery("a[rel^='prettyPhoto']").prettyPhoto(ppArgs);
+
+
+				jQuery('.single-post .post-content a').has('img').prettyPhoto(ppArgs);
+		
+		jQuery('.lightbox-enabled a').has('img').prettyPhoto(ppArgs);
+
+		var mediaQuery = 'desk';
+
+		if (Modernizr.mq('only screen and (max-width: 600px)') || Modernizr.mq('only screen and (max-height: 520px)')) {
+
+			mediaQuery = 'mobile';
+			jQuery("a[rel^='prettyPhoto']").unbind('click');
+						jQuery('.single-post .post-content a').has('img').unbind('click');
+						jQuery('.lightbox-enabled a').has('img').unbind('click');
+		}
+
+		// Disables prettyPhoto if screen small
+		jQuery(window).on('resize', function() {
+			if ((Modernizr.mq('only screen and (max-width: 600px)') || Modernizr.mq('only screen and (max-height: 520px)')) && mediaQuery == 'desk') {
+				jQuery("a[rel^='prettyPhoto']").unbind('click.prettyphoto');
+								jQuery('.single-post .post-content a').has('img').unbind('click.prettyphoto');
+								jQuery('.lightbox-enabled a').has('img').unbind('click.prettyphoto');
+				mediaQuery = 'mobile';
+			} else if (!Modernizr.mq('only screen and (max-width: 600px)') && !Modernizr.mq('only screen and (max-height: 520px)') && mediaQuery == 'mobile') {
+				jQuery("a[rel^='prettyPhoto']").prettyPhoto(ppArgs);
+								jQuery('.single-post .post-content a').has('img').prettyPhoto(ppArgs);
+								jQuery('.lightbox-enabled a').has('img').prettyPhoto(ppArgs);
+				mediaQuery = 'desk';
+			}
+		});
+	}
+			if( jQuery('.side-nav li').length ) {
+			jQuery('.side-nav li').hoverIntent({
+				over: function() {
+					if(jQuery(this).find('> .children').length >= 1) {
+						jQuery(this).find('> .children').stop(true, true).slideDown('slow');
+					}
+				},
+				out: function() {
+					if(jQuery(this).find('.current_page_item').length == 0 && jQuery(this).hasClass('current_page_item') == false) {
+						jQuery(this).find('.children').stop(true, true).slideUp('slow');
+					}
+				},
+				timeout: 500
+			});
+		}
+	
+	if(jQuery().eislideshow) {
+        jQuery('#ei-slider').eislideshow({
+        	        	animation: 'sides',
+        	        	autoplay: true,
+        	        	slideshow_interval: 3000,
+        	        	        	speed: 800,
+        	        	        	thumbMaxWidth: 150        	        });
+	}
+
+    var retina = window.devicePixelRatio > 1 ? true : false;
+
+    
+	
+	jQuery('#posts-container-infinite').infinitescroll({
+	    navSelector  : "div.pagination",
+	                   // selector for the paged navigation (it will be hidden)
+	    nextSelector : "a.pagination-next",
+	                   // selector for the NEXT link (to page 2)
+	    itemSelector : "div.post, .timeline-date",
+	                   // selector for all items you'll retrieve
+		loading      : {
+						finishedMsg: js_local_vars.infinite_blog_finished_msg,
+						msgText: js_local_vars.infinite_blog_text,
+		},
+	    errorCallback: function() {
+	    	jQuery('#posts-container').isotope('reLayout');
+	    }
+	}, function(posts) {
+		if(jQuery().isotope) {
+			//jQuery(posts).css('top', 'auto').css('left', 'auto');
+
+			jQuery(posts).hide();
+			imagesLoaded(posts, function() {
+				jQuery(posts).fadeIn();
+				jQuery('#posts-container-infinite').isotope('appended', jQuery(posts));
+				jQuery('#posts-container-infinite').isotope('reLayout');
+
+				jQuery('[data-spy="scroll"]').each(function () {
+					  var $spy = jQuery(this).scrollspy('refresh');
+				});
+			});
+
+			var gridwidth = (jQuery('.grid-layout').width() / 2) - 22;
+			jQuery('.grid-layout .post').css('width', gridwidth);
+
+			var gridwidth = (jQuery('.grid-full-layout-3').width() / 3) - 30;
+			jQuery('.grid-full-layout-3 .post').css('width', gridwidth);
+
+			var gridwidth = (jQuery('.grid-full-layout-4').width() / 4) - 35;
+			jQuery('.grid-full-layout-4 .post').css('width', gridwidth);
+
+			jQuery('#posts-container-infinite').isotope('reLayout');
+		}
+
+		jQuery('.flexslider').flexslider({
+			slideshow: true,
+			slideshowSpeed: 7000,
+			video: true,
+			pauseOnHover: false,
+			useCSS: false,
+			start: function(slider) {
+		        if (typeof(slider.slides) !== 'undefined' && slider.slides.eq(slider.currentSlide).find('iframe').length !== 0) {
+		           		           jQuery(slider).find('.flex-control-nav').hide();
+		           
+		           		           if(window.yt_vid_exists == true) {
+					YT_ready(function() {
+						new YT.Player(slider.slides.eq(slider.currentSlide).find('iframe').attr('id'), {
+							events: {
+								'onStateChange': onPlayerStateChange(slider.slides.eq(slider.currentSlide).find('iframe').attr('id'), slider)
+							}
+						});
+					});
+					}
+							       } else {
+		           		           jQuery(slider).find('.flex-control-nav').show();
+		           		       }
+			},
+		    before: function(slider) {
+		        if (slider.slides.eq(slider.currentSlide).find('iframe').length !== 0) {
+		           $f(slider.slides.eq(slider.currentSlide).find('iframe')[0] ).api('pause');
+		           		           if(window.yt_vid_exists == true) {
+					YT_ready(function() {
+						new YT.Player(slider.slides.eq(slider.currentSlide).find('iframe').attr('id'), {
+							events: {
+								'onStateChange': onPlayerStateChange(slider.slides.eq(slider.currentSlide).find('iframe').attr('id'), slider)
+							}
+						});
+					});
+					}
+					
+		           /* ------------------  YOUTUBE FOR AUTOSLIDER ------------------ */
+		           playVideoAndPauseOthers(slider);
+		       }
+		    },
+		   	after: function(slider) {
+		        if (slider.slides.eq(slider.currentSlide).find('iframe').length !== 0) {
+		           		           jQuery(slider).find('.flex-control-nav').hide();
+		           
+		           		           if(window.yt_vid_exists == true) {
+					YT_ready(function() {
+						new YT.Player(slider.slides.eq(slider.currentSlide).find('iframe').attr('id'), {
+							events: {
+								'onStateChange': onPlayerStateChange(slider.slides.eq(slider.currentSlide).find('iframe').attr('id'), slider)
+							}
+						});
+					});
+					}
+							       } else {
+		           		           jQuery(slider).find('.flex-control-nav').show();
+		           		       }
+				jQuery('[data-spy="scroll"]').each(function () {
+					  var $spy = jQuery(this).scrollspy('refresh');
+				});
+		    }
+		});
+		if(jQuery().prettyPhoto) { jQuery("a[rel^='prettyPhoto']").prettyPhoto(ppArgs); }
+		jQuery(posts).each(function() {
+			jQuery(this).find('.full-video, .video-shortcode, .wooslider .slide-content').fitVids();
+		});
+
+		if(jQuery().isotope) {
+			jQuery('#posts-container-infinite').isotope('reLayout');
+		}
+	});
+
+	});	</script>
+
+	
+		<style type="text/css">
+	@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+		.avada-select-parent .avada-select-arrow, .select-arrow, .gravity-select-parent .select-arrow{height:33px;background-color:#ffffff !important;}
+	}
+	</style>
+
+	<style type="text/css">
+	a:hover, .tooltip-shortcode{
+	color:#67b7e1;
+}
+#nav ul .current_page_item a, #nav ul .current-menu-item a, #nav ul > .current-menu-parent a,
+#sticky-nav ul .current_page_item a, #sticky-nav ul .current-menu-item a, #sticky-nav ul > .current-menu-parent a,
+.footer-area ul li a:hover,
+#slidingbar-area ul li a:hover,
+.portfolio-tabs li.active a, .faq-tabs li.active a,
+.project-content .project-info .project-info-box a:hover,
+.about-author .title a,
+span.dropcap,.footer-area a:hover,#slidingbar-area a:hover,.copyright a:hover,
+#sidebar .widget_categories li a:hover,
+#main .post h2 a:hover,
+#sidebar .widget li a:hover,
+#nav ul a:hover, #sticky-nav ul a:hover,
+.date-and-formats .format-box i,
+h5.toggle:hover a,
+.tooltip-shortcode,.content-box-percentage, .content-boxes a:hover h2,
+.more a:hover:after,.read-more:hover:after,.pagination-prev:hover:before,.pagination-next:hover:after,.bbp-topic-pagination .prev:hover:before,.bbp-topic-pagination .next:hover:after,
+.single-navigation a[rel=prev]:hover:before,.single-navigation a[rel=next]:hover:after,
+#sidebar .widget_nav_menu li a:hover:before,#sidebar .widget_categories li a:hover:before,
+#sidebar .widget .recentcomments:hover:before,#sidebar .widget_recent_entries li a:hover:before,
+#sidebar .widget_archive li a:hover:before,#sidebar .widget_pages li a:hover:before,
+#sidebar .widget_links li a:hover:before,.side-nav .arrow:hover:after,.woocommerce-tabs .tabs a:hover .arrow:after,
+.star-rating:before,.star-rating span:before,.price ins .amount, .avada-order-details .shop_table.order_details tfoot tr:last-child .amount,
+.price > .amount,.woocommerce-pagination .prev:hover,.woocommerce-pagination .next:hover,.woocommerce-pagination .prev:hover:before,.woocommerce-pagination .next:hover:after,
+.woocommerce-tabs .tabs li.active a,.woocommerce-tabs .tabs li.active a .arrow:after,
+#wrapper .cart-checkout a:hover,#wrapper .cart-checkout a:hover:before,#wrapper .header-social .top-menu .cart-checkout a:hover,
+.widget_shopping_cart_content .total .amount,.widget_layered_nav li a:hover:before,
+.widget_product_categories li a:hover:before,#header-sticky .my-account-link-active:after,#header .my-account-link-active:after,.woocommerce-side-nav li.active a,.woocommerce-side-nav li.active a:after,.my_account_orders .order-number a,.shop_table .product-subtotal .amount,
+.cart_totals .order-total .amount,form.checkout .shop_table tfoot .order-total .amount,#final-order-details .mini-order-details tr:last-child .amount,.rtl .more a:hover:before,.rtl .read-more:hover:before,#header-sticky .my-cart-link-active:after,#header .my-cart-link-active:after,#wrapper #sidebar .current_page_item > a,#wrapper #sidebar .current-menu-item > a,#wrapper #sidebar .current_page_item > a:before,#wrapper #sidebar .current-menu-item > a:before,#wrapper .footer-area .current_page_item > a,#wrapper .footer-area .current-menu-item > a,#wrapper .footer-area .current_page_item > a:before,#wrapper .footer-area .current-menu-item > a:before,#wrapper #slidingbar-area .current_page_item > a,#wrapper #slidingbar-area .current-menu-item > a,#wrapper #slidingbar-area .current_page_item > a:before,#wrapper #slidingbar-area .current-menu-item > a:before,.side-nav ul > li.current_page_item > a,.side-nav li.current_page_ancestor > a,
+.gform_wrapper span.ginput_total,.gform_wrapper span.ginput_product_price,.ginput_shipping_price,
+.bbp-topics-front ul.super-sticky a:hover, .bbp-topics ul.super-sticky a:hover, .bbp-topics ul.sticky a:hover, .bbp-forum-content ul.sticky a:hover{
+	color:#67b7e1 !important;
+}
+#sidebar .image .image-extras .image-extras-content a:hover { color: #333333 !important; }
+.star-rating:before,.star-rating span:before {
+	color:#67b7e1 !important;
+}
+.tagcloud a:hover,#slidingbar-area .tagcloud a:hover,.footer-area .tagcloud a:hover{ color: #FFFFFF !important; text-shadow: none !important; -moz-text-shadow: none !important; -webkit-text-shadow: none !important; }
+#nav ul .current_page_item a, #nav ul .current-menu-item a, #nav ul > .current-menu-parent a, #nav ul .current-menu-ancestor a, #snav ul .current-menu-ancestor a, #sticky-nav ul .current-menu-ancestor a,
+#sticky-nav ul .current_page_item a, #sticky-nav ul .current-menu-item a, #sticky-nav ul > .current-menu-parent a,
+#nav ul ul,#sticky-nav ul ul,
+.reading-box,
+.portfolio-tabs li.active a, .faq-tabs li.active a,
+.tab-holder .tabs li.active a,
+.post-content blockquote,
+.progress-bar-content,
+.pagination .current,
+.bbp-topic-pagination .current,
+.pagination a.inactive:hover,
+.woocommerce-pagination .page-numbers:hover,
+#nav ul a:hover,#sticky-nav ul a:hover,.woocommerce-pagination .current,
+.tagcloud a:hover,#header-sticky .my-account-link:hover:after,#header .my-account-link:hover:after,body #header-sticky .my-account-link-active:after,body #header .my-account-link-active:after,
+#bbpress-forums div.bbp-topic-tags a:hover{
+	border-color:#67b7e1 !important;
+}
+#wrapper .main-nav-search a:hover {border-top: 3px solid transparent !important;}
+#nav ul .current-menu-ancestor a,.navigation li.current-menu-ancestor a, #sticky-nav li.current-menu-ancestor a {
+	color: #67b7e1 !important;
+}
+.side-nav li.current_page_item a{
+	border-right-color:#67b7e1 !important;
+}
+.rtl .side-nav li.current_page_item a{
+	border-left-color:#67b7e1 !important;
+}
+.header-v2 .header-social, .header-v3 .header-social, .header-v4 .header-social,.header-v5 .header-social,.header-v2{
+	border-top-color:#67b7e1 !important;
+}
+h5.toggle.active span.arrow,
+ul.circle-yes li:before,
+.progress-bar-content,
+.pagination .current,
+.bbp-topic-pagination .current,
+.header-v3 .header-social,.header-v4 .header-social,.header-v5 .header-social,
+.date-and-formats .date-box,.table-2 table thead,
+.onsale,.woocommerce-pagination .current,
+.woocommerce .social-share li a:hover i,
+.price_slider_wrapper .ui-slider .ui-slider-range,
+.tagcloud a:hover,.cart-loading,
+#toTop:hover,
+#bbpress-forums div.bbp-topic-tags a:hover,
+.main-nav-search-form input[type="submit"]:hover, .search-page-search-form input[type="submit"]:hover,
+ul.arrow li:before,
+p.demo_store,
+.avada-myaccount-data .digital-downloads li:before, .avada-thank-you .order_details li:before{
+	background-color:#67b7e1 !important;
+}
+.woocommerce .social-share li a:hover i {
+	border-color:#67b7e1 !important;
+}
+.bbp-topics-front ul.super-sticky, .bbp-topics ul.super-sticky, .bbp-topics ul.sticky, .bbp-forum-content ul.sticky	{
+	background-color: #ffffe8 !important;
+	opacity: 1;
+}
+
+
+#slidingbar {
+	background-color:Array !important;
+	background-color:rgba(54,56,57,1) !important;
+}
+.sb_toggle {
+	border-color: transparent Array transparent transparent !important;
+	border-color: transparent rgba(54,56,57,1) transparent transparent !important;
+}
+#slidingbar-area .pyre_tabs .tab-holder .tabs li {
+	border-color: Array !important;
+	border-color: rgba(54,56,57,1) !important;
+}
+
+	#header-sticky .my-cart-link:after, #header-sticky a.search-link:after,
+	#header .my-cart-link:after, #header a.search-link:after,
+	#small-nav .my-cart-link:after, #small-nav a.search-link:after{ border: none !important; }
+
+
+
+
+
+body #header-sticky.sticky-header .sticky-shadow{background:rgba(255, 255, 255, 0.97) !important;}
+.no-rgba #header-sticky.sticky-header .sticky-shadow{background:#ffffff; filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=97); opacity: 0.97;}
+
+
+#header,#small-nav{
+	background-color:#ffffff !important;
+}
+
+#main,#wrapper{
+	background-color:#ffffff !important;
+}
+
+.footer-area{
+	background-color:#363839 !important;
+}
+.footer-area .pyre_tabs .tab-holder .tabs li {
+	border-color:#363839 !important;
+}
+
+.footer-area{
+	border-color:#e9eaee !important;
+}
+
+#footer{
+	background-color:#282a2b !important;
+}
+
+#footer{
+	border-color:#4b4c4d !important;
+}
+
+.sep-boxed-pricing ul li.title-row{
+	background-color:#62a2c4 !important;
+	border-color:#62a2c4 !important;
+}
+.pricing-row .exact_price, .pricing-row sup{
+	color:#62a2c4 !important;
+}
+.image .image-extras{
+	background-image: linear-gradient(top, rgba(144,201,232,1) 0%, rgba(90,171,214,1) 100%);
+	background-image: -o-linear-gradient(top, rgba(144,201,232,1) 0%, rgba(90,171,214,1) 100%);
+	background-image: -moz-linear-gradient(top, rgba(144,201,232,1) 0%, rgba(90,171,214,1) 100%);
+	background-image: -webkit-linear-gradient(top, rgba(144,201,232,1) 0%, rgba(90,171,214,1) 100%);
+	background-image: -ms-linear-gradient(top, rgba(144,201,232,1) 0%, rgba(90,171,214,1) 100%);
+
+	background-image: -webkit-gradient(
+		linear,
+		left top,
+		left bottom,
+		color-stop(0, rgba(144,201,232,1)),
+		color-stop(1, rgba(90,171,214,1))
+	);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#90c9e8', endColorstr='#5aabd6')
+			progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
+}
+.no-cssgradients .image .image-extras{
+	background:#90c9e8;
+}
+.image:hover .image-extras {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#90c9e8', endColorstr='#5aabd6')
+ 			progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
+ }
+#main .portfolio-one .button,
+#main .comment-submit,
+#reviews input#submit,
+.comment-form input[type="submit"],
+.wpcf7-form input[type="submit"],
+.bbp-submit-wrapper button,
+.button.default,
+.price_slider_amount button,
+.gform_wrapper .gform_button,
+.woocommerce .single_add_to_cart_button,
+.woocommerce .shipping-calculator-form .button,
+.woocommerce form.checkout #place_order,
+.woocommerce .checkout_coupon .button,
+.woocommerce .login .button,
+.woocommerce .register .button,
+.woocommerce .avada-order-details .order-again .button,
+.woocommerce .avada-order-details .order-again .button{
+	background: #5aabd6;
+
+	color: #105378 !important;
+	background-image: linear-gradient(top, #90c9e8 0%, #5aabd6 100%);
+	background-image: -o-linear-gradient(top, #90c9e8 0%, #5aabd6 100%);
+	background-image: -moz-linear-gradient(top, #90c9e8 0%, #5aabd6 100%);
+	background-image: -webkit-linear-gradient(top, #90c9e8 0%, #5aabd6 100%);
+	background-image: -ms-linear-gradient(top, #90c9e8 0%, #5aabd6 100%);
+
+	background-image: -webkit-gradient(
+		linear,
+		left top,
+		left bottom,
+		color-stop(0, #90c9e8),
+		color-stop(1, #5aabd6)
+	);
+	border:1px solid #5aabd6;
+
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#90c9e8', endColorstr='#5aabd6');
+}
+.no-cssgradients #main .portfolio-one .button,
+.no-cssgradients #main .comment-submit,
+.no-cssgradients #reviews input#submit,
+.no-cssgradients .comment-form input[type="submit"],
+.no-cssgradients .wpcf7-form input[type="submit"],
+.no-cssgradients .bbp-submit-wrapper button,
+.no-cssgradients .button.default,
+.no-cssgradients .price_slider_amount button,
+.no-cssgradients .gform_wrapper .gform_button,
+.no-cssgradients .woocommerce .single_add_to_cart_button,
+.no-cssgradients .woocommerce .shipping-calculator-form .button,
+.no-cssgradients .woocommerce form.checkout #place_order,
+.no-cssgradients .woocommerce .checkout_coupon .button,
+.no-cssgradients .woocommerce .login .button,
+.no-cssgradients .woocommerce .register .button,
+.no-cssgradients .woocommerce .avada-order-details .order-again .button{
+	background:#90c9e8;
+}
+#main .portfolio-one .button:hover,
+#main .comment-submit:hover,
+#reviews input#submit:hover,
+.comment-form input[type="submit"]:hover,
+.wpcf7-form input[type="submit"]:hover,
+.bbp-submit-wrapper button:hover,
+.button.default:hover,
+.price_slider_amount button:hover,
+.gform_wrapper .gform_button:hover,
+.woocommerce .single_add_to_cart_button:hover,
+.woocommerce .shipping-calculator-form .button:hover,
+.woocommerce form.checkout #place_order:hover,
+.woocommerce .checkout_coupon .button:hover,
+.woocommerce .login .button:hover,
+.woocommerce .register .button:hover,
+.woocommerce .avada-order-details .order-again .button:hover{
+	background: #5aabd6;
+	color: #105378 !important;
+	background-image: linear-gradient(top, #5aabd6 0%, #90c9e8 100%);
+	background-image: -o-linear-gradient(top, #5aabd6 0%, #90c9e8 100%);
+	background-image: -moz-linear-gradient(top, #5aabd6 0%, #90c9e8 100%);
+	background-image: -webkit-linear-gradient(top, #5aabd6 0%, #90c9e8 100%);
+	background-image: -ms-linear-gradient(top, #5aabd6 0%, #90c9e8 100%);
+
+	background-image: -webkit-gradient(
+		linear,
+		left top,
+		left bottom,
+		color-stop(0, #5aabd6),
+		color-stop(1, #90c9e8)
+	);
+	border:1px solid #5aabd6;
+
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5aabd6', endColorstr='#90c9e8');
+}
+.no-cssgradients #main .portfolio-one .button:hover,
+.no-cssgradients #main .comment-submit:hover,
+.no-cssgradients #reviews input#submit:hover,
+.no-cssgradients .comment-form input[type="submit"]:hover,
+.no-cssgradients .wpcf7-form input[type="submit"]:hover,
+.no-cssgradients .bbp-submit-wrapper button:hover,
+.no-cssgradients .button.default,
+.no-cssgradients .price_slider_amount button:hover,
+.no-cssgradients .gform_wrapper .gform_button:hover,
+.no-cssgradients .woocommerce .single_add_to_cart_button:hover
+.no-cssgradients .woocommerce .shipping-calculator-form .button:hover,
+.no-cssgradients .woocommerce form.checkout #place_order:hover,
+.no-cssgradients .woocommerce .checkout_coupon .button:hover,
+.no-cssgradients .woocommerce .login .button:hover,
+.no-cssgradients .woocommerce .register .button:hover
+.no-cssgradients .woocommerce .avada-order-details .order-again .button:hover{
+	background:#5aabd6;
+}
+
+.page-title-container{border-color:#d2d3d4 !important;}
+
+.footer-area{
+	
+		padding-top: 43px !important;
+	
+		padding-bottom: 40px !important;
+	}
+
+#footer{
+		padding-top: 18px !important;
+	
+		padding-bottom: 16px !important;
+	}
+
+.fontawesome-icon.circle-yes{
+	background-color:#333333 !important;
+}
+
+.fontawesome-icon.circle-yes{
+	border-color:#333333 !important;
+}
+
+.fontawesome-icon{
+	color:#ffffff !important;
+}
+
+.title-sep,.product .product-border{
+	border-color:#e0dede !important;
+}
+
+.review blockquote q,.post-content blockquote,form.checkout .payment_methods .payment_box{
+	background-color:#f6f6f6 !important;
+}
+.review blockquote div:after{
+	border-top-color:#f6f6f6 !important;
+}
+
+.review blockquote q,.post-content blockquote{
+	color:#747474 !important;
+}
+
+
+
+body,#nav ul li ul li a,#sticky-nav ul li ul li a,
+#wrapper .fusion-megamenu-wrapper .fusion-megamenu-widgets-container,
+.more,
+.avada-container h3,
+.meta .date,
+.review blockquote q,
+.review blockquote div strong,
+.image .image-extras .image-extras-content h4,
+.image .image-extras .image-extras-content h4 a,
+.project-content .project-info h4,
+.post-content blockquote,
+.button.large,
+.button.small,
+.ei-title h3,.cart-contents,
+.comment-form input[type="submit"],
+.wpcf7-form input[type="submit"],
+.gform_wrapper .gform_button,
+.woocommerce-success-message .button,
+.woocommerce .single_add_to_cart_button,
+.woocommerce .shipping-calculator-form .button,
+.woocommerce form.checkout #place_order,
+.woocommerce .checkout_coupon .button,
+.woocommerce .login .button,
+.woocommerce .register .button,
+.page-title h3,
+.blog-shortcode h3.timeline-title,
+#reviews #comments > h2{
+	font-family:"PT Sans", Arial, Helvetica, sans-serif !important;
+}
+.avada-container h3,
+.review blockquote div strong,
+.footer-area  h3,
+#slidingbar-area  h3,
+.button.large,
+.button.small,
+.woocommerce .single_add_to_cart_button,
+.woocommerce .shipping-calculator-form .button,
+.woocommerce form.checkout #place_order,
+.woocommerce .checkout_coupon .button,
+.woocommerce .login .button,
+.woocommerce .register .button,
+.woocommerce .avada-order-details .order-again .button,
+.comment-form input[type="submit"],
+.wpcf7-form input[type="submit"],
+.gform_wrapper .gform_button{
+	font-weight:bold;
+}
+.meta .date,
+.review blockquote q,
+.post-content blockquote{
+	font-style:italic;
+}
+
+
+#nav, #sticky-nav, .navigation,
+.side-nav li a{
+	font-family:"Antic Slab", Arial, Helvetica, sans-serif !important;
+}
+
+
+#main .reading-box h2,
+#main h2,
+.page-title h1,
+.image .image-extras .image-extras-content h3,.image .image-extras .image-extras-content h3 a,
+#main .post h2,
+#sidebar .widget h3,
+.tab-holder .tabs li a,
+.share-box h4,
+.project-content h3,
+.author .author_title,
+h5.toggle a,
+.full-boxed-pricing ul li.title-row,
+.full-boxed-pricing ul li.pricing-row,
+.sep-boxed-pricing ul li.title-row,
+.sep-boxed-pricing ul li.pricing-row,
+.person-author-wrapper,
+.post-content h1, .post-content h2, .post-content h3, .post-content h4, .post-content h5, .post-content h6,
+.ei-title h2, #header-sticky,#header .tagline,
+table th,.project-content .project-info h4,
+.woocommerce-success-message .msg,.product-title, .cart-empty,
+#wrapper .fusion-megamenu-wrapper .fusion-megamenu-title{
+	font-family:"Antic Slab", Arial, Helvetica, sans-serif !important;
+}
+
+
+.footer-area  h3,#slidingbar-area  h3{
+	font-family:"Antic Slab", Arial, Helvetica, sans-serif !important;
+}
+
+body,#sidebar .slide-excerpt h2, .footer-area .slide-excerpt h2,#slidingbar-area .slide-excerpt h2{
+	font-size:13px;
+		line-height:20px;
+}
+.project-content .project-info h4,.gform_wrapper label,.gform_wrapper .gfield_description{
+	font-size:13px !important;
+		line-height:20px !important;
+}
+.blog-shortcode h3.timeline-title { font-size:13px;line-height:13px; }
+.counter-box-content { font-size:13px; }
+
+body,#sidebar .slide-excerpt h2, .footer-area .slide-excerpt h2,#slidingbar-area .slide-excerpt h2{
+	line-height:20px !important;
+}
+.project-content .project-info h4{
+	line-height:20px !important;
+}
+
+#nav,#sticky-nav,.navigation{font-size:14px !important;}
+
+#nav ul li ul li a,#sticky-nav ul li ul li a{font-size:13px !important;}
+
+.header-social *{font-size:12px !important;}
+
+.page-title ul li,page-title ul li a{font-size:10px !important;}
+
+.side-nav li a{font-size:14px !important;}
+
+#sidebar .widget h3{font-size:13px !important;}
+
+#slidingbar-area h3{font-size:13px !important;}
+
+.footer-area h3{font-size:13px !important;}
+
+.copyright{font-size:12px !important;}
+
+#wrapper .fusion-megamenu-wrapper .fusion-megamenu-title{font-size:24px!important;}
+
+#header-sticky .avada-row,#header .avada-row, #main .avada-row, .footer-area .avada-row,#slidingbar-area .avada-row, #footer .avada-row{ max-width:940px; }
+
+.post-content h1{
+	font-size:32px !important;
+		line-height:48px !important;
+}
+
+.post-content h1{
+	line-height:48px !important;
+}
+
+.post-content h2,.title h2,#main .post-content .title h2,.page-title h1,#main .post h2 a, .woocommerce .checkout h3{
+	font-size:18px !important;
+		line-height:27px !important;
+}
+
+.post-content h2,.title h2,#main .post-content .title h2,.page-title h1,#main .post h2 a, .woocommerce .checkout h3, .cart-empty{
+	line-height:27px !important;
+}
+
+.post-content h3,.project-content h3,#header .tagline,.product-title{
+	font-size:16px !important;
+		line-height:24px !important;
+}
+p.demo_store { font-size:16px !important; }
+
+.post-content h3,.project-content h3,#header .tagline,.product-title{
+	line-height:24px !important;
+}
+
+.post-content h4{
+	font-size:13px !important;
+		line-height:20px !important;
+}
+h5.toggle a,.tab-holder .tabs li a,.share-box h4,.person-author-wrapper, #reviews #comments > h2{
+	font-size:13px !important;
+}
+
+.post-content h4, #reviews #comments > h2{
+	line-height:20px !important;
+}
+
+.post-content h5{
+	font-size:12px !important;
+		line-height:18px !important;
+}
+
+.post-content h5{
+	line-height:18px !important;
+}
+
+.post-content h6{
+	font-size:11px !important;
+		line-height:17px !important;
+}
+
+.post-content h6{
+	line-height:17px !important;
+}
+
+.ei-title h2{
+	font-size:42px !important;
+		line-height:63px !important;
+}
+
+.ei-title h3{
+	font-size:20px !important;
+		line-height:30px !important;
+}
+
+body,.post .post-content,.post-content blockquote,.tab-holder .news-list li .post-holder .meta,#sidebar #jtwt,.meta,.review blockquote div,.search input,.project-content .project-info h4,.title-row,.simple-products-slider .price .amount,
+.quantity .qty,.quantity .minus,.quantity .plus,.blog-shortcode h3.timeline-title, #reviews #comments > h2{color:#747474 !important;}
+
+.post-content h1,.title h1,.woocommerce-success-message .msg, .woocommerce-message{
+	color:#333333 !important;
+}
+
+#main .post h2,.post-content h2,.title h2,.woocommerce-tabs h2,.search-page-search-form h2, .cart-empty, .woocommerce h2, .woocommerce .checkout h3{
+	color:#333333 !important;
+}
+
+.post-content h3,#sidebar .widget h3,.project-content h3,.title h3,#header .tagline,.person-author-wrapper span,.product-title{
+	color:#333333 !important;
+}
+
+.post-content h4,.project-content .project-info h4,.share-box h4,.title h4,.tab-holder .tabs li a{
+	color:#333333 !important;
+}
+
+.post-content h5,h5.toggle a,.title h5{
+	color:#333333 !important;
+}
+
+.post-content h6,.title h6{
+	color:#333333 !important;
+}
+
+.page-title h1{
+	color:#333333 !important;
+}
+
+
+.sep-boxed-pricing ul li.title-row{
+	color:#333333 !important;
+}
+
+.full-boxed-pricing ul li.title-row{
+	color:#333333 !important;
+}
+
+body a,
+.single-navigation a[rel="prev"]:before,
+.single-navigation a[rel="next"]:after
+{color:#333333;}
+.project-content .project-info .project-info-box a,#sidebar .widget li a, #sidebar .widget .recentcomments, #sidebar .widget_categories li, #main .post h2 a,
+.shop_attributes tr th,.image-extras a,.products-slider .price .amount,z.my_account_orders thead tr th,.shop_table thead tr th,.cart_totals table th,form.checkout .shop_table tfoot th,form.checkout .payment_methods label,#final-order-details .mini-order-details th,#main .product .product_title,.shop_table.order_details tr th,
+.rtl #sidebar .widget li a:before,.rtl #sidebar .widget li:before
+{color:#333333 !important;}
+
+.page-title ul li,.page-title ul li a{color:#333333 !important;}
+
+#slidingbar-area h3{color:#DDDDDD !important;}
+
+#slidingbar-area,#slidingbar-area article.col,#slidingbar-area #jtwt,#slidingbar-area #jtwt .jtwt_tweet{color:#8C8989 !important;}
+
+#slidingbar-area a{color:#BFBFBF !important;}
+
+#sidebar .widget h3, #sidebar .widget .heading h3{color:#333333 !important;}
+
+.footer-area h3{color:#DDDDDD !important;}
+
+.footer-area,.footer-area article.col,.footer-area #jtwt,.footer-area #jtwt .jtwt_tweet,.copyright{color:#8C8989 !important;}
+
+.footer-area a,.footer-area .pyre_tabs .tab-holder .tabs li a,.copyright a{color:#BFBFBF !important;}
+
+#nav ul a,#sticky-nav ul a,.side-nav li a,#header-sticky .cart-content a,#header-sticky .cart-content a:hover,#header .cart-content a,#header .cart-content a:hover,#small-nav .cart-content a,
+#small-nav .cart-content a:hover,#wrapper .header-social .top-menu .cart > a,#wrapper .header-social .top-menu .cart > a > .amount,
+#wrapper .header-social .top-menu .cart-checkout a
+{color:#333333 !important;}
+#header-sticky .my-account-link:after, #header .my-account-link:after{border-color:#333333 !important;}
+
+#nav ul .current_page_item a, #nav ul .current-menu-item a, #nav ul > .current-menu-parent a, #nav ul ul,.navigation li.current-menu-ancestor a,#nav ul li a:hover,
+#sticky-nav ul .current_page_item a, #sticky-nav ul .current-menu-item a, #sticky-nav ul > .current-menu-parent a, #sticky-nav ul ul,#sticky-nav ul .current-menu-ancestor a,#sticky-nav ul li a:hover
+{color:#67b7e1 !important;border-color:#67b7e1 !important;}
+#nav ul ul,#sticky-nav ul ul{border-color:#67b7e1 !important;}
+
+#wrapper .main-nav-search a:hover {border-top: 3px solid transparent !important;}
+
+#nav ul ul,#sticky-nav ul ul,
+#nav ul .login-box,#sticky-nav ul .login-box,
+#nav ul .cart-contents,#sticky-nav ul .cart-contents,
+#small-nav ul .login-box,#small-nav ul .cart-contents
+{background-color:#edebeb;}
+
+#wrapper #nav ul li ul li a,#wrapper #sticky-nav ul li ul li a,.side-nav li li a,.side-nav li.current_page_item li a,#wrapper .fusion-megamenu-wrapper .fusion-megamenu-widgets-container{color:#333333 !important;}
+.fusion-megamenu-bullet {border-right-color:#333333 !important;}
+
+.ei-title h2{color:#333333 !important;}
+
+.ei-title h3{color:#747474 !important;}
+
+#wrapper .header-social .header-info, #wrapper .header-social a {color:#747474 !important;}
+#wrapper .header-social .mobile-topnav-holder li a {color: #333333 !important;}
+
+.sep-single{background-color:#e0dede !important;}
+.sep-double,.sep-dashed,.sep-dotted,.search-page-search-form{border-color:#e0dede !important;}
+.ls-avada, .avada-skin-rev,.clients-carousel .es-carousel li img,h5.toggle a,.progress-bar,
+#small-nav,.portfolio-tabs,.faq-tabs,.single-navigation,.project-content .project-info .project-info-box,
+.post .meta-info,.grid-layout .post,.grid-layout .post .content-sep,
+.grid-layout .post .flexslider,.timeline-layout .post,.timeline-layout .post .content-sep,
+.timeline-layout .post .flexslider,h3.timeline-title,.timeline-arrow,
+.counter-box-wrapper,.table-2 table thead,.table-2 tr td,
+#sidebar .widget li a,#sidebar .widget .recentcomments,#sidebar .widget_categories li,
+.tab-holder,.commentlist .the-comment,
+.side-nav,#wrapper .side-nav li a,.rtl .side-nav,h5.toggle.active + .toggle-content,
+#wrapper .side-nav li.current_page_item li a,.tabs-vertical .tabset,
+.tabs-vertical .tabs-container .tab_content,.page-title-container,.pagination a.inactive,.woocommerce-pagination .page-numbers,.bbp-topic-pagination .page-numbers,.rtl .woocommerce .social-share li,.author .author_social
+{border-color:#e0dede;}
+.side-nav li a,.product_list_widget li,.widget_layered_nav li,.price_slider_wrapper,.tagcloud a,#header-sticky .cart-content a,#header-sticky .cart-content a:hover,#header-sticky .login-box,#header-sticky .cart-contents,
+#header .cart-content a,#header .cart-content a:hover,#header .login-box,#header .cart-contents,#small-nav .login-box,#small-nav .cart-contents,#small-nav .cart-content a,#small-nav .cart-content a:hover,
+#customer_login_box,.avada_myaccount_user,.myaccount_user_container span,
+.woocommerce-side-nav li a,.woocommerce-content-box,.woocommerce-content-box h2,.my_account_orders tr,.woocommerce .address h4,.shop_table tr,.cart_totals .total,.chzn-container-single .chzn-single,.chzn-container-single .chzn-single div,.chzn-drop,form.checkout .shop_table tfoot,.input-radio,#final-order-details .mini-order-details tr:last-child,p.order-info,.cart-content a img,.panel.entry-content,
+.woocommerce-tabs .tabs li a,.woocommerce .social-share,.woocommerce .social-share li,.quantity,.quantity .minus, .quantity .qty,.shop_attributes tr,.woocommerce-success-message,#reviews li .comment-text,
+.cart_totals, .shipping_calculator, .coupon, .woocommerce .cross-sells, #customer_login .col-1, #customer_login .col-2, .woocommerce-message, .woocommerce form.checkout #customer_details .col-1, .woocommerce form.checkout #customer_details .col-2,
+.cart_totals h2, .shipping_calculator h2, .coupon h2, .woocommerce .checkout h3, #customer_login h2, .woocommerce .cross-sells h2, .order-total, .woocommerce .addresses .title, .cart-empty, .return-to-shop
+{border-color:#e0dede !important;}
+.price_slider_wrapper .ui-widget-content{background-color:#e0dede;}
+.gform_wrapper .gsection{border-bottom:1px dotted #e0dede;}
+
+.quantity .minus,.quantity .plus{background-color:#fbfaf9 !important;}
+
+.quantity .minus:hover,.quantity .plus:hover{background-color:#ffffff !important;}
+
+#slidingbar-area .widget_categories li a, #slidingbar-area li.recentcomments, #slidingbar-area ul li a, #slidingbar-area .product_list_widget li {border-bottom: 1px solid #282A2B !important;}
+#slidingbar-area .tagcloud a, #slidingbar-area .pyre_tabs .tab-holder .tabs-wrapper, #slidingbar-area .pyre_tabs .tab-holder .news-list li {border-color: #282A2B !important;}
+
+.footer-area .widget_categories li a, .footer-area li.recentcomments, .footer-area ul li a, .footer-area .product_list_widget li,
+.footer-area .tagcloud a,.footer-area .pyre_tabs .tab-holder .tabs-wrapper, .footer-area .pyre_tabs .tab-holder .news-list li {border-color: #505152 !important;}
+
+input#s,#comment-input input,#comment-textarea textarea,.comment-form-comment textarea,.input-text,
+.wpcf7-form .wpcf7-text,.wpcf7-form .wpcf7-quiz,.wpcf7-form .wpcf7-number,.wpcf7-form textarea,.wpcf7-form .wpcf7-select,.wpcf7-captchar,.wpcf7-form .wpcf7-date,
+.gform_wrapper .gfield input[type=text],.gform_wrapper .gfield input[type=email],.gform_wrapper .gfield textarea,.gform_wrapper .gfield select,
+#bbpress-forums .bbp-search-form #bbp_search,.bbp-reply-form input#bbp_topic_tags,.bbp-topic-form input#bbp_topic_title, .bbp-topic-form input#bbp_topic_tags, .bbp-topic-form select#bbp_stick_topic_select, .bbp-topic-form select#bbp_topic_status_select,#bbpress-forums div.bbp-the-content-wrapper textarea.bbp-the-content,
+.main-nav-search-form input,.search-page-search-form input,.chzn-container-single .chzn-single,.chzn-container .chzn-drop,
+.avada-select-parent select,
+#lang_sel_click a.lang_sel_sel,
+#lang_sel_click ul ul a, #lang_sel_click ul ul a:visited,
+#lang_sel_click a, #lang_sel_click a:visited
+{
+background-color:#ffffff !important;}
+
+input#s,input#s .placeholder,#comment-input input,#comment-textarea textarea,#comment-input .placeholder,#comment-textarea .placeholder,.comment-form-comment textarea,.input-text,
+.wpcf7-form .wpcf7-text,.wpcf7-form .wpcf7-quiz,.wpcf7-form .wpcf7-number,.wpcf7-form textarea,.wpcf7-form .wpcf7-select,.wpcf7-select-parent .select-arrow,.wpcf7-captchar,.wpcf7-form .wpcf7-date,
+.gform_wrapper .gfield input[type=text],.gform_wrapper .gfield input[type=email],.gform_wrapper .gfield textarea,.gform_wrapper .gfield select,
+#bbpress-forums .bbp-search-form #bbp_search,.bbp-reply-form input#bbp_topic_tags,.bbp-topic-form input#bbp_topic_title, .bbp-topic-form input#bbp_topic_tags, .bbp-topic-form select#bbp_stick_topic_select, .bbp-topic-form select#bbp_topic_status_select,#bbpress-forums div.bbp-the-content-wrapper textarea.bbp-the-content,
+.main-nav-search-form input,.search-page-search-form input,.chzn-container-single .chzn-single,.chzn-container .chzn-drop,.avada-select-parent select
+{color:#aaa9a9 !important;}
+
+input#s::-webkit-input-placeholder,#comment-input input::-webkit-input-placeholder,#comment-textarea textarea::-webkit-input-placeholder,.comment-form-comment textarea::-webkit-input-placeholder,.input-text::-webkit-input-placeholder{color:#aaa9a9 !important;}
+input#s:-moz-placeholder,#comment-input input:-moz-placeholder,#comment-textarea textarea:-moz-placeholder,.comment-form-comment textarea:-moz-placeholder,.input-text:-moz-placeholder,
+input#s:-ms-input-placeholder,#comment-input input:-ms-input-placeholder,#comment-textarea textarea:-moz-placeholder,.comment-form-comment textarea:-ms-input-placeholder,.input-text:-ms-input-placeholder,
+{color:#aaa9a9 !important;}
+
+input#s,#comment-input input,#comment-textarea textarea,.comment-form-comment textarea,.input-text,
+.wpcf7-form .wpcf7-text,.wpcf7-form .wpcf7-quiz,.wpcf7-form .wpcf7-number,.wpcf7-form textarea,.wpcf7-form .wpcf7-select,.wpcf7-select-parent .select-arrow,.wpcf7-captchar,.wpcf7-form .wpcf7-date,
+.gform_wrapper .gfield input[type=text],.gform_wrapper .gfield input[type=email],.gform_wrapper .gfield textarea,.gform_wrapper .gfield_select[multiple=multiple],.gform_wrapper .gfield select,.select-arrow,
+#bbpress-forums .quicktags-toolbar,#bbpress-forums .bbp-search-form #bbp_search,.bbp-reply-form input#bbp_topic_tags,.bbp-topic-form input#bbp_topic_title, .bbp-topic-form input#bbp_topic_tags, .bbp-topic-form select#bbp_stick_topic_select, .bbp-topic-form select#bbp_topic_status_select,#bbpress-forums div.bbp-the-content-wrapper textarea.bbp-the-content,#wp-bbp_topic_content-editor-container,#wp-bbp_reply_content-editor-container,
+.main-nav-search-form input,.search-page-search-form input,.chzn-container-single .chzn-single,.chzn-container .chzn-drop,
+.avada-select-parent select,.avada-select-parent .avada-select-arrow,
+#lang_sel_click a.lang_sel_sel,
+#lang_sel_click ul ul a, #lang_sel_click ul ul a:visited,
+#lang_sel_click a, #lang_sel_click a:visited
+{border-color:#d2d2d2 !important;}
+
+#wrapper #nav ul li ul li a,#wrapper #sticky-nav ul li ul li a,
+#header-sticky .cart-content a,#header .cart-content a,#small-nav .cart-content a
+{border-bottom:1px solid #dcdadb !important;}
+
+#wrapper #nav ul li ul li a:hover, #wrapper #nav ul li ul li.current-menu-item > a,
+#wrapper #sticky-nav ul li ul li a:hover, #wrapper #sticky-nav ul li ul li.current-menu-item > a,
+#header-sticky .cart-content a:hover,#header .cart-content a:hover,#small-nav .cart-content a:hover,
+#lang_sel_click a.lang_sel_sel:hover,
+#lang_sel_click ul ul a:hover,
+#lang_sel_click a:hover
+{background-color:#f5f4f4 !important;}
+
+#header .tagline{
+	color:#747474 !important;
+}
+
+#header .tagline{
+	font-size:16px !important;
+	line-height:30px !important;
+}
+
+.page-title h1{
+	font-size:18px !important;
+	line-height:normal !important;
+}
+
+	.page-title h3{
+		font-size:14px !important;
+		line-height: 26px !important;
+	}
+
+.header-social,#header,.header-v4 #small-nav,.header-v5 #small-nav{
+	border-bottom-color:#e5e5e5 !important;
+}
+
+#nav ul ul,#sticky-nav ul ul{
+	width:170px !important;
+}
+#nav ul ul li ul,#sticky-nav ul ul li ul{
+	left:170px !important;
+}
+ul.navigation > li:last-child ul ul{
+	left:-170px !important;
+}
+#nav .fusion-megamenu-wrapper ul{left:auto!important;}
+.rtl #header-sticky #nav ul ul li ul,.rtl #header #nav ul ul li ul,.rtl #small-nav #nav ul ul li ul, .rtl .sticky-header #sticky-nav ul ul li ul{
+	right:170px !important;
+	left: auto !important;
+}
+.rtl ul.navigation > li:last-child ul ul{
+	right:-170px !important;
+	left: auto !important;
+}
+.rtl #header-sticky #nav .fusion-megamenu-wrapper ul,
+.rtl #header #nav .fusion-megamenu-wrapper ul,
+.rtl #small-nav #nav .fusion-megamenu-wrapper ul,
+.rtl .sticky-header #sticky-nav .fusion-megamenu-wrapper ul ul li ul
+{left:auto!important;right:auto!important;}
+
+#main #sidebar{
+	background-color:transparent;
+}
+
+#main #content{
+	width:71.1702128%;
+}
+
+#main #sidebar{
+	width:23.4042553%;
+}
+
+
+#wrapper .header-social{
+	background-color:#67b7e1 !important;
+}
+
+#wrapper .header-social .menu > li{
+	border-color:#e5e5e5 !important;
+}
+
+#wrapper .header-social .menu .sub-menu,#wrapper .header-social .login-box,#wrapper .header-social .cart-contents,.main-nav-search-form{
+	background-color:#ffffff !important;
+}
+
+#wrapper .header-social .menu .sub-menu li, #wrapper .header-social .menu .sub-menu li a,#wrapper .header-social .login-box *,#wrapper .header-social .cart-contents *{
+	color:#747474 !important;
+}
+
+#wrapper .header-social .menu .sub-menu li a:hover,.top-menu .cart-content a:hover{
+	background-color:#fafafa !important;
+}
+
+#wrapper .header-social .menu .sub-menu li a:hover{
+	color:#333333 !important;
+}
+
+#wrapper .header-social .menu .sub-menu,#wrapper .header-social .menu .sub-menu li,.top-menu .cart-content a,#wrapper .header-social .login-box,#wrapper .header-social .cart-contents,.main-nav-search-form{
+	border-color:#e5e5e5 !important;
+}
+
+#header-sticky .cart-checkout,#header .cart-checkout,.top-menu .cart,.top-menu .cart-checkout,#small-nav .cart-checkout{
+	background-color:#fafafa !important;
+}
+
+h5.toggle span.arrow{background-color:#333333;}
+
+.progress-bar-content{background-color:#67b7e1 !important;border-color:#67b7e1 !important;}
+.content-box-percentage{color:#67b7e1 !important;}
+
+.progress-bar{background-color:#f6f6f6;border-color:#f6f6f6;}
+
+.date-and-formats .format-box{background-color:#eef0f2;}
+
+.es-nav-prev,.es-nav-next{background-color:#999999;}
+
+.es-nav-prev:hover,.es-nav-next:hover{background-color:#808080;}
+
+.content-boxes .col{background-color:transparent;}
+
+#sidebar .tab-holder,#sidebar .tab-holder .news-list li{border-color:#ebeaea !important;}
+#sidebar .pyre_tabs .tabs-container{background-color:#ffffff !important;}
+body #sidebar .tab-hold .tabs li{border-right:1px solid #ffffff !important;}
+body #sidebar .tab-hold .tabs li a{background:#ebeaea !important;border-bottom:0 !important;color:#747474 !important;}
+body #sidebar .tab-hold .tabs li a:hover{background:#ffffff !important;border-bottom:0 !important;}
+body #sidebar .tab-hold .tabs li.active a{background:#ffffff !important;border-bottom:0 !important;}
+body #sidebar .tab-hold .tabs li.active a{border-top-color:#67b7e1!important;}
+
+.share-box{background-color:#f6f6f6;}
+
+.grid-layout .post,.timeline-layout .post{background-color:transparent;}
+
+.grid-layout .post .flexslider,.timeline-layout .post,.timeline-layout .post .content-sep,
+.timeline-layout .post .flexslider,h3.timeline-title,.grid-layout .post,.grid-layout .post .content-sep,.products li,.product-details-container,.product-buttons,.product-buttons-container{border-color:#ebeaea !important;}
+.align-left .timeline-arrow:before,.align-left .timeline-arrow:after{border-left-color:#ebeaea !important;}
+.align-right .timeline-arrow:before,.align-right .timeline-arrow:after{border-right-color:#ebeaea !important;}
+.timeline-circle,.timeline-title{background-color:#ebeaea !important;}
+.timeline-icon{color:#ebeaea;}
+
+	#bbpress-forums li.bbp-header,
+	#bbpress-forums div.bbp-reply-header,#bbpress-forums #bbp-single-user-details #bbp-user-navigation li.current a,div.bbp-template-notice, div.indicator-hint{ background:#ebeaea !important; }
+	#bbpress-forums .bbp-replies div.even { background: transparent !important; }
+
+	#bbpress-forums ul.bbp-lead-topic, #bbpress-forums ul.bbp-topics, #bbpress-forums ul.bbp-forums, #bbpress-forums ul.bbp-replies, #bbpress-forums ul.bbp-search-results,
+	#bbpress-forums li.bbp-body ul.forum, #bbpress-forums li.bbp-body ul.topic,
+	#bbpress-forums div.bbp-reply-content,#bbpress-forums div.bbp-reply-header,
+	#bbpress-forums div.bbp-reply-author .bbp-reply-post-date,
+	#bbpress-forums div.bbp-topic-tags a,#bbpress-forums #bbp-single-user-details,div.bbp-template-notice, div.indicator-hint,
+	.bbp-arrow{ border-color:#ebeaea !important; }
+
+
+
+.main-flex .flex-control-nav{display:none !important;}
+
+@media only screen and (max-width: 940px){
+	.breadcrumbs{display:none !important;}
+}
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait){
+	.breadcrumbs{display:none !important;}
+}
+
+
+
+#nav.nav-holder .navigation > li > a{height:83px !important;line-height:83px !important;}
+#nav ul ul,#sticky-nav ul ul{top:86px;}
+
+#nav ul li, #sticky-nav ul li { padding-right: 35px; }
+
+.ei-slider{width:100% !important;}
+
+.ei-slider{height:400px !important;}
+
+.button,.gform_wrapper .gform_button{border-color:#105378 !important;}
+
+.button,.gform_wrapper .gform_button{border-width:1px !important;}
+
+
+
+
+.reading-box{background-color:#f6f6f6 !important;}
+
+.isotope .isotope-item {
+  -webkit-transition-property: top, left, opacity;
+     -moz-transition-property: top, left, opacity;
+      -ms-transition-property: top, left, opacity;
+       -o-transition-property: top, left, opacity;
+          transition-property: top, left, opacity;
+}
+
+
+
+.header-v5 #header .logo{float:left;}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 13/10), only screen and (min-resolution: 120dpi) {
+	#header-sticky .normal_logo,#header .normal_logo{display:none !important;}
+	#header-sticky .retina_logo,#header .retina_logo{display:inline !important;}
+}
+
+.bbp_reply_admin_links .admin_links_sep, .bbp-admin-links .admin_links_sep{
+	display: none;
+}
+
+.rev_slider_wrapper{
+	position:relative
+}
+
+.rev_slider_wrapper .shadow-left{
+	position:absolute;
+	pointer-events:none;
+	background-image:url(http://digitalsoundandmusic.com/wp-content/themes/Avada/images/shadow-top.png);
+	background-repeat:no-repeat;
+	background-position:top center;
+	height:42px;
+	width:100%;
+	top:0;
+	z-index:99;
+}
+
+.rev_slider_wrapper .shadow-left{top:-1px;}
+
+.rev_slider_wrapper .shadow-right{
+	position:absolute;
+	pointer-events:none;
+	background-image:url(http://digitalsoundandmusic.com/wp-content/themes/Avada/images/shadow-bottom.png);
+	background-repeat:no-repeat;
+	background-position:bottom center;
+	height:32px;
+	width:100%;
+	bottom:0;
+	z-index:99;
+}
+
+.avada-skin-rev{
+	border-top: 1px solid #d2d3d4;
+	border-bottom: 1px solid #d2d3d4;
+}
+
+.tparrows{border-radius:0;}
+
+.rev_slider_wrapper .tp-leftarrow, .rev_slider_wrapper .tp-rightarrow{
+	background:none!important;
+	background-color: rgba(0, 0, 0, 0.5)  !important;
+	width: 63px !important;
+	height: 63px !important;
+	position: absolute;
+	top: 50% !important;
+	margin-top:-31px !important;
+	opacity:0.8;
+	position:absolute !important;
+	color:#fff;
+}
+
+.rev_slider_wrapper .tp-leftarrow:before{
+	content:"\f104";
+}
+
+.rev_slider_wrapper .tp-rightarrow:before{
+	content:"\f105";
+}
+
+.rev_slider_wrapper .tp-leftarrow:before, .rev_slider_wrapper .tp-rightarrow:before{
+    position: absolute;
+    text-align: center;
+    font-size: 34px;
+    font-family: fontawesome;
+    height: 63px;
+    margin: 21px 0 0 0;
+    padding:0;
+    width: 63px;
+}
+
+.rev_slider_wrapper .tp-leftarrow:before{
+	margin-left:-2px;
+}
+
+.rev_slider_wrapper .tp-rightarrow:before{
+	margin-left:2px;
+}
+
+.rev_slider_wrapper .tp-rightarrow{
+	left:auto !important;
+	right:0 !important;
+}
+
+.no-rgba .rev_slider_wrapper .tp-leftarrow, .no-rgba .rev_slider_wrapper .tp-rightarrow{
+	background-color:#ccc  !important;
+}
+
+.rev_slider_wrapper:hover .tp-leftarrow,.rev_slider_wrapper:hover .tp-rightarrow{
+	display:block !important;
+	opacity:0.8 !important;
+}
+
+.rev_slider_wrapper .tp-leftarrow:hover, .rev_slider_wrapper .tp-rightarrow:hover{
+	opacity:1 !important;
+}
+
+.rev_slider_wrapper .tp-leftarrow{
+	background-position: 19px 19px  !important;
+	left: 0 !important;
+	margin-left:0 !important;
+	z-index:100;
+	opacity: 0;
+}
+
+.rev_slider_wrapper .tp-rightarrow{
+	background-position: 29px 19px  !important;
+	right: 0  !important;
+	margin-left:0 !important;
+	z-index:100;
+	opacity: 0;
+}
+
+.tp-bullets .bullet.last{
+	clear:none !important;
+}
+
+
+
+.woocommerce form.checkout .col-2, .woocommerce form.checkout #order_review_heading, .woocommerce form.checkout #order_review {
+	display: none;
+}
+
+	
+		#wrapper{
+		width:100%;
+	}
+	//.wrapper_blank { display: block; }
+	@media only screen and (min-width: 801px) and (max-width: 1014px){
+		#wrapper{
+			width:auto;
+		}
+	}
+	@media only screen and (min-device-width: 801px) and (max-device-width: 1014px){
+		#wrapper{
+			width:auto;
+		}
+	}
+	
+	
+	
+		.page-title-container{
+		background-image:url(http://digitalsoundandmusic.schwartzsound.com/wp-content/uploads/layerslider/Transparent-Header-Slider/ls_bkgd_dark.jpg) !important;
+	}
+	
+		.page-title-container{
+		background-color:#F6F6F6;
+	}
+	
+	#header{
+			}
+
+	#header{
+					}
+
+	#main{
+		
+				padding-top: 55px !important;
+		
+				padding-bottom: 40px !important;
+			}
+
+	#main{
+				
+		
+		
+	}
+
+	.page-title-container{
+				-webkit-background-size: cover;
+		-moz-background-size: cover;
+		-o-background-size: cover;
+		background-size: cover;
+		
+		
+				background-attachment: fixed;
+		background-position:top center;
+		
+		
+	}
+
+		.page-title-container{
+		height:87px !important;
+	}
+	
+	
+	
+	
+		.width-100 .fullwidth-box {
+		margin-left: -20px; margin-right: -20px;
+	}
+	
+		.highlight { color:#67b7e1 !important;}
+.home #main { padding-top:0px !important;}
+.titlebluedark { color:#00156c !important;}
+.titlebluelight { color:#3685f6 !important;}
+.single-avada_portfolio .reading-box-container { margin-bottom:20px; }
+.pdfdownload { background: url('http://digitalsoundandmusic.schwartzsound.com/wp-content/uploads/2014/05/pdficon_small.png') no-repeat; font-family:"Antic Slab", Arial, Helvetica, sans-serif !important; font-size:14px; padding: 0 5px 0 23px;  }
+.page-title h1 { font-size: 28px !important }
+span.wpcf7-list-item { margin-left:2em }
+
+.download-box-container { clear:both }
+
+.DSM_aside, .DSM_supplement {
+background-color: #A8E9FF;
+color: #333;
+padding: 15px;
+float: right;
+width: 33%;
+margin: 15px;
+border: 0px dashed white;
+border-radius: 25px;
+clear:both;
+}
+
+.DSM_supplement {
+text-align:center;
+width:150px;
+padding: 0;
+background-color:transparent;
+background-repeat:no-repeat;
+background-size:100%;
+background-position:center top;
+}
+
+.DSM_supplement a {
+padding:140px 0 0;
+display:block;
+outline: 0px none;
+}
+
+#toc_container { margin:0px 0px 25px 25px; float:right }
+#toc li { cursor:pointer }
+
+.single-post .post h2.entry-title { display:none }
+.single-post  .single-navigation { margin-bottom:40px; }
+.single-post .post .share-box { margin-top:40px; }
+
+.DSM_listtable { margin:0 auto; }
+.DSM_listtable > ul { border:1px solid #ddd; }
+.DSM_listtable ul { list-style-type:none; padding:0px; margin:0px;  }
+.DSM_listtable li { display:block; padding:5px 10px;  }
+.DSM_listtable > ul > li {  font-weight:bold; color:#333; background-color:#ddd;  }
+.DSM_listtable li ul { margin:5px -10px -5px; font-weight:normal; }
+.DSM_listtable li > ul > li { padding-left:2em; color:#747474; background-color:#fff; }
+.DSM_listtable li > ul > li:nth-child(even) { border-top:1px solid #e8e8e8; border-bottom:1px solid #e8e8e8; }
+
+.DSM_listtable_style1 {}
+
+.DSM_equation { background-color:#f4f4f4; padding:20px 20px; margin:20px 50px 0; color:#555; text-align:center; clear:both }
+.DSM_equation p { margin:0; padding 0; }
+.DSM_equation img { margin:20px auto }
+
+.DSM_equation.DSM_algorithm { text-align:left; font-family:"Courier New", Courier, monospace; }
+
+.easy-table th { font-family:inherit !important }
+
+.category #posts-container {padding-left:15px; padding-right:15px; }
+.category #content { position:relative; }
+
+#slidingbar-area { position:fixed; }
+#slidingbar { padding: 20px 15px 0 }
+.sb_toggle { border-width:0 66px 66px 0; bottom:-66px; }
+.sb_toggle:after { font-size:19px; left:37px; top:12px; }
+.sb_toggle.open:after { font-size:19px; left:34px; top:9px; }
+#slidingbar-area h3 { margin: 0 0 10px }
+#slidingbar-area ul li a { border-bottom:1px solid #555 !important; text-shadow:none; padding:8px 0; }
+
+#slidingbar-area .slidingbar-widget-col ul:first-child > li:first-child > a, #slidingbar-area .slidingbar-widget-col > ul > li:first-child > a { padding-top:8px }
+
+@media only screen and (max-width: 800px){
+	#slidingbar-area .columns .col{
+		float:none;
+		width:100% !important;
+		padding:0;
+	}
+}
+
+
+.wp-caption-text { text-align:center; margin-top:10px !important; font-weight:bold; }
+.wp-caption { margin:30px auto; width:100% !important; text-align:center; }
+@media only screen 
+and (max-width : 760px) {
+
+}
+
+caption { caption-side:bottom; margin:10px 0px 30px; font-weight:bold;}
+
+thead { background-color:#ddd; font-weight:bold; color:#333; }
+
+#main .post .post-content h2 { font-size:20px !important; margin-top:30px; }
+#main .post .post-content h3 { font-size:18px !important }
+#main .post .post-content h4 { font-size:16px !important }
+
+.post { margin-bottom:40px }
+
+.syntaxhighlighter { margin: 30px 0 0 3em !important; width:auto !important; }
+
+.download-box-container .tagline-shadow:before,.download-box-container .tagline-shadow:after{opacity:0.5;}
+.DSM_solution { border-left-color: #00ffff !important }
+
+table.easy-table { margin-top:30px; max-width:100%;background-color:transparent;border-collapse:collapse;border-spacing:0;}
+.easy-table{width:100%;margin-bottom:18px;}.easy-table th,.easy-table td{padding:8px;line-height:18px;text-align:left;vertical-align:middle;border-top:1px solid #dddddd;}
+.easy-table th{font-weight:bold;}
+.easy-table thead th{vertical-align:middle;}
+.easy-table caption+thead tr:first-child th,.easy-table caption+thead tr:first-child td,.easy-table colgroup+thead tr:first-child th,.easy-table colgroup+thead tr:first-child td,.easy-table thead:first-child tr:first-child th,.easy-table thead:first-child tr:first-child td{border-top:0;}
+.easy-table tbody+tbody{border-top:2px solid #dddddd;}
+.table-condensed th,.table-condensed td{padding:4px 5px;}
+.table-bordered{border:1px solid #dddddd;border-collapse:separate;*border-collapse:collapsed;border-left:0;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;}.table-bordered th,.table-bordered td{border-left:1px solid #dddddd;}
+.table-bordered caption+thead tr:first-child th,.table-bordered caption+tbody tr:first-child th,.table-bordered caption+tbody tr:first-child td,.table-bordered colgroup+thead tr:first-child th,.table-bordered colgroup+tbody tr:first-child th,.table-bordered colgroup+tbody tr:first-child td,.table-bordered thead:first-child tr:first-child th,.table-bordered tbody:first-child tr:first-child th,.table-bordered tbody:first-child tr:first-child td{border-top:0;}
+.table-bordered thead:first-child tr:first-child th:first-child,.table-bordered tbody:first-child tr:first-child td:first-child{-webkit-border-top-left-radius:4px;border-top-left-radius:4px;-moz-border-radius-topleft:4px;}
+.table-bordered thead:first-child tr:first-child th:last-child,.table-bordered tbody:first-child tr:first-child td:last-child{-webkit-border-top-right-radius:4px;border-top-right-radius:4px;-moz-border-radius-topright:4px;}
+.table-bordered thead:last-child tr:last-child th:first-child,.table-bordered tbody:last-child tr:last-child td:first-child{-webkit-border-radius:0 0 0 4px;-moz-border-radius:0 0 0 4px;border-radius:0 0 0 4px;-webkit-border-bottom-left-radius:4px;border-bottom-left-radius:4px;-moz-border-radius-bottomleft:4px;}
+.table-bordered thead:last-child tr:last-child th:last-child,.table-bordered tbody:last-child tr:last-child td:last-child{-webkit-border-bottom-right-radius:4px;border-bottom-right-radius:4px;-moz-border-radius-bottomright:4px;}
+.table-striped tbody tr:nth-child(odd) td,
+.table-striped tbody tr:nth-child(odd) th{background-color:#f9f9f9;}
+.easy-table tbody tr:hover td,.easy-table tbody tr:hover th{background-color:#f5f5f5;}
+table.easy-table caption{
+	font-weight:bold;
+}
+
+div.toggle h1:hover { color:#3685f6 !important; }
+div.toggle { cursor:pointer }
+div.toggle.active h1 { color:#3685f6 !important; }
+
+.DSM_chapterlist ul { list-style:none }
+li.DSM_chapter { margin-bottom:20px; }
+
+.copyright, .copyright li { width:100%; text-align:center; }
+
+#nav ul ul, #sticky-nav ul ul { width: 190px !important }
+
+.syntaxhighlighter, .syntaxhighlighter .line.alt1,  .syntaxhighlighter .line.alt2 {background-color:transparent !important}
+
+.DSM_aside .table-striped tbody tr:nth-child(odd) td, .DSM_aside .table-striped tbody tr:nth-child(odd) th, .DSM_aside .easy-table tbody tr:hover td,.DSM_aside .easy-table tbody tr:hover th {background-color:transparent !important }
+.DSM_aside .easy-table th, .DSM_aside .easy-table td { border-top-color:rgba(0,0,0,0.1); padding:3px }
+.DSM_aside table.easy-table { margin: 15px 0 10px !important }
+.DSM_aside p { margin-bottom:10px; }
+.DSM_aside p:last-child {margin-bottom:0;}
+
+.syntaxhighlighter.nocaption { margin:20px 0 20px 3em !important}
+
+.DSM_aside .syntaxhighlighter {margin:0 0 10px !important; }
+
+.DSM_equation pre { margin:0 }
+
+.widget_wp_sidebarlogin div, .widget_wp_sidebarlogin h3, .widget_wp_sidebarlogin ul, .widget_wp_sidebarlogin li.logout-link, .widget_wp_sidebarlogin li.logout-link a { display:inline !important ; padding:0 !important ; margin: 0 !important ; border:none !important ; }
+.widget_wp_sidebarlogin li.logout-link a { float:right !important }
+
+		
+	.woocommerce-invalid:after { content: 'Please enter correct details for this required field.'; display: inline-block; margin-top: 7px; color: red; }
+	</style>
+
+	<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-51496165-1', 'digitalsoundandmusic.com');
+  ga('send', 'pageview');
+
+</script>
+	
+	<!--[if lte IE 8]>
+	<script type="text/javascript" src="http://digitalsoundandmusic.com/wp-content/themes/Avada/js/respond.js"></script>
+	<![endif]-->
+<script src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/common.js" charset="UTF-8" type="text/javascript"></script><script src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/util.js" charset="UTF-8" type="text/javascript"></script><script src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/geocoder.js" charset="UTF-8" type="text/javascript"></script><style id="fit-vids-style">.fluid-width-video-wrapper{width:100%;position:relative;padding:0;}.fluid-width-video-wrapper iframe,.fluid-width-video-wrapper object,.fluid-width-video-wrapper embed {position:absolute;top:0;left:0;width:100%;height:100%;}</style><script src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/stats.js" charset="UTF-8" type="text/javascript"></script><script src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/AuthenticationService.Authenticate" charset="UTF-8" type="text/javascript"></script></head>
+
+<body class="single single-post postid-1304 single-format-standard light " data-spy="scroll">
+	<div id="wrapper">
+								<div class="header-wrapper">
+			<div class="header-v1">
+	<header id="header">
+		<div class="avada-row" style="margin-top:0px;margin-bottom:0px;">
+			<div class="logo" style="margin-right:0px;margin-top:31px;margin-left:0px;margin-bottom:31px;">
+				<a href="http://digitalsoundandmusic.com/">
+					<img src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/DigitalSoundAndMusicLogo.png" alt="Digital Sound &amp; Music" class="normal_logo">
+															<img src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/DigitalSoundAndMusicLogo2x.png" alt="Digital Sound &amp; Music" style="width:463px;max-height:50px; height: auto !important" class="retina_logo">
+									</a>
+			</div>
+						<nav id="nav" class="nav-holder">
+							<ul class="navigation menu fusion-navbar-nav">
+	<li id="menu-item-25" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-25 fusion-dropdown-menu"><a aria-haspopup="true" title="My Attribute" href="http://digitalsoundandmusic.com/curriculum/">Curriculum</a>
+<ul class="sub-menu">
+	<li id="menu-item-398" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-398 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/chapters/ch1/">Chapter 1 - Getting Ready</a></li>
+	<li id="menu-item-1511" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1511 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/chapters/ch2/">Chapter 2 - Sound Waves</a></li>
+	<li id="menu-item-1512" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1512 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/chapters/ch3/">Chapter 3 - Musical Sound</a></li>
+	<li id="menu-item-1513" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1513 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/chapters/ch4/">Chapter 4 - Sound Perception &amp; Acoustics</a></li>
+	<li id="menu-item-1514" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-1514 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/chapters/ch5/">Chapter 5 - Digitization</a></li>
+	<li id="menu-item-1515" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1515 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/chapters/ch6/">Chapter 6 - MIDI &amp; Sound Synthesis</a></li>
+	<li id="menu-item-1922" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1922 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/chapters/ch7/">Chapter 7 - Audio Processing</a></li>
+	<li id="menu-item-1921" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1921 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/chapters/ch8/">Chapter 8 - Getting to Work</a></li>
+	<li id="menu-item-22" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-22 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/curriculum/learningsupplements/">Learning Supplements</a></li>
+	<li id="menu-item-298" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-298 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/curriculum/modules/">Curriculum Modules</a></li>
+</ul>
+</li>
+<li id="menu-item-28" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-28"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/about/">About</a></li>
+			<li class="main-nav-search">
+		<a aria-haspopup="true" id="main-nav-search-link" class="search-link"></a>
+		<div id="main-nav-search-form" class="main-nav-search-form">
+			<form role="search" id="searchform" method="get" action="http://digitalsoundandmusic.com/">
+				<input name="s" id="s" type="text">
+				<input value="" type="submit">
+			<input name="lang" value="ICL_LANGUAGE_CODE" type="hidden"></form>
+		</div>
+	</li>
+	</ul>
+			</nav>
+						<div class="mobile-nav-holder main-menu"><div class="mobile-selector"><span>Go to...</span><div class="selector-down"></div></div><ul id="mobile-nav" class="navigation menu">
+	<li id="menu-item-25" class="mobile-nav-item"><a aria-haspopup="true" title="My Attribute" href="http://digitalsoundandmusic.com/curriculum/">Curriculum</a>
+<ul class="sub-menu">
+	<li id="menu-item-398" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-398 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/chapters/ch1/">Chapter 1 - Getting Ready</a></li>
+	<li id="menu-item-1511" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1511 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/chapters/ch2/">Chapter 2 - Sound Waves</a></li>
+	<li id="menu-item-1512" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1512 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/chapters/ch3/">Chapter 3 - Musical Sound</a></li>
+	<li id="menu-item-1513" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1513 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/chapters/ch4/">Chapter 4 - Sound Perception &amp; Acoustics</a></li>
+	<li id="menu-item-1514" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-1514 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/chapters/ch5/">Chapter 5 - Digitization</a></li>
+	<li id="menu-item-1515" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1515 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/chapters/ch6/">Chapter 6 - MIDI &amp; Sound Synthesis</a></li>
+	<li id="menu-item-1922" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1922 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/chapters/ch7/">Chapter 7 - Audio Processing</a></li>
+	<li id="menu-item-1921" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1921 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/chapters/ch8/">Chapter 8 - Getting to Work</a></li>
+	<li id="menu-item-22" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-22 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/curriculum/learningsupplements/">Learning Supplements</a></li>
+	<li id="menu-item-298" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-298 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/curriculum/modules/">Curriculum Modules</a></li>
+</ul>
+</li>
+<li id="menu-item-28" class="mobile-nav-item"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/about/">About</a></li>
+			
+	</ul></div>
+					</div>
+	</header>
+</div>		<div class="init-sticky-header"></div>
+		</div>
+		<header style="display: block; height: 68px; top: 0px;" id="header-sticky" class="sticky-header sticky">
+<div style="height: 65px; top: 0px;" class="sticky-shadow">
+	<div class="avada-row">
+		<div class="logo">
+			<a href="http://digitalsoundandmusic.com/">
+				<img style="height: 50px; width: 463px; line-height: 50px; padding-top: 7.5px;" src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/DigitalSoundAndMusicLogo.png" alt="Digital Sound &amp; Music" data-max-width="" class="normal_logo">
+												<img src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/DigitalSoundAndMusicLogo2x.png" alt="Digital Sound &amp; Music" style="height: 50px; line-height: 50px; width: 463px; padding-top: 7.5px;" data-max-width="" class="retina_logo">
+							</a>
+		</div>
+		<nav id="sticky-nav" class="nav-holder">
+		<ul class="navigation menu fusion-navbar-nav">
+			<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-25 fusion-dropdown-menu"><a style="height: 63px; line-height: 63px;" aria-haspopup="true" title="My Attribute" href="http://digitalsoundandmusic.com/curriculum/">Curriculum</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-398 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/chapters/ch1/">Chapter 1 - Getting Ready</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1511 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/chapters/ch2/">Chapter 2 - Sound Waves</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1512 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/chapters/ch3/">Chapter 3 - Musical Sound</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1513 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/chapters/ch4/">Chapter 4 - Sound Perception &amp; Acoustics</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-1514 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/chapters/ch5/">Chapter 5 - Digitization</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1515 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/chapters/ch6/">Chapter 6 - MIDI &amp; Sound Synthesis</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1922 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/chapters/ch7/">Chapter 7 - Audio Processing</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1921 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/chapters/ch8/">Chapter 8 - Getting to Work</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-22 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/curriculum/learningsupplements/">Learning Supplements</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-298 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/curriculum/modules/">Curriculum Modules</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-28"><a style="height: 63px; line-height: 63px;" aria-haspopup="true" href="http://digitalsoundandmusic.com/about/">About</a></li>
+									<li class="main-nav-search">
+				<a style="height: 63px; line-height: 63px;" aria-haspopup="true" id="sticky-nav-search-link" class="search-link"></a>
+				<div id="sticky-nav-search-form" class="main-nav-search-form">
+					<form role="search" id="searchform" method="get" action="http://digitalsoundandmusic.com/">
+						<input name="s" id="s" type="text">
+						<input value="" type="submit">
+					</form>
+				</div>
+			</li>
+					</ul>
+		</nav>
+				<div style="padding-left: 488px;" class="mobile-nav-holder"><div class="mobile-selector"><span>Go to...</span><div class="selector-down"></div></div><ul id="mobile-nav" class="navigation mobile-sticky-nav">
+			<li class="mobile-nav-item"><a style="overflow: hidden; height: 83px; line-height: 83px;" aria-haspopup="true" title="My Attribute" href="http://digitalsoundandmusic.com/curriculum/">Curriculum</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-398 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/chapters/ch1/">Chapter 1 - Getting Ready</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1511 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/chapters/ch2/">Chapter 2 - Sound Waves</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1512 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/chapters/ch3/">Chapter 3 - Musical Sound</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1513 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/chapters/ch4/">Chapter 4 - Sound Perception &amp; Acoustics</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-1514 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/chapters/ch5/">Chapter 5 - Digitization</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1515 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/chapters/ch6/">Chapter 6 - MIDI &amp; Sound Synthesis</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1922 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/chapters/ch7/">Chapter 7 - Audio Processing</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1921 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/chapters/ch8/">Chapter 8 - Getting to Work</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-22 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/curriculum/learningsupplements/">Learning Supplements</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-298 fusion-dropdown-submenu"><a aria-haspopup="true" href="http://digitalsoundandmusic.com/curriculum/modules/">Curriculum Modules</a></li>
+</ul>
+</li>
+<li class="mobile-nav-item"><a style="overflow: hidden; height: 83px; line-height: 83px;" aria-haspopup="true" href="http://digitalsoundandmusic.com/about/">About</a></li>
+									
+					</ul></div>
+			</div>
+	</div>
+</header>
+				<div id="sliders-container">
+									</div>
+		
+			<div class="page-title-container">
+		<div class="page-title">
+			<div class="page-title-wrapper">
+				<div class="page-title-captions">
+										<h1 class="entry-title">
+										5.3.2 Raw Audio Data in C++										</h1>
+														</div>
+															<ul class="breadcrumbs"><li> <a href="http://digitalsoundandmusic.com/">Home</a></li><li><a href="http://digitalsoundandmusic.com/chapters/ch5/" title="Chapter 5">Chapter 5</a></li><li><a href="http://digitalsoundandmusic.com/chapters/ch5/5-3/" title="Section 5.3">Section 5.3</a></li><li>5.3.2 Raw Audio Data in C++</li></ul>													</div>
+		</div>
+	</div>
+																			<div id="main" class="clearfix " style="">
+		<div class="avada-row" style="">
+		<div id="content" class="full-width" style="width:100%">
+								<div class="single-navigation clearfix">
+			<div style="float:left;"><a href="http://digitalsoundandmusic.com/5-3-1-reading-and-writing-audio-files-in-matlab/" rel="prev">5.3.1 Reading and Writing Audio Files in MATLAB</a></div>
+			<a href="http://digitalsoundandmusic.com/5-3-3-reading-and-writing-formatted-audio-files-in-c/" rel="next">5.3.3 Reading and Writing Formatted Audio Files in C++</a>		</div>
+						<div id="post-1304" class="post-1304 post type-post status-publish format-standard hentry category-ch5 category-5-3 post">
+																					<h2 class="entry-title">5.3.2 Raw Audio Data in C++</h2>
+						<div class="post-content">
+				<p>In Chapters 2 and 3, we showed you how to generate sinusoidal 
+waveforms as arrays of values that could be sent directly to the sound 
+device and played.&nbsp; But what if you want to work with more 
+complicated sounds and music in C++?&nbsp; In this case, you'll need to 
+be able to read audio files into your programs in order to experiment 
+with audio processing.</p>
+<p>In C++, raw audio data in 8-bit or 16-bit format can be read into an array of characters (<em>char</em>) or short integers (<em>short</em>),
+ respectively, assuming that characters are stored in 8 bits and short 
+integers are 16 bits on your system.&nbsp; This is demonstrated in 
+Program 5.1.&nbsp; You can use this in the programming exercise on 
+dithering and mu-law encoding.</p>
+<div><div id="highlighter_731827" class="syntaxhighlighter  cpp"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div><div class="line number15 index14 alt2">15</div><div class="line number16 index15 alt1">16</div><div class="line number17 index16 alt2">17</div><div class="line number18 index17 alt1">18</div><div class="line number19 index18 alt2">19</div><div class="line number20 index19 alt1">20</div><div class="line number21 index20 alt2">21</div><div class="line number22 index21 alt1">22</div><div class="line number23 index22 alt2">23</div><div class="line number24 index23 alt1">24</div><div class="line number25 index24 alt2">25</div><div class="line number26 index25 alt1">26</div><div class="line number27 index26 alt2">27</div><div class="line number28 index27 alt1">28</div><div class="line number29 index28 alt2">29</div><div class="line number30 index29 alt1">30</div><div class="line number31 index30 alt2">31</div><div class="line number32 index31 alt1">32</div><div class="line number33 index32 alt2">33</div><div class="line number34 index33 alt1">34</div><div class="line number35 index34 alt2">35</div><div class="line number36 index35 alt1">36</div><div class="line number37 index36 alt2">37</div><div class="line number38 index37 alt1">38</div><div class="line number39 index38 alt2">39</div><div class="line number40 index39 alt1">40</div><div class="line number41 index40 alt2">41</div><div class="line number42 index41 alt1">42</div><div class="line number43 index42 alt2">43</div><div class="line number44 index43 alt1">44</div><div class="line number45 index44 alt2">45</div><div class="line number46 index45 alt1">46</div><div class="line number47 index46 alt2">47</div><div class="line number48 index47 alt1">48</div><div class="line number49 index48 alt2">49</div><div class="line number50 index49 alt1">50</div><div class="line number51 index50 alt2">51</div><div class="line number52 index51 alt1">52</div><div class="line number53 index52 alt2">53</div><div class="line number54 index53 alt1">54</div><div class="line number55 index54 alt2">55</div><div class="line number56 index55 alt1">56</div><div class="line number57 index56 alt2">57</div><div class="line number58 index57 alt1">58</div><div class="line number59 index58 alt2">59</div><div class="line number60 index59 alt1">60</div><div class="line number61 index60 alt2">61</div><div class="line number62 index61 alt1">62</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="cpp comments">//This program runs under OSS</code></div><div class="line number2 index1 alt1"><code class="cpp comments">//The program expects an 8-bit raw sound file.</code></div><div class="line number3 index2 alt2"><code class="cpp comments">//You can alter it to read a 16-bit file into short ints</code></div><div class="line number4 index3 alt1"><code class="cpp preprocessor">#include &lt;sys/ioctl.h&gt; //for ioctl()</code></div><div class="line number5 index4 alt2"><code class="cpp preprocessor">#include &lt;math.h&gt; //sin(), floor()</code></div><div class="line number6 index5 alt1"><code class="cpp preprocessor">#include &lt;stdio.h&gt; //perror</code></div><div class="line number7 index6 alt2"><code class="cpp preprocessor">#include &lt;fcntl.h&gt; //open</code></div><div class="line number8 index7 alt1"><code class="cpp preprocessor">#include &lt;linux/soundcard.h&gt; //SOUND_PCM*</code></div><div class="line number9 index8 alt2"><code class="cpp preprocessor">#include &lt;stdlib.h&gt;</code></div><div class="line number10 index9 alt1"><code class="cpp preprocessor">#include &lt;unistd.h&gt; </code></div><div class="line number11 index10 alt2">&nbsp;</div><div class="line number12 index11 alt1"><code class="cpp keyword bold">using</code> <code class="cpp keyword bold">namespace</code> <code class="cpp plain">std;</code></div><div class="line number13 index12 alt2">&nbsp;</div><div class="line number14 index13 alt1"><code class="cpp preprocessor">#define TYPE char</code></div><div class="line number15 index14 alt2"><code class="cpp preprocessor">#define RATE 44100 //sampling rate</code></div><div class="line number16 index15 alt1"><code class="cpp preprocessor">#define SIZE sizeof(TYPE) //size of sample, in bytes</code></div><div class="line number17 index16 alt2"><code class="cpp preprocessor">#define CHANNELS 1 //number of stereo channels</code></div><div class="line number18 index17 alt1"><code class="cpp preprocessor">#define PI 3.14159</code></div><div class="line number19 index18 alt2"><code class="cpp preprocessor">#define SAMPLE_MAX (pow(2,SIZE*8 - 1) - 1) </code></div><div class="line number20 index19 alt1">&nbsp;</div><div class="line number21 index20 alt2"><code class="cpp keyword bold">void</code> <code class="cpp plain">writeToSoundDevice(TYPE* buf, </code><code class="cpp color1 bold">int</code> <code class="cpp plain">deviceID, </code><code class="cpp color1 bold">int</code> <code class="cpp plain">buffSize) {</code></div><div class="line number22 index21 alt1"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp color1 bold">int</code> <code class="cpp plain">status;</code></div><div class="line number23 index22 alt2"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp plain">status = write(deviceID, buf, buffSize);</code></div><div class="line number24 index23 alt1"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp keyword bold">if</code> <code class="cpp plain">(status != buffSize)</code></div><div class="line number25 index24 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp functions bold">perror</code><code class="cpp plain">(</code><code class="cpp string">"Wrote wrong number of bytes\n"</code><code class="cpp plain">);</code></div><div class="line number26 index25 alt1"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp plain">status = ioctl(deviceID, SOUND_PCM_SYNC, 0);</code></div><div class="line number27 index26 alt2"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp keyword bold">if</code> <code class="cpp plain">(status == -1)</code></div><div class="line number28 index27 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp functions bold">perror</code><code class="cpp plain">(</code><code class="cpp string">"SOUND_PCM_SYNC failed\n"</code><code class="cpp plain">);</code></div><div class="line number29 index28 alt2"><code class="cpp plain">}</code></div><div class="line number30 index29 alt1">&nbsp;</div><div class="line number31 index30 alt2"><code class="cpp color1 bold">int</code> <code class="cpp plain">main(</code><code class="cpp color1 bold">int</code> <code class="cpp plain">argc, </code><code class="cpp color1 bold">char</code><code class="cpp plain">* argv[])</code></div><div class="line number32 index31 alt1"><code class="cpp plain">{</code></div><div class="line number33 index32 alt2"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp color1 bold">int</code> <code class="cpp plain">deviceID, arg, status, i, numSamples;</code></div><div class="line number34 index33 alt1"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp plain">numSamples = </code><code class="cpp functions bold">atoi</code><code class="cpp plain">(argv[1]);</code></div><div class="line number35 index34 alt2">&nbsp;</div><div class="line number36 index35 alt1"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp plain">TYPE* samples = (TYPE *) </code><code class="cpp functions bold">malloc</code><code class="cpp plain">((</code><code class="cpp color1 bold">size_t</code><code class="cpp plain">) numSamples * </code><code class="cpp keyword bold">sizeof</code><code class="cpp plain">(TYPE)* CHANNELS);</code></div><div class="line number37 index36 alt2"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp color1 bold">FILE</code> <code class="cpp plain">*inFile = </code><code class="cpp functions bold">fopen</code><code class="cpp plain">(argv[2], </code><code class="cpp string">"rb"</code><code class="cpp plain">);</code></div><div class="line number38 index37 alt1"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp functions bold">fread</code><code class="cpp plain">(samples, (</code><code class="cpp color1 bold">size_t</code><code class="cpp plain">)</code><code class="cpp keyword bold">sizeof</code><code class="cpp plain">(TYPE), numSamples*CHANNELS, inFile);</code></div><div class="line number39 index38 alt2"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp functions bold">fclose</code><code class="cpp plain">(inFile);</code></div><div class="line number40 index39 alt1">&nbsp;</div><div class="line number41 index40 alt2"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp plain">deviceID = open(</code><code class="cpp string">"/dev/dsp"</code><code class="cpp plain">, O_WRONLY, 0);</code></div><div class="line number42 index41 alt1"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp keyword bold">if</code> <code class="cpp plain">(deviceID &lt; 0) </code></div><div class="line number43 index42 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp functions bold">perror</code><code class="cpp plain">(</code><code class="cpp string">"Opening /dev/dsp failed\n"</code><code class="cpp plain">);</code></div><div class="line number44 index43 alt1"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp plain">arg = SIZE * 8;</code></div><div class="line number45 index44 alt2"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp plain">status = ioctl(deviceID, SOUND_PCM_WRITE_BITS, &amp;arg);</code></div><div class="line number46 index45 alt1"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp keyword bold">if</code> <code class="cpp plain">(status == -1)</code></div><div class="line number47 index46 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp functions bold">perror</code><code class="cpp plain">(</code><code class="cpp string">"Unable to set sample size\n"</code><code class="cpp plain">);</code></div><div class="line number48 index47 alt1"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp plain">arg = CHANNELS;</code></div><div class="line number49 index48 alt2"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp plain">status = ioctl(deviceID, SOUND_PCM_WRITE_CHANNELS, &amp;arg);</code></div><div class="line number50 index49 alt1"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp keyword bold">if</code> <code class="cpp plain">(status == -1)</code></div><div class="line number51 index50 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp functions bold">perror</code><code class="cpp plain">(</code><code class="cpp string">"Unable to set number of channels\n"</code><code class="cpp plain">);</code></div><div class="line number52 index51 alt1"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp plain">arg = RATE;</code></div><div class="line number53 index52 alt2"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp plain">status = ioctl(deviceID, SOUND_PCM_WRITE_RATE, &amp;arg);</code></div><div class="line number54 index53 alt1"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp keyword bold">if</code> <code class="cpp plain">(status == -1)</code></div><div class="line number55 index54 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp functions bold">perror</code><code class="cpp plain">(</code><code class="cpp string">"Unable to set number of bits\n"</code><code class="cpp plain">);</code></div><div class="line number56 index55 alt1">&nbsp;</div><div class="line number57 index56 alt2"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp plain">writeToSoundDevice(samples, deviceID, numSamples * CHANNELS);</code></div><div class="line number58 index57 alt1"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp color1 bold">FILE</code> <code class="cpp plain">*outFile = </code><code class="cpp functions bold">fopen</code><code class="cpp plain">(argv[3], </code><code class="cpp string">"wb"</code><code class="cpp plain">);</code></div><div class="line number59 index58 alt2"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp functions bold">fwrite</code><code class="cpp plain">(samples, 1, numSamples*CHANNELS, outFile);</code></div><div class="line number60 index59 alt1"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp functions bold">fclose</code><code class="cpp plain">(outFile);</code></div><div class="line number61 index60 alt2"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp plain">close(deviceID);</code></div><div class="line number62 index61 alt1"><code class="cpp plain">}</code></div></div></td></tr></tbody></table></div></div>
+<p style="text-align: center;"><strong>Program 5.1&nbsp; Reading raw data in a C++ program, OSS library</strong></p>
+<p>When you write a low-level sound program such as this, you need to 
+use a sound library such as OSS or ALSA.&nbsp; There's a lot of 
+documentation online that will guide you through installation of the 
+sound libraries into the Linux environment and show you how to program 
+with the libraries. (See the.websites cited in the references at the end
+ of the chapter.)&nbsp; The ALSA version of Program 5.1 is given in 
+Program 5.2.</p>
+<div><div id="highlighter_124583" class="syntaxhighlighter  cpp"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div><div class="line number15 index14 alt2">15</div><div class="line number16 index15 alt1">16</div><div class="line number17 index16 alt2">17</div><div class="line number18 index17 alt1">18</div><div class="line number19 index18 alt2">19</div><div class="line number20 index19 alt1">20</div><div class="line number21 index20 alt2">21</div><div class="line number22 index21 alt1">22</div><div class="line number23 index22 alt2">23</div><div class="line number24 index23 alt1">24</div><div class="line number25 index24 alt2">25</div><div class="line number26 index25 alt1">26</div><div class="line number27 index26 alt2">27</div><div class="line number28 index27 alt1">28</div><div class="line number29 index28 alt2">29</div><div class="line number30 index29 alt1">30</div><div class="line number31 index30 alt2">31</div><div class="line number32 index31 alt1">32</div><div class="line number33 index32 alt2">33</div><div class="line number34 index33 alt1">34</div><div class="line number35 index34 alt2">35</div><div class="line number36 index35 alt1">36</div><div class="line number37 index36 alt2">37</div><div class="line number38 index37 alt1">38</div><div class="line number39 index38 alt2">39</div><div class="line number40 index39 alt1">40</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="cpp comments">/*This program demonstrates how to read in a raw</code></div><div class="line number2 index1 alt1"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp comments">data file and write it to the sound device to be played.</code></div><div class="line number3 index2 alt2"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp comments">The program uses the ALSA library.</code></div><div class="line number4 index3 alt1"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp comments">Use option -lasound on compile line.*/</code></div><div class="line number5 index4 alt2">&nbsp;</div><div class="line number6 index5 alt1"><code class="cpp preprocessor">#include &lt;/usr/include/alsa/asoundlib.h&gt;</code></div><div class="line number7 index6 alt2"><code class="cpp preprocessor">#include &lt;math.h&gt;</code></div><div class="line number8 index7 alt1"><code class="cpp preprocessor">#include &lt;iostream&gt;</code></div><div class="line number9 index8 alt2"><code class="cpp keyword bold">using</code> <code class="cpp keyword bold">namespace</code> <code class="cpp plain">std;</code></div><div class="line number10 index9 alt1">&nbsp;</div><div class="line number11 index10 alt2"><code class="cpp keyword bold">static</code> <code class="cpp color1 bold">char</code> <code class="cpp plain">*device = </code><code class="cpp string">"default"</code><code class="cpp plain">;&nbsp;&nbsp;&nbsp; </code><code class="cpp comments">/*default playback device */</code></div><div class="line number12 index11 alt1"><code class="cpp color1 bold">int</code> <code class="cpp plain">main(</code><code class="cpp color1 bold">int</code> <code class="cpp plain">argc, </code><code class="cpp color1 bold">char</code><code class="cpp plain">* argv[])</code></div><div class="line number13 index12 alt2"><code class="cpp plain">{</code></div><div class="line number14 index13 alt1"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp color1 bold">int</code> <code class="cpp plain">err, numSamples;</code></div><div class="line number15 index14 alt2"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp plain">snd_pcm_t *handle;</code></div><div class="line number16 index15 alt1"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp plain">snd_pcm_sframes_t frames;</code></div><div class="line number17 index16 alt2"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp plain">numSamples = </code><code class="cpp functions bold">atoi</code><code class="cpp plain">(argv[1]);</code></div><div class="line number18 index17 alt1"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp color1 bold">char</code><code class="cpp plain">* samples = (</code><code class="cpp color1 bold">char</code><code class="cpp plain">*) </code><code class="cpp functions bold">malloc</code><code class="cpp plain">((</code><code class="cpp color1 bold">size_t</code><code class="cpp plain">) numSamples);</code></div><div class="line number19 index18 alt2"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp color1 bold">FILE</code> <code class="cpp plain">*inFile = </code><code class="cpp functions bold">fopen</code><code class="cpp plain">(argv[2], </code><code class="cpp string">"rb"</code><code class="cpp plain">);</code></div><div class="line number20 index19 alt1"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp color1 bold">int</code> <code class="cpp plain">numRead = </code><code class="cpp functions bold">fread</code><code class="cpp plain">(samples, 1, numSamples, inFile);</code></div><div class="line number21 index20 alt2"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp functions bold">fclose</code><code class="cpp plain">(inFile);&nbsp;&nbsp;&nbsp;&nbsp; </code></div><div class="line number22 index21 alt1"><code class="cpp keyword bold">if</code> <code class="cpp plain">((err=snd_pcm_open(&amp;handle, device, SND_PCM_STREAM_PLAYBACK, 0)) &lt; 0){</code></div><div class="line number23 index22 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp functions bold">printf</code><code class="cpp plain">(</code><code class="cpp string">"Playback open error: %s\n"</code><code class="cpp plain">, snd_strerror(err));</code></div><div class="line number24 index23 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp functions bold">exit</code><code class="cpp plain">(EXIT_FAILURE);</code></div><div class="line number25 index24 alt2"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp plain">}</code></div><div class="line number26 index25 alt1"><code class="cpp keyword bold">if</code> <code class="cpp plain">((err =&nbsp;&nbsp; </code></div><div class="line number27 index26 alt2"><code class="cpp spaces">&nbsp;</code><code class="cpp plain">snd_pcm_set_params(handle,SND_PCM_FORMAT_U8,</code></div><div class="line number28 index27 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">SND_PCM_ACCESS_RW_INTERLEAVED,1,44100, 1, 100000) ) &lt; 0 ){</code></div><div class="line number29 index28 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp functions bold">printf</code><code class="cpp plain">(</code><code class="cpp string">"Playback open error: %s\n"</code><code class="cpp plain">, snd_strerror(err));</code></div><div class="line number30 index29 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp functions bold">exit</code><code class="cpp plain">(EXIT_FAILURE);</code></div><div class="line number31 index30 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">}</code></div><div class="line number32 index31 alt1"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp plain">frames = snd_pcm_writei(handle, samples, numSamples);</code></div><div class="line number33 index32 alt2"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp keyword bold">if</code> <code class="cpp plain">(frames &lt; 0)</code></div><div class="line number34 index33 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">frames = snd_pcm_recover(handle, frames, 0);</code></div><div class="line number35 index34 alt2"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp keyword bold">if</code> <code class="cpp plain">(frames &lt; 0) {</code></div><div class="line number36 index35 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp functions bold">printf</code><code class="cpp plain">(</code><code class="cpp string">"snd_pcm_writei failed: %s\n"</code><code class="cpp plain">, snd_strerror(err));</code></div><div class="line number37 index36 alt2"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp plain">}</code></div><div class="line number38 index37 alt1"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp plain">snd_pcm_close(handle);</code></div><div class="line number39 index38 alt2"><code class="cpp spaces">&nbsp;&nbsp;</code><code class="cpp keyword bold">return</code> <code class="cpp plain">0;</code></div><div class="line number40 index39 alt1"><code class="cpp plain">}</code></div></div></td></tr></tbody></table></div></div>
+<p style="text-align: center;"><strong>Program 5.2 Reading raw data in a C++ program, ALSA library</strong></p>
+							</div>
+															<div style="" class="share-box">
+				<h4 style="">Share This Story, Choose Your Platform!</h4>
+				<ul style="" class="social-networks social-networks-dark">
+										<li class="facebook">
+						<a href="http://www.facebook.com/sharer.php?m2w&amp;s=100&amp;p[url]=http://digitalsoundandmusic.com/5-3-2-raw-audio-data-in-c/&amp;p[title]=5.3.2%20Raw%20Audio%20Data%20in%20C++" target="_blank">
+							Facebook
+						</a>
+						<div class="popup">
+							<div class="holder">
+								<p>Facebook</p>
+							</div>
+						</div>
+					</li>
+															<li class="twitter">
+						<a href="http://twitter.com/home?status=5.3.2+Raw+Audio+Data+in+C%2B%2B%20http://digitalsoundandmusic.com/5-3-2-raw-audio-data-in-c/" target="_blank">
+							Twitter
+						</a>
+						<div class="popup">
+							<div class="holder">
+								<p>Twitter</p>
+							</div>
+						</div>
+					</li>
+															<li class="linkedin">
+						<a href="http://linkedin.com/shareArticle?mini=true&amp;url=http://digitalsoundandmusic.com/5-3-2-raw-audio-data-in-c/&amp;title=5.3.2%20Raw%20Audio%20Data%20in%20C++" target="_blank">
+							LinkedIn
+						</a>
+						<div class="popup">
+							<div class="holder">
+								<p>LinkedIn</p>
+							</div>
+						</div>
+					</li>
+															<li class="reddit">
+						<a href="http://reddit.com/submit?url=http://digitalsoundandmusic.com/5-3-2-raw-audio-data-in-c/&amp;title=5.3.2%20Raw%20Audio%20Data%20in%20C++" target="_blank">
+							Reddit
+						</a>
+						<div class="popup">
+							<div class="holder">
+								<p>Reddit</p>
+							</div>
+						</div>
+					</li>
+															<li class="tumblr">
+						<a href="http://www.tumblr.com/share/link?url=http%3A%2F%2Fdigitalsoundandmusic.com%2F5-3-2-raw-audio-data-in-c%2F&amp;name=5.3.2+Raw+Audio+Data+in+C%2B%2B&amp;description=In+Chapters+2+and+3%2C+we+showed+you+how+to+generate+sinusoidal+waveforms+as+arrays+of+values+that+could+be+sent+directly+to+the+sound+device+and+played.%C2%A0+But+what+if+you+want+to+work+with+more+complicated+sounds+and+music+in+C%2B%2B%3F%C2%A0+In+this+case%2C+you%27ll+need+to+be+able+to+read+audio+files+into+your+programs+in+order+to+experiment+with+audio+processing.+In+C%2B%2B%2C+raw+audio+data+in+8-bit+or+16-bit+format+can+be+read+into+an+array+of+characters+%28char%29+or+short+integers+%28short%29%2C+respectively%2C+assuming+that+characters+are+stored+in+8+bits+and+short+integers+%5B%26hellip%3B%5D" target="_blank">
+							Tumblr
+						</a>
+						<div class="popup">
+							<div class="holder">
+								<p>Tumblr</p>
+							</div>
+						</div>
+					</li>
+															<li class="google">
+						<a href="https://plus.google.com/share?url=http://digitalsoundandmusic.com/5-3-2-raw-audio-data-in-c/" onclick="javascript:window.open(this.href,
+  '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;" target="_blank">
+							Google +1
+						</a>
+						<div class="popup">
+							<div class="holder">
+								<p>Google +1</p>
+							</div>
+						</div>
+					</li>
+															<li class="tf-pinterest">
+												<a href="http://pinterest.com/pin/create/button/?url=http%3A%2F%2Fdigitalsoundandmusic.com%2F5-3-2-raw-audio-data-in-c%2F&amp;description=5.3.2+Raw+Audio+Data+in+C%2B%2B&amp;media=" target="_blank">
+							Pinterest
+						</a>
+						<div class="popup">
+							<div class="holder">
+								<p>Pinterest</p>
+							</div>
+						</div>
+					</li>
+															<li class="email">
+						<a href="mailto:?subject=5.3.2%20Raw%20Audio%20Data%20in%20C++&amp;body=http://digitalsoundandmusic.com/5-3-2-raw-audio-data-in-c/">
+							Email
+						</a>
+						<div class="popup">
+							<div class="holder">
+								<p>Email</p>
+							</div>
+						</div>
+					</li>
+									</ul>
+			</div>
+						
+												
+								</div>
+			</div>
+		<div id="sidebar" style="display:none">
+	<div id="wp_sidebarlogin-2" class="widget widget_wp_sidebarlogin"><div class="heading"><h3>Log In</h3></div>
+		<form name="loginform" id="loginform" action="http://digitalsoundandmusic.com/wp-login.php" method="post">
+			
+			<p class="login-username">
+				<label for="user_login">Username</label>
+				<input name="log" id="user_login" class="input" size="20" type="text">
+			</p>
+			<p class="login-password">
+				<label for="user_pass">Password</label>
+				<input name="pwd" id="user_pass" class="input" value="" size="20" type="password">
+			</p>
+			
+			<p class="login-remember"><label><input name="rememberme" id="rememberme" value="forever" checked="checked" type="checkbox"> Remember Me</label></p>
+			<p class="login-submit">
+				<input name="wp-submit" id="wp-submit" class="button-primary" value="Login →" type="submit">
+				<input name="redirect_to" value="http://digitalsoundandmusic.com/5-3-2-raw-audio-data-in-c/" type="hidden">
+			</p>
+			
+		</form><ul class="pagenav sidebar_login_links"><li class="register-for-educator-access-link"><a href="http://digitalsoundandmusic.com/wp-login.php?action=register">Register for Educator Access</a></li><li class="forgot-your-password-link"><a href="http://digitalsoundandmusic.com/wp-login.php?action=lostpassword">Forgot your password?</a></li></ul></div><div id="search-2" class="widget widget_search"><div class="heading"><h3>Search Curriculum</h3></div><form class="search" id="searchform" action="http://digitalsoundandmusic.com/" method="get">
+	<fieldset>
+		<span class="text"><input name="s" id="s" placeholder="Search ..." type="text"></span>
+	</fieldset>
+</form></div><div id="recent_works-widget-2" class="widget recent_works"><div class="heading"><h3>Explore Modules</h3></div>		<div class="recent-works-items clearfix">
+										<a href="http://digitalsoundandmusic.com/modules/module-4-intro-to-theatrical-production-sound/" title="Module #4 - Intro to Theatrical Production: Sound">
+			<img src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/etherCON-connectors-66x66.jpg" class="attachment-recent-works-thumbnail wp-post-image" alt="Figure 1.37 RJ-45 connectors" height="66" width="66">		</a>
+								<a href="http://digitalsoundandmusic.com/modules/module-3-sound-system-design/" title="Module #3 - Sound System Design">
+			<img src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/Figure-4.png" class="attachment-recent-works-thumbnail wp-post-image" alt="Figure 4.20 Potential acoustic gain, $$PAG=20\log_{10}\left ( \frac{D_{1}\times D_{0}}{D_{s}\times D_{2}} \right )$$" height="66" width="66">		</a>
+								<a href="http://digitalsoundandmusic.com/modules/module-2-sound-design-technology/" title="Module #2 - Sound Design Technology">
+			<img src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/Figure-5.png" class="attachment-recent-works-thumbnail wp-post-image" alt="Figure 5.20 Signal path in digital audio recording" height="66" width="66">		</a>
+								<a href="http://digitalsoundandmusic.com/modules/module-1-digital-synthesis/" title="Module #1 - Digital Synthesis">
+			<img src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/practical_subtractivesynth2-66x66.jpg" class="attachment-recent-works-thumbnail wp-post-image" alt="practical_subtractivesynth2" height="66" width="66">		</a>
+				</div>
+
+		</div>	</div>
+		</div>
+	</div>
+				<footer class="footer-area">
+		<div class="avada-row">
+			<section class="columns columns-4">
+				<article class="col">
+								</article>
+
+				<article class="col">
+								</article>
+
+				<article class="col">
+								</article>
+
+				<article style="margin-right: 0px;" class="col last">
+								</article>
+			</section>
+		</div>
+	</footer>
+			<footer id="footer">
+		<div class="avada-row">
+						<ul class="social-networks social-networks-dark">
+																																																														</ul>
+					<ul class="copyright">
+				<li>This material is based on work supported by the National Science
+ Foundation under CCLI Grant DUE 0717743, Jennifer Burg PI, Jason 
+Romney, Co-PI.<br>Copyright 2014 Digital Sound &amp; Music | All Rights Reserved</li>
+			</ul>
+		</div>
+	</footer>
+			</div><!-- wrapper -->
+	
+	<script type="text/javascript" src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/js"></script><script src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/main.js"></script>
+	<!-- W3TC-include-js-head -->
+
+	<script type="text/javascript" src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/shCore.js"></script>
+<script type="text/javascript" src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/shBrushCpp.js"></script>
+<script type="text/javascript">
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://digitalsoundandmusic.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://digitalsoundandmusic.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['pad-line-numbers'] = false;
+	SyntaxHighlighter.defaults['tab-size'] = 6;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type="text/javascript" src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/jquery_005.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/digitalsoundandmusic.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ..."};
+/* ]]> */
+</script>
+<script type="text/javascript" src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/scripts.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var tocplus = {"smooth_scroll":"1"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/front.js"></script>
+<script type="text/javascript" src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/jquery_008.js"></script>
+<script type="text/javascript" src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/jquery_007.js"></script>
+<script type="text/javascript" src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/comment-reply.js"></script>
+<script type="text/javascript" src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/modernizr-min.js"></script>
+<script type="text/javascript" src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/jquery_010.js"></script>
+<script type="text/javascript" src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/jquery_009.js"></script>
+<script type="text/javascript" src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/jquery_003.js"></script>
+<script type="text/javascript" src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/jquery.js"></script>
+<script type="text/javascript" src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/gmap-min.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var js_local_vars = {"dropdown_goto":"Go to...","mobile_nav_cart":"Shopping Cart","page_smoothHeight":"false","flex_smoothHeight":"false","language_flag":"ICL_LANGUAGE_CODE","infinite_blog_finished_msg":"<em>All posts displayed<\/em>","infinite_blog_text":"<em>Loading the next set of posts...<\/em>","portfolio_loading_text":"<em>Loading Portfolio Items...<\/em>","faqs_loading_text":"<em>Loading FAQ Items...<\/em>","order_actions":"Details"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="5.3.2%20Raw%20Audio%20Data%20in%20C++%20-%20Digital%20Sound%20&amp;%20Music_files/main_002.js"></script>
+
+	
+<a style="display: inline;" href="#" id="toTop"><span id="toTopHover"></span></a></body></html>

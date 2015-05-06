@@ -90,6 +90,9 @@ QVector<QString> SoundData::infoQt()
     info.push_back("ckDataID: " + QString::fromUtf8(ckDataID_,5));
     info.push_back("ckDataSize: " + QString::number(ckDataSize_));
 
+    info.push_back("Samples: " + QString::number(audio_data_f_.size()));
+    info.push_back("Frames: " + QString::number(frames()));
+    info.push_back("Bit rate: " + QString::number(wBitsPerSample_));
 
     return info;
 }

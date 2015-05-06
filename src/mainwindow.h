@@ -68,6 +68,10 @@ private:
 
     bool databaseRead_;
     bool sampleRead_;
+    bool train_;
+
+    void train();
+    void devel();
 
 
 };

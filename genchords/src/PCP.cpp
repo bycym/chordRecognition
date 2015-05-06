@@ -88,7 +88,7 @@ std::vector<pitch> getPeaks(float * freq, int freqSize, int samplerate, bool one
 		 
 	
 		// ----------- Algo 3 ----------------------
-		// frequenzen aufaddieren
+        // frequenzen aufaddiereninformation
 		 if (algo==3) {
 			 for (int i = int(fmax(samplerate/MAXFREQUENZ, IMIN)); i < fmin(resSize, samplerate/MINFREQUENZ); i++) {  
 				 float hz = samplerate/((float)i);
@@ -102,11 +102,26 @@ std::vector<pitch> getPeaks(float * freq, int freqSize, int samplerate, bool one
 		
 		 delete [] resbuffer;
 	 }
-	 for (int i=0; i<PCPLEN; i++) {
-// 		 std::cout << "pcpCountPeaks[" << i << "] = " << pcpCountPeaks[i] << std::endl;
-		 pcpCountPeaks[i]=pcpCountPeaks[i]/(NEIGHBOUR*2+1);
-// 		 std::cout << "pcpCountPeaks[" << i << "] = " << pcpCountPeaks[i] << std::endl;
-	 }
+
+    for (int i=0; i<PCPLEN; i++) {
+//      std::cout << "pcpCountPeaks[" << i << "] = " << pcpCountPeaks[i] << std::endl;
+        pcpCountPeaks[i]=pcpCountPeaks[i]/(NEIGHBOUR*2+1);
+    }
+
+    /// TODO !!!!!!!!
+    if(true){
+        int div = 1000;
+        for (int i=0; i<PCPLEN; i++) {
+            pcp[i] = pcp[i] / div;
+            //std::cout << "pcp[" << i << "] = " << pcp[i] << std::endl;
+        }
+        for (int i=0; i<PCPLEN; i++) {
+            pcpCountPeaks[i] = pcpCountPeaks[i] / div;
+            //std::cout << "pcpCountPeaks[" << i << "] = " << pcpCountPeaks[i] << std::endl;
+        }
+    }
+
+
  }
 
  PCP::PCP(const float * fpcp) {

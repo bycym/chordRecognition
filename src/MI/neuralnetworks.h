@@ -106,6 +106,20 @@ public:
      * \return any problem then false
      */
     bool setTag(std::vector<std::string> t);
+
+
+    std::string tag(int x) const
+    {
+        if(!( x >= 0 && x <= tags_.size()))
+        {
+            std::cerr << "Bad biases index" << endl;
+            qDebug() << "Bad biases index" << endl;
+        }
+        return tags_[x];
+    }
+
+    int numOutput() const { return numOutput_; }
+
 };
 
 #endif // NEURALNETWORKS_H

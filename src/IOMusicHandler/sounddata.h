@@ -171,6 +171,9 @@ private:
 
     ///// </data> /////
 
+    /// database tag
+    std::string dbTag_;
+
 
 
 
@@ -206,7 +209,7 @@ public:
     int samplerate(){ return nSamplesPerSec_; }
 
     // Bits per sample = wBitsPerSample
-    long frames(){ return audio_data_f_.size(); }
+    long frames(){ return audio_data_f_.size()-1; }
     //long frames(){ return wBitsPerSample_; }
     /// end
 
@@ -214,6 +217,9 @@ public:
     // get:
 
     //float* audio_data_f(){ return audio_data_f_->data(); }
+
+    std::string dbTag(){ return dbTag_; }
+    void dbTag(std::string s){ dbTag_ = s; }
 
     string waveFileName(){ return waveFileName_; }
     short pcm() { return pcm_;}

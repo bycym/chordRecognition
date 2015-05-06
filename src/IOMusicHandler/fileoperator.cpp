@@ -199,31 +199,87 @@ bool FileOperator::performLoadOperation(QString fn, SoundData*& sndData)
         sndData->init(ckDataSize);
 
 
-        ////// read data from file START //////
+        unsigned int num_samp = nSamplesPerSec; // Sampling Rate / Sample Rate
 
-        const unsigned int num_ch = nChannels;
-        const unsigned int bits_per_samp = wBitsPerSample;
-        const unsigned int num_samp = nSamplesPerSec; // Sampling Rate / Sample Rate
-        unsigned char buffer;
-
-        for (unsigned int i = 0; i != num_samp; ++i)
+        if(wBitsPerSample == 16)
         {
-            for (unsigned int j = 0; j != num_ch; ++j)
-            {
-                unsigned int tmp = 0;
-                for (unsigned int k = 0; k != bits_per_samp; k+=8)
-                {
-                    fread(&buffer, sizeof(char), 1, fp);
-                    tmp += buffer << k;
-                }
-                int push_me = conv_bit_size(tmp, bits_per_samp);
-                //qDebug() << "push me " << push_me << endl;
-                sndData->audio_data_f_.push_back(push_me);
-            }
-        }
+            num_samp = ckDataSize/(nChannels * (wBitsPerSample/8));
+            //std::cout << "(16bits) Number of Samples: " << num_samp << endl;
 
-        ////// read data from file END //////
-        fileName_ = fn;
+
+
+
+            int counter = 0;
+            short int readBit0;
+            short int readBit1;
+            double conv0;
+            double conv1;
+
+            while(counter <= num_samp)
+            {
+                char dataWrite[20];
+
+                if(nChannels== 2)
+                {
+                    fread(&readBit0, 1, 2, fp);
+                    fread(&readBit1, 1, 2, fp);
+                    conv0 = readBit0/32768.0;
+                    conv1 = readBit1/32768.0;
+                    sndData->audio_data_f_.push_back(conv0);
+                    sndData->audio_data_f_.push_back(conv1);
+                    //cout << readBit0<<" : "<<conv0 << endl;
+                    //cout << readBit1<<" : "<< conv1 << endl;
+                }
+
+                if(nChannels == 1)
+                {
+                    fread(&readBit1, 1, 2, fp);
+                    conv1 = readBit1/32768.0;
+                    sndData->audio_data_f_.push_back(conv1);
+                    //cout << readBit1<<" : "<< conv1 << endl;
+
+                }
+
+                counter++;
+
+
+            }
+
+
+
+
+
+
+        }
+        else
+        {
+
+
+            ////// read data from file START //////
+
+            const unsigned int num_ch = nChannels;
+            const unsigned int bits_per_samp = wBitsPerSample;
+            unsigned char buffer;
+
+            for (unsigned int i = 0; i != num_samp; ++i)
+            {
+                for (unsigned int j = 0; j != num_ch; ++j)
+                {
+                    unsigned int tmp = 0;
+                    for (unsigned int k = 0; k != bits_per_samp; k+=8)
+                    {
+                        fread(&buffer, sizeof(char), 1, fp);
+                        tmp += buffer << k;
+                    }
+                    double push_me = conv_bit_size(tmp, bits_per_samp);
+                    //std::cout << "push me " << push_me << endl;
+                    sndData->audio_data_f_.push_back(push_me);
+                }
+            }
+
+            ////// read data from file END //////
+            fileName_ = fn;
+        }
     }
 
 /*
@@ -325,7 +381,9 @@ bool FileOperator::openDir(QVector<SoundData*> &dir)
             QString tmp = dirname + "/" + st;
             if(performLoadOperation(tmp, sd))
             {
-                qDebug() << "OK!" << st << endl;
+                std::string dbTag = dbTagCreate(st, ".");
+                qDebug() << "OK!" << st << ", dbTag: " << QString::fromStdString(dbTag) <<endl;
+                sd->dbTag(dbTag);
                 dir.push_back(sd);
             }
             else
@@ -356,7 +414,9 @@ bool FileOperator::openDir(QVector<SoundData*> &dir)
                 QString tmp = directories.filePath() + "/" + st;
                 if(performLoadOperation(tmp, sd))
                 {
-                    qDebug() << "OK!" << st << endl;
+                    std::string dbTag = dbTagCreate(directories.filePath(), "/");
+                    qDebug() << "OK!" << st << ", dbTag: " << QString::fromStdString(dbTag) <<endl;
+                    sd->dbTag(dbTag);
                     dir.push_back(sd);
                 }
                 else
@@ -376,8 +436,20 @@ bool FileOperator::openDir(QVector<SoundData*> &dir)
     return success;
 }
 
-void FileOperator::loading()
+std::string FileOperator::dbTagCreate(QString dirPath, QString split)
 {
-
-    movie_->start();
+    //qDebug() << dirPath << endl;
+    std::string result;
+    QStringList fileParts = dirPath.split(split);
+    //if(fileParts.last() == "a")
+    if("/" == split)
+    {
+        result = fileParts.last().toStdString();
+    }
+    else if("." == split)
+    {
+        result = fileParts.first().toStdString();
+        result = result.at(0);
+    }
+    return result;
 }

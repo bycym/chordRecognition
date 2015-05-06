@@ -32,7 +32,7 @@ public:
     Chordsequence cs;
     int pcpalgo;
     int blockSizeMSec;
-
+    std::string dbTag;
 
 
 };

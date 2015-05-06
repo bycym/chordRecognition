@@ -46,11 +46,11 @@ GetFeatures::GetFeatures(SoundData*& sd)
     std::string outdir = "";
     std::string argfile;
 
-
-
+    // database tag
+    this->dbTag = sd->dbTag();
     windowSize = 0;
-    blockSizeMSec = 100;
-    pcpalgo=3;
+    blockSizeMSec = 50;
+    pcpalgo=2;
 
 
     std::string basename = sd->waveFileName() ;

@@ -88,8 +88,8 @@ public:
      */
     bool openDir(QVector<SoundData*> &dir);
 
-    /// loading stuff
-    void loading();
+    /// create db tag for a file
+    std::string dbTagCreate(QString dirPath, QString split);
 
 signals:
 

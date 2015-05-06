@@ -1,0 +1,560 @@
+@charset "UTF-8";
+
+* {
+  margin: 0;
+  padding: 0;
+  }
+
+
+html {
+  background-color: white;
+  color: black;
+  font-family: Arial, sans-serif;
+  }
+
+a { color: black; cursor: pointer; }
+abbr, a img { border: 0 none; }
+
+.hilite1 { background-color: #FFCCCC; color: #000000 !important;  } 
+.hilite2 { background-color: #FFFFCC; color: #000000 !important; } 
+.hilite3 { background-color: #CCFFCC; color: #000000 !important; } 
+.hilite4 { background-color: #CCFFFF; color: #000000 !important; } 
+.hilite5 { background-color: #B89DFF; color: #000000 !important; } 
+.hilite6 { background-color: #91B1FF; color: #000000 !important; } 
+.hilite7 { background-color: #CCFE56; color: #000000 !important; } 
+.hilite8 { background-color: #FFCC55; color: #000000 !important; } 
+.hilite { background-color: #ff0; color: #000000 !important; }
+
+#thearrayavatar img { width: 40px; height: 40px;}
+#top10 img { width: 36px; height: 36px;}
+
+a.external { color: magenta; font-size: 12px; }
+
+.tr1 {
+  padding: 2.5px;
+  background: #CCCCCC;
+  border-bottom: 1px #666666 dotted;
+}
+
+.tr2, .hover1 {
+  padding: 2.5px;
+  background: #F7F7F7;
+  border-bottom: 1px #CCCCCC solid;
+  margin-top: 1px;
+}
+
+.tr2 a, .hover1 a {
+  text-decoration: none !important;
+}
+
+.tr2 img { border: none; margin-right: 5px; }
+
+/*.tr2:hover {
+background: #CCCCCC;
+}*/
+
+.snippet { font-size: 12px; }
+
+.thearray {
+	width: 100%;
+}
+
+.titles {
+	padding: 5px 7px;
+	font-size: 11px;
+	font-weight: bold;
+	letter-spacing: .5px;
+	color: #FFFFFF !important;
+	background: url(http://cdn.dreamincode.net/home/images/forum_title_bg.gif) #555555;
+	text-decoration: none !important;
+        -moz-border-radius: 1% 1% 0 0;
+}
+
+.titles a { color: #FFFFFF; }
+
+.darkrow2 { background-color: #F7F7F7; color:#000000; }
+
+#header {
+  background: transparent url("http://cdn.dreamincode.net/home/images/header_bg.gif") repeat-x;
+  color: white;
+  width: 100%; height: 155px; 
+  }
+  
+table#header td { padding: 0px; }  
+#header #logo img {
+  float: left;
+  font-size: 16px;
+}
+
+#header #leaderboard {
+  margin-left: 264px;
+  padding: 10px 0;
+}
+
+#header #leaderboard img {
+  display: block;
+  margin: 0 auto;
+}
+
+#header #navigation-login-register {
+  height: 45px;
+  padding-left: 10px;
+  background: url("http://cdn.dreamincode.net/home/images/nav_bg.gif") repeat-x;
+  }
+#header ul {
+  line-height: 1;
+  font-weight: bold;
+  }
+#header li {
+  list-style-type: none;
+  float: left;
+  position: relative;
+  }
+#header .navigation {
+  float: left;
+  background-color: #1c1c1c;
+  background: url("http://cdn.dreamincode.net/home/images/nav_link_bg.gif");
+  }
+#header .navigation li {
+  height: 13px;
+  padding: 12px 0 11px;
+  font-size: 13px;
+  }
+  
+#header .navigation li ul.dropnav {
+  display: none;
+  background: #ccc;
+  border: 1px solid black;
+  position: absolute;
+  top: 36px;
+}
+
+#header .navigation li:hover ul.dropnav { display: block; }
+
+#header .navigation li ul.dropnav li { float: none; border-bottom: 1px solid black; padding: 2px 0px; height: auto; list-style-position: inside;}
+
+#header .navigation li ul.dropnav li a { 
+  font-size: 10px;
+  line-height: 12px;
+  border-right: none;
+}
+
+#header .navigation .first {
+  background: url("http://cdn.dreamincode.net/home/images/nav_left.gif") bottom left no-repeat;
+  }
+#header .navigation .last {
+  background: url("http://cdn.dreamincode.net/home/images/nav_right.gif") bottom right no-repeat;
+  border: 0 none;
+  }
+#header .navigation .last a {
+  border: 0 none;
+  }
+
+#header .navigation a {
+  border-right: 1px solid #5f665f;
+  padding: 0 0.6em;
+  color: white;
+  text-decoration: none !important;
+  }
+
+#login-register li {
+  padding-left: 32px;
+  line-height: 36px;
+  font-size: 14px;
+  }
+#login {
+  background: url("http://cdn.dreamincode.net/home/images/login.gif") 12px center no-repeat;
+  }
+#login.loginflash {
+  background: url("http://cdn.dreamincode.net/home/images/loginflash.gif") 12px center no-repeat;
+  }
+#register {
+  background: url("http://cdn.dreamincode.net/home/images/register.gif") 12px center no-repeat;
+  }
+#todaystopics {
+background: url("http://cdn.dreamincode.net/home/images/comments.png") 12px center no-repeat;
+}
+#login-register, #login-register a {
+  color: black;
+  text-decoration: none;
+  }
+#login .outer {
+  display: none;
+  position: absolute;
+  width: 200px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  background-color: white;
+  line-height: 1.2;
+  font-size: 12px;
+  font-weight: normal;
+  z-index: 100000;
+  }
+#login .visible {
+  display: block;
+  }
+#login .inner {
+  position: relative;
+  left: -30px;
+  width: 200px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  background-color: white;
+  line-height: 1.2;
+  font-size: 12px;
+  font-weight: normal;
+  left: 700px;
+  }
+
+#login .inner li {
+  list-style-type: none;
+  border-bottom: 1px solid #b2b2b2;
+  padding-left: 18px;
+  background: #e2e2e2 url("http://cdn.dreamincode.net/home/images/bullet_image.gif") 5px center no-repeat;
+  line-height: 22px;
+  font-size: 11px;
+}
+
+* html #login .inner {
+  
+  }
+
+
+#login .cancel {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  }
+#login label span {
+  display: block;
+  }
+
+#content_hold { 
+  float: left; width: 100%; margin-right: -100%;}
+
+#content_inner { padding-left: 10px; padding-right: 10px; padding-bottom: 10px; }
+.with_sidebar #content_inner { padding-right: 370px; }
+
+#sidebar{
+    float: right;
+    width: 380px;
+    margin-left: -380px; /* Negative value of #sidebar-right's width + right margin. */
+    margin-right: 0;
+    padding: 0; /* DO NOT CHANGE. Add padding or margin to #sidebar-right-inner. */
+  }
+
+#sidebar_inner{}
+
+.column1 a, column2 a {
+  color: black;
+  text-decoration: none !important; 
+  }
+
+.column1 {
+  width: 160px;
+  padding: 10px;
+  float: right; 
+  }
+.column1 .navigation h2 {
+  border-bottom: 1px dotted #b2b2b2;
+  padding-left: 0.5em;
+  background: #ffa500 url("http://cdn.dreamincode.net/home/images/box_header.gif") no-repeat;
+  color: black;
+  font-weight: bold;
+  line-height: 29px;
+  font-size: 12px;
+  }
+.column1 .navigation {
+  margin-bottom: 22px;
+  padding-left: 0px;
+  }
+.column1 .navigation li {
+  list-style-type: none;
+  border-bottom: 1px dotted #b2b2b2;
+  padding-left: 18px;
+  background: #e2e2e2 url("http://cdn.dreamincode.net/home/images/bullet_image.gif") 5px center no-repeat;
+  line-height: 22px;
+  font-size: 11px;
+  }
+
+.column2 {
+  width: 170px;
+  padding: 10px 0 10px 10px;
+  border-left: 1px dotted #ccc;
+  float: right;
+}
+.column2 #search h2 {
+  padding-left: 20px;
+  background: url("http://cdn.dreamincode.net/home/images/search.gif") left top no-repeat;
+  font-size: 16px;
+  }
+.column2 #search .text {
+  float: left;
+  width: 98px;
+  height: 18px;
+  margin-right: 4px;
+  }
+.column2 #search .go {
+  width: 55px;
+  height: 22px;
+  border: none;
+  }
+.column1 .lists h2, .column2 .tutorials h2, .column2 .tutorials h2 a, .column2 #tshirt h2, .column2 #feeds h2, .column2 #related h2, #related h2 {
+  margin-top: 16px;
+  color: #f16d12;
+  font-size: 18px;
+  font-weight: bold;
+  text-decoration: none;
+  }
+.column2 h3 {
+  font-size: 11px;
+  }
+.column2 ul {
+  margin-bottom: 16px;
+  }
+.column2 li, .column1 .lists li, #related li {
+  list-style-type: none;
+  background: url("http://cdn.dreamincode.net/home/images/bullet_image2.gif") no-repeat;
+  background-position: left 10px !important;
+  padding: 3px 0 2px 16px;
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: bold;
+  zoom: 1; /* invokes hasLayout in Internet Explorer */
+  }
+.column2 li a, .column1 .lists li a, #related li a {
+  color: #0000CC;
+  font-size: 12px;
+  }
+
+.content {
+  padding-right: 10px;
+  padding-left: 10px;
+  padding-top: 8px;
+}
+
+
+
+.content ul,ol { padding-left: 3em; }
+.content .rep_bar ul { padding-left: 5px; }
+.content td, .content div, .content h1, .content h2 {
+	font-family: Verdana, sans-serif;
+	margin-bottom:0px;
+	font-size: 11px;
+	margin-top:0px;
+	font-weight: normal;
+}
+
+#cblock_left { font-size: 12px; }
+#cblock_right { font-size: 12px; }
+
+.w00t { color: white; font-size: 8px; }
+
+
+.snipTitle:first-letter {
+	text-transform: uppercase;
+}
+#tehSnippetoz ol li {
+	background-color:#FBFBFB;
+	padding-top:1px;
+	padding-bottom:1px;
+	border-top: 3px solid white;
+}
+#tehSnippetoz ol li div {
+	display:inline;
+	padding-left: 10px;
+}
+h2.titular {
+	padding-bottom: 4px;
+	font-size: 18px !important;
+}
+h2.titular span {
+	font-size: 18px !important;
+	border-bottom: 0px solid black;
+	display: inline;
+	position: relative;
+	
+}
+
+#viewTehComments td p {
+	padding-bottom:30px;
+}
+
+#tehNav h1 {
+	font-size: 1.4em !important;
+	display:inline;
+}
+
+#tehNav .titular a {
+	text-decoration:none;
+	font-size: 18px !important;
+}
+
+#tehNav .navPath{
+	/*font-size: ;*/
+	display:block;
+	width:100%;
+	border-bottom: 0px;
+}
+
+
+#tehNav .snipDescription {
+	font-size: 1em;
+	padding-bottom: 4px;
+}
+
+
+td.tehCatsName {
+	font-size: .9em;
+	padding-top:3px;
+	padding-bottom:3px;
+}
+
+.tehCats a {
+	text-decoration: none;
+}
+
+div#tehNav{
+	position:relative;
+}
+h2.addsnippet {
+	position:relative;
+}
+div#addsnippet {
+	right:0px;
+	/*top:50%;*/
+	margin-top:-2em;
+	position:absolute;
+}
+
+div#addsnippet input {
+	border:1px solid;
+	padding:3px;
+	position:absolute;
+right:0px;
+}
+
+div.tehUnderling {
+	border-bottom: 0px solid black;
+	width:100%;
+	height: 0px;
+	display:none;
+}
+
+table.tehListings  {
+	border-top: 1px solid black;
+}
+
+table.tehCatListing,table.tehListings,.omgwtfbbq {
+	background-image: url('http://cdn.dreamincode.net/home/images/code_grad.jpg');
+	background-repeat: repeat-x;
+	border-top: 1px solid #ccf;
+}
+
+table.tehCatListing,table.tehListings {
+	padding: 0 10px 0 10px;
+	width: 800px;
+}
+
+table.tehListings .tr1,table.tehListings .tr2 {
+	border:0px;
+	background:transparent;
+}
+
+table.tehListings  a {
+	text-decoration:none;
+}
+a.snipLink {
+	
+}
+table.tehListings div a.snipLink {
+	font-size: 1.2em;
+	font-weight:bold;
+}
+
+table.tehListings div.snipDesc {
+	padding:4px;
+}
+
+table.aListings {
+	/*border-left: 1px solid black;*/
+	position:static;
+	margin-bottom:15px;
+	margin-left:15px;
+}
+table .divideByZero {
+	/*border-top: 1px solid black;
+	border-left: 1px solid black;*/
+	width:33%;
+	position:absolute;
+}
+.cs_promo {
+	width:100%;
+}
+
+.cs_promo td {
+	text-align:center;
+}
+
+.cs_promo img {
+	border:1px solid black;
+}
+.beleted .snipDesc{
+	text-decoration:line-through;
+}
+/*#linkSort,#nr_field {
+	position:absolute;
+	right:0px
+}*/
+
+#login .outer {
+position:absolute;
+z-index:10000;
+}
+div#tehNav {
+position:static;
+z-index:100;
+}
+div#linkSortBox {
+position:static;
+}
+div#linkSortBox * {
+position:static;
+}
+div#linkSortBox #linkSort {
+position: static;
+z-index:1;
+}
+div#linkSortBox #linkSort * {
+position: static;
+z-index:1;
+}
+
+.pagelink, .pagelinkcurrent, .pagelinklast { border: 1px solid #666; background: #F7F7F7; padding: 3px;  }
+.pagelinkcurrent { border: 1px solid #666; padding: 3px; font-weight: bolder; background: #CCCCCC; }
+
+div.snipPagination {
+position:static;
+margin: 5px;
+z-index:0;
+}
+div.snipPagination div {
+z-index:10;
+}
+
+div.navigation h2 { margin-bottom: 0px; }
+
+#main_content { 
+  clear: both;
+  overflow: hidden;
+  width: 100%;
+}
+#footer {
+  clear: both;
+  padding: 0px 10px; 
+  /* background: transparent url(http://cdn.dreamincode.net/home/images/header_bg.gif) repeat-x scroll 0 0; */
+  color: #000;
+}
+
+#footer a { color: #666; }
+.forum_footer { text-align: center; font-size: 10px; }
