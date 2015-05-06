@@ -516,21 +516,12 @@ void MainWindow::devel()
         neuralnetworks_->computeOutputs();
 
 
-        cout <<endl<< "outputs:"<<endl;
-        for(auto o : neuralnetworks_->outputs())
-            cout << o << ", ";
-        cout <<endl;
-
         resultTag+= neuralnetworks_->getTag();
         resultTag+= ", ";
         //qDebug() << QString::fromStdString(nn->getTag());
         cout << ".";
         input.clear();
     }
-    cout <<endl<< "outputs:"<<endl;
-    for(auto o : neuralnetworks_->outputs())
-        cout << o << ", ";
-    cout <<endl;
     cout << endl << "result: " <<resultTag << endl;
 
 }
