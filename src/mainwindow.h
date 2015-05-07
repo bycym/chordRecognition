@@ -16,6 +16,7 @@
 #include <QVector>
 #include "MI/neuralnetworks.h"
 #include <QMovie>
+#include <fstream>
 
 
 namespace Ui {
@@ -29,7 +30,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void info();
+    void info(QVector<QString> info);
 
 
 private slots:
@@ -45,6 +46,8 @@ private slots:
 
     NeuralNetworks* createNeuralNetwork(int numInput, int numOutput, int numHiddenLayer, int numHiddenNeuron, double learningrate);
 
+
+    void on_reInitNeuralNetwork_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -69,6 +72,9 @@ private:
     bool databaseRead_;
     bool sampleRead_;
     bool train_;
+
+    std::vector<std::string> tags_;
+
 
     void train();
     void devel();

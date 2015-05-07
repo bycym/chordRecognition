@@ -46,7 +46,7 @@ std::vector<pitch> getPeaks(float * freq, int freqSize, int samplerate, bool one
 	//std::cout << "i\tC\tC#\tD\tD#\tE\tF\tF#\tG\tG#\tA\tBb\tB" << std::endl;
 	/* 
 	if ac_BlockSize set and < srclen:
-	 autocorrelation doesn't work on a long timespan -> split the srcbuffer
+     autocorrelation doesn't work on a long timespan -> split the srcbuffer
 	 and do the autocorrelation on each block. Sum up the results */
 	 for (int i=0; i<srclen; i+= ac_BlockSize) {
 // 		 std::cout << i << std::endl;
@@ -111,6 +111,7 @@ std::vector<pitch> getPeaks(float * freq, int freqSize, int samplerate, bool one
     /// TODO !!!!!!!!
     if(true){
         int div = 1000;
+        //int div = 1;
         for (int i=0; i<PCPLEN; i++) {
             pcp[i] = pcp[i] / div;
             //std::cout << "pcp[" << i << "] = " << pcp[i] << std::endl;
@@ -210,7 +211,7 @@ std::string PCP::tostring() const{
 
 
 
-PCPTrack::PCPTrack(SoundData * & sd, int algo, int blockSize, bool blockSizeInMs, int windowSize) {
+PCPTrack::PCPTrack(SoundData *& sd, int algo, int blockSize, bool blockSizeInMs, int windowSize) {
 
   mWindowSize = windowSize;
 
@@ -238,7 +239,7 @@ PCPTrack::PCPTrack(SoundData * & sd, int algo, int blockSize, bool blockSizeInMs
   // std::cout << "PCP_Track erfolgreich angelegt." << std::endl;
 }
 
-PCPTrack::PCPTrack(SoundData * & sd, int algo, std::string timefile, int windowSize) {
+PCPTrack::PCPTrack(SoundData *& sd, int algo, std::string timefile, int windowSize) {
 
     mWindowSize = windowSize;
 
@@ -298,7 +299,7 @@ PCPTrack::PCPTrack(SoundData * & sd, int algo, std::string timefile, int windowS
 
 std::string PCPTrack::tostring() {
 	std::ostringstream ost;
-	for (unsigned int i=0; i<mPCPVec.size(); i++) {
+    for (unsigned int i=0; i<mPCPVec.size(); i++) {
 		ost << "------------------ " << float(mPCPVec[i].mStartMs)/1000 << " sec ------------------" << std::endl;
 		ost << mPCPVec[i].mPCP.bargraph() << std::endl;
 		ost << mPCPVec[i].mPCP.tostring() << std::endl;
@@ -320,7 +321,7 @@ std::vector<pitch> getPeaks(float * freq, int freqSize, int samplerate, bool one
 	int lasti=0;
 	if (one_peak_per_mountain) {
 		for (int i = int(fmax(samplerate/MAXFREQUENZ, IMIN)); i < fmin(freqSize, samplerate/MINFREQUENZ); i++) {  
-	        // up -> down
+            // up -> down
 			if (freq[i] < freq[i-1] && up) {
 				up = 0;
 // 				std::cout << i << "\t" << 
@@ -332,7 +333,7 @@ std::vector<pitch> getPeaks(float * freq, int freqSize, int samplerate, bool one
 					lasti = i-1;	
 				}
 			}
-	  		// down -> up
+            // down -> up
 			else if (freq[i] > freq[i-1] && ! up) {
 				up = 1;
 			}
@@ -362,7 +363,7 @@ std::vector<pitch> getPeaks(float * freq, int freqSize, int samplerate, bool one
 		float MINDIFF = max/10; // besser anhand der durchschnitts db ? oder berge in der umgebung?
 // 		std::cout << "mindiff:\t" << MINDIFF << std::endl;
 		for (int i = int(fmax(samplerate/MAXFREQUENZ, IMIN)); i < fmin(freqSize, samplerate/MINFREQUENZ); i++) {  
-	 		 // up -> down
+             // up -> down
 			if (freq[i] < freq[i-1] && up) {
 				up = 0;
 // 				std::cout << i << "\t" << float(samplerate)/(i-1) << "\t" <<  
@@ -372,7 +373,7 @@ std::vector<pitch> getPeaks(float * freq, int freqSize, int samplerate, bool one
 					lasti=i-1;	
 				}
 			}
-	  		// down -> up
+            // down -> up
 			else if (freq[i] > freq[i-1] && ! up) {
 				up = 1;
 				if (lasti==0 && freq[i-1] < leftmin) leftmin = freq[i-1];

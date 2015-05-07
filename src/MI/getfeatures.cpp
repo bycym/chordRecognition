@@ -25,7 +25,13 @@ void outdated(std::map<std::string, bool> & uptodate) {
     uptodate["Chordsequence"] = false;
 }
 
-GetFeatures::GetFeatures(SoundData*& sd)
+
+GetFeatures::~GetFeatures()
+{
+
+}
+
+GetFeatures::GetFeatures(SoundData*& sd, bool sample)
 {
 
     // verbosity falgs
@@ -49,7 +55,7 @@ GetFeatures::GetFeatures(SoundData*& sd)
     // database tag
     this->dbTag = sd->dbTag();
     windowSize = 0;
-    blockSizeMSec = 50;
+    blockSizeMSec = 100;
     pcpalgo=2;
 
 
@@ -60,34 +66,6 @@ GetFeatures::GetFeatures(SoundData*& sd)
         std::string oflabel = outdir + basename + ".txt";
         std::string ofpcp = outdir + basename + ".pcp";
         std::string ofbeat = outdir + basename + ".beat.txt";
-
-    //std::string soundfilename = "";
-
-    //Sounddata sd;
-
-
-    //std::map<std::string, bool> uptodate;
-    // initialisiere uptodate-map mit false werten
-    //outdated(uptodate);
-
-    // init options
-    //std::set<std::string> chordOptions;
-    //chordOptions.insert("chord");
-    //chordOptions.insert("p&c");
-    //chordOptions.insert("labelfile");
-    //chordOptions.insert("f");
-    //chordOptions.insert("s");
-    //chordOptions.insert("scorefile");
-    //chordOptions.insert("key");
-    //chordOptions.insert("k");
-
-    //std::set<std::string> pcptrackOptions = chordOptions;
-    //pcptrackOptions.insert("pcp");
-
-    //std::set<std::string> sounddataOptions = pcptrackOptions;
-    //sounddataOptions.insert("getsample");
-
-
 
 
 
@@ -119,10 +97,24 @@ GetFeatures::GetFeatures(SoundData*& sd)
         //}
         //if (not uptodate["Chordsequence"] && chordOptions.find(option) != chordOptions.end()) {
 
-            if(false){
-            std::cout << "...init chordsequence..." << std::endl;
-            key = getkey(sd,windowSize);
-            cs = Chordsequence(pcptrack, key);
+            if(sample){
+                std::cout << "...init chordsequence..." << std::endl;
+                key = getkey(sd,windowSize);
+                cs = Chordsequence(pcptrack, key);
+
+
+                std::cout << "************ Key of the song ************" << std::endl;
+                std::cout <<  key << std::endl;
+                std::cout << "*****************************************" << std::endl << std::endl;
+/*
+                std::string filename = "";
+                std::cout << "outputfilename: ";
+                filename = filename+sd->waveFileName()+"labelfile";
+
+                savestring(cs.audacity_textspur(1, false), filename);
+                std::cout << "output written to file " << filename << std::endl << std::endl;
+                std::cout << "*********************************" << std::endl << std::endl;
+*/
             }
 
 
@@ -134,34 +126,18 @@ GetFeatures::GetFeatures(SoundData*& sd)
             savestring(printBeatStructure(processed, countbeats), ofbeat);
             delete[] processed;*/
 
-            //uptodate["Chordsequence"] = true;
-        //}
-
-
-        //if (option =="m" || option =="menu") {
-        //    printmenu();
-        //}
-        //else if (option == "l" | option == "load") {
-            //soundfilename = loadfile();
-            //std::cout << "block size in Milliseconds (optional)";
-            //std::cin >> blockSizeMSec;
-         //   outdated(uptodate);
-        //}
-        /*else if (option == "i" || option == "info") {
+            /*else if (option == "i" || option == "info") {
             std::cout << soundfilename << std::endl;
             printSfInfo(soundfilename);
         }*/
         //else if (option == "k" | option == "key") {
 
-
-
-
-
+/*
             std::cout << "********* Key of the song ************" << std::endl;
             std::cout <<  key << std::endl;
             std::cout << "*********************************" << std::endl << std::endl;
         //}
-
+*/
 
 
 
@@ -184,7 +160,6 @@ GetFeatures::GetFeatures(SoundData*& sd)
             int sum;
             nr = 0; sum = pcptrack.size();
             std::cout << "PCPTrack size (windows): " << pcptrack.size() << endl;
-
 
             /// pcptrack.at(i).tostring()
             /*
@@ -284,7 +259,9 @@ GetFeatures::GetFeatures(SoundData*& sd)
 
 
 
-            std::cout << "good bye ...." << std::endl << std::endl;
+//            std::cout << "good bye ...." << std::endl << std::endl;
+            delete[] processed;
+
        //     break;
         //}
         //else {
@@ -297,7 +274,7 @@ GetFeatures::GetFeatures(SoundData*& sd)
 }
 
 
-
+/*
 bool getFeatures_OLD(SoundData*& sd)
 {
 
@@ -380,3 +357,4 @@ bool getFeatures_OLD(SoundData*& sd)
 }
 
 
+*/

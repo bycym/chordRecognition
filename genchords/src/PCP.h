@@ -59,8 +59,8 @@ class PCPItem {
 class PCPTrack {
  public:
 	 PCPTrack() {};
-     PCPTrack(SoundData * & sd, int algo, int blockSize, bool blockSizeInMs, int windowSize);
-     PCPTrack(SoundData * & sd, int algo, std::string timefile, int windowSize);
+     PCPTrack(SoundData *& sd, int algo, int blockSize, bool blockSizeInMs, int windowSize);
+     PCPTrack(SoundData *& sd, int algo, std::string timefile, int windowSize);
 	
 
 	int getblockSizeMs() const { return mBlockSizeMs; } 

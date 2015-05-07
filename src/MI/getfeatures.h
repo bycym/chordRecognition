@@ -23,7 +23,15 @@
 class GetFeatures
 {
 public:
-    GetFeatures(SoundData*& sndData);
+    /*!
+     * \brief GetFeatures
+     * PCP, Key, Chordsequence calculator
+     * \param sndData input data
+     * \param sample is id database element or the sample
+     * sample = true, it's a sample
+     * sample = false, it's a database element
+     */
+    GetFeatures(SoundData*& sndData, bool sample);
     ~GetFeatures();
 
     int windowSize;

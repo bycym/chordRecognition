@@ -199,15 +199,11 @@ std::string NeuralNetworks::getTag()
     double max = -2.0;
     for(int i = 0; i < outputs_.size(); i++)
     {
-        std::cout <<outputs_[i] << ", ";
         if(outputs_[i] > max)
         {
             index = i;
             max = outputs_[i];
         }
     }
-    std::cout << std::endl;
-    std::cout << outputs_[index] << std::endl;
-    std::cout << tags_[index] << std::endl;
     return tags_[index];
 }

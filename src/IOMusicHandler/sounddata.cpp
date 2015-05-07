@@ -42,6 +42,7 @@ SoundData::~SoundData()
 
 void SoundData::init(int sizeOfData)
 {
+    audio_data_f_.clear();
     //audio_data = new QByteArray();
     //QBuffer* audio_buffer = new QBuffer(&audio_data);
 

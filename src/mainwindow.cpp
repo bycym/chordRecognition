@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
     train_ = false;
     databaseRead_ = false;
     sampleRead_ = false;
-
+    sndDataFeatures_ = NULL;
     databaseFeatures_ = new QVector<GetFeatures *>();
 /*
     connect(NeuralNetworkForm, SIGNAL(setParameters(
@@ -53,7 +53,6 @@ void MainWindow::on_pushButton_clicked()
         ui->successLabel->setText("OK");
         ui->playButton->setVisible(true);
         ui->successLabel->setStyleSheet("QLabel { color: green }");
-        sndData_->info();
         coreFunction();
 
     }
@@ -76,7 +75,6 @@ void MainWindow::on_openButton_clicked()
         ui->successLabel->setText("OK");
         ui->playButton->setVisible(true);
         ui->successLabel->setStyleSheet("QLabel { color: green }");
-        sndData_->info();
         coreFunction();
     }
     else
@@ -103,17 +101,15 @@ void MainWindow::on_playButton_clicked()
     }
 }
 
-void MainWindow::info()
+void MainWindow::info(QVector<QString> info)
 {
     ui->treeView->reset();
-
-    QVector<QString> info = sndData_->infoQt();
 
     QStandardItemModel *model = new QStandardItemModel;
     QStandardItem *parentItem = model->invisibleRootItem();
 
     for (int i = 0; i < info.size(); ++i) {
-        QStandardItem *item = new QStandardItem(QString("item %0").arg(info[i]));
+        QStandardItem *item = new QStandardItem(QString("%0").arg(info[i]));
         parentItem->appendRow(item);
     }
 
@@ -124,9 +120,16 @@ void MainWindow::info()
 
 void MainWindow::coreFunction()
 {
-    sndDataFeatures_= NULL;
-    sndDataFeatures_= new GetFeatures(sndData_);
-    info();
+    if(sndDataFeatures_ != NULL)
+    {
+        std::cout << "delete sndDataFeatures_" << endl;
+        delete sndDataFeatures_;
+    }
+
+    sndDataFeatures_= new GetFeatures(sndData_, true);
+    //sndData_->info();
+    info(sndData_->infoQt());
+
     sampleRead_ = true;
 
 }
@@ -144,7 +147,7 @@ void MainWindow::on_readDir_clicked()
 
         for(auto a : database_)
         {
-            databaseFeatures_->push_back(new GetFeatures(a));
+            databaseFeatures_->push_back(new GetFeatures(a, false));
         }
         qDebug() << databaseFeatures_->size() << " piece of features calculated";
     }
@@ -177,17 +180,6 @@ void MainWindow::on_neuralNetwork_Button_clicked()
         int numHiddenNeuron = 35;
         double learningrate = 0.001;
 
-        // number of output
-        if(!ui->numOutput_lineEdit->text().isEmpty())
-        {
-            bool ok = false;
-            int result = ui->numOutput_lineEdit->text().toInt(&ok);
-            if(ok)
-                numOutput = result;
-            else{
-                qDebug() << "Bad value numOutput";
-            }
-        }
 
         // number of hidden layer
         if(!ui->numHiddenLayer_lineEdit->text().isEmpty())
@@ -225,6 +217,9 @@ void MainWindow::on_neuralNetwork_Button_clicked()
             }
         }
 
+        ui->numHiddenLayer_label->setText(QString::number(numHiddenLayer));
+        ui->numNeuron_label->setText(QString::number(numHiddenNeuron));
+        ui->learningrate_label->setText(QString::number(learningrate));
 
         /// if it didn't train yet
         if(!train_)
@@ -265,24 +260,24 @@ void MainWindow::on_neuralNetwork_Button_clicked()
 
 
             /// tag init
-            std::vector<std::string> tags;
-            tags.push_back("a");
-            tags.push_back("am");
-            tags.push_back("b");
-            tags.push_back("bm");
-            tags.push_back("c");
-            tags.push_back("d");
-            tags.push_back("dm");
-            tags.push_back("e");
-            tags.push_back("em");
-            tags.push_back("f");
-            tags.push_back("g");
+            tags_.clear();
+            tags_.push_back("a");
+            tags_.push_back("am");
+            //tags_.push_back("b");
+            tags_.push_back("bm");
+            tags_.push_back("c");
+            tags_.push_back("d");
+            tags_.push_back("dm");
+            tags_.push_back("e");
+            tags_.push_back("em");
+            tags_.push_back("f");
+            tags_.push_back("g");
 
 
 
             // PCPLEN = 12
-            neuralnetworks_ = new NeuralNetworks(12, tags.size(),2,35,0.001);
-            neuralnetworks_->setTag(tags);
+            neuralnetworks_ = new NeuralNetworks(12, tags_.size(),numHiddenLayer,numHiddenNeuron,learningrate);
+            neuralnetworks_->setTag(tags_);
 
 
             train();
@@ -298,7 +293,7 @@ void MainWindow::on_neuralNetwork_Button_clicked()
         else
         {
             QMessageBox mb;
-            mb.setIcon(QMessageBox::Critical);
+            mb.setIcon(QMessageBox::Information);
             mb.setText("Nem lett betanítva az adatbázis.");
             mb.setInformativeText("Train FAIL");
 
@@ -353,20 +348,6 @@ void MainWindow::train()
 {
 
 
-    /// tag init
-    std::vector<std::string> tags;
-    tags.push_back("a");
-    tags.push_back("am");
-    tags.push_back("b");
-    tags.push_back("bm");
-    tags.push_back("c");
-    tags.push_back("d");
-    tags.push_back("dm");
-    tags.push_back("e");
-    tags.push_back("em");
-    tags.push_back("f");
-    tags.push_back("g");
-
     std::vector<double> target;
     target.clear();
     target.push_back(0.0);
@@ -397,25 +378,25 @@ void MainWindow::train()
         for(auto t : target)
             t = 0.0;
 
-        if(feature->dbTag == tags.at(0))
+        if(feature->dbTag == tags_.at(0))
             target.at(0) = 1.0;
-        if(feature->dbTag == tags.at(1))
+        if(feature->dbTag == tags_.at(1))
             target.at(1) = 1.0;
-        if(feature->dbTag == tags.at(2))
+        if(feature->dbTag == tags_.at(2))
             target.at(2) = 1.0;
-        if(feature->dbTag == tags.at(3))
+        if(feature->dbTag == tags_.at(3))
             target.at(3) = 1.0;
-        if(feature->dbTag == tags.at(4))
+        if(feature->dbTag == tags_.at(4))
             target.at(4) = 1.0;
-        if(feature->dbTag == tags.at(5))
+        if(feature->dbTag == tags_.at(5))
             target.at(5) = 1.0;
-        if(feature->dbTag == tags.at(6))
+        if(feature->dbTag == tags_.at(6))
             target.at(6) = 1.0;
-        if(feature->dbTag == tags.at(7))
+        if(feature->dbTag == tags_.at(7))
             target.at(7) = 1.0;
-        if(feature->dbTag == tags.at(8))
+        if(feature->dbTag == tags_.at(8))
             target.at(8) = 1.0;
-        if(feature->dbTag == tags.at(9))
+        if(feature->dbTag == tags_.at(9))
             target.at(9) = 1.0;
 
 
@@ -477,7 +458,7 @@ void MainWindow::train()
     cout << endl << "train done" << endl;
 
     QMessageBox mb;
-    mb.setIcon(QMessageBox::Critical);
+    mb.setIcon(QMessageBox::Information);
     mb.setText("Kész a tanítás.");
     mb.setInformativeText("Mégegyszer futtatva kiértékel.");
 
@@ -487,6 +468,27 @@ void MainWindow::train()
 
 void MainWindow::devel()
 {
+
+    std::vector<int> tagsCount;
+    for(int i = 0; i < tags_.size(); i++)
+    {
+        tagsCount.push_back(0);
+    }
+    /*
+    int a_string = 0;
+    int am_string = 0;
+    int bm_string = 0;
+    int c_string = 0;
+    int d_string = 0;
+    int dm_string = 0;
+    int e_string = 0;
+    int em_string = 0;
+    int f_string = 0;
+    int g_string = 0;
+    */
+    int tagsum = 0;
+
+
     for(int i = 0; i<neuralnetworks_->numOutput(); i++)
     {
         std::cout << neuralnetworks_->tag(i) << ",";
@@ -514,14 +516,170 @@ void MainWindow::devel()
 
         //cout << "compute outputs" << endl;
         neuralnetworks_->computeOutputs();
+        std::string tmptag = neuralnetworks_->getTag();
+
+        /*
+        if(tmptag == tags_[0])
+            a_string++;
+        else if(tmptag == tags_[1])
+            am_string++;
+        else if(tmptag == tags_[2])
+            bm_string++;
+        else if(tmptag == tags_[3])
+            c_string++;
+        else if(tmptag == tags_[4])
+            d_string++;
+        else if(tmptag == tags_[5])
+            dm_string++;
+        else if(tmptag == tags_[6])
+            e_string++;
+        else if(tmptag == tags_[7])
+            em_string++;
+        else if(tmptag == tags_[8])
+            f_string++;
+        else if(tmptag == tags_[9])
+            g_string++;
+        */
+
+        for(int k = 0; k < tags_.size(); k++)
+        {
+            if(tmptag == tags_[k])
+            {
+                tagsCount[k]++;
+                tagsum++;
+            }
+        }
 
 
-        resultTag+= neuralnetworks_->getTag();
+
+
+
+
+        resultTag+= tmptag;
         resultTag+= ", ";
         //qDebug() << QString::fromStdString(nn->getTag());
-        cout << ".";
         input.clear();
     }
-    cout << endl << "result: " <<resultTag << endl;
 
+    cout << endl;
+
+    /// print out everything!
+    QVector<QString> resultInfo;
+
+    cout << "................................................................." << endl;
+    resultInfo.push_back(".................................................................");
+    int max = 0;
+    int maxIndex = 0;
+
+    for(int i = 0; i < tags_.size(); i++)
+    {
+        std::string line = "";
+
+        if(tagsCount[i] > max)
+        {
+            max = tagsCount[i];
+            maxIndex = i;
+        }
+        cout << tags_[i] << ": " << tagsCount[i] << "\t|";
+        std::string tmp = tags_[i];
+        line += tmp + std::to_string(tagsCount.at(i)) + "\t|";
+
+        for(int j = 0; j < tagsCount[i]; j++){
+            cout << "#";
+            line += "#";
+        }
+        cout << endl;
+        resultInfo.push_back(QString::fromStdString(line));
+    }
+
+    cout << "................................................................." << endl << endl;
+    resultInfo.push_back(".................................................................");
+
+
+    std::cout << "************ Key of the song with Neural Network ************" << std::endl;
+    std::cout <<  tags_[maxIndex] << std::endl;
+    std::cout << "*************************************************************" << std::endl << std::endl;
+    std::cout << "************ Key of the song with Genchords ************" << std::endl;
+    std::cout << "The key:" << endl;
+    std::cout << sndDataFeatures_->key << endl;
+    std::cout << endl;
+    std::cout <<  sndDataFeatures_->cs.audacity_textspur(1, false) << std::endl;
+    std::cout << "*************************************************************" << std::endl << std::endl;
+    cout << endl << "(" << tagsum << ") result: " << resultTag << endl;
+
+
+
+    resultInfo.push_back("***** Key of the song with Neural Network *****");
+    resultInfo.push_back(QString::fromStdString(tags_[maxIndex]));
+    resultInfo.push_back(QString::fromStdString(resultTag));
+    resultInfo.push_back("***********************************************");
+    resultInfo.push_back("***** Key of the song with Neural Network *****");
+    resultInfo.push_back("The key:");
+    resultInfo.push_back(QString::fromStdString(sndDataFeatures_->key.tostring()));
+    resultInfo.push_back("");
+    resultInfo.push_back(QString::fromStdString(sndDataFeatures_->cs.audacity_textspur(1, false)));
+    resultInfo.push_back("***********************************************");
+
+    info(resultInfo);
+
+    /*
+    cout << "a: " << a_string;
+    cout << "| \t\t";
+    for(int i = 0; i < a_string; i++)
+        cout << "#";
+    cout << endl;
+
+    cout << "am: " << am_string << endl;
+    cout << "| \t\t";
+    for(int i = 0; i < am_string; i++)
+        cout << "#";
+    cout << endl;
+
+    cout << "bm: " << bm_string << endl;
+    cout << "| \t\t";
+    for(int i = 0; i < bm_string; i++)
+        cout << "#";
+    cout << endl;
+
+    cout << "c: " << c_string << endl;
+    cout << "d: " << d_string << endl;
+    cout << "dm: " << dm_string << endl;
+    cout << "e: " << e_string << endl;
+    cout << "em: " << em_string << endl;
+    cout << "f: " << f_string << endl;
+    cout << "a: " << g_string << endl;
+*/
+}
+
+void MainWindow::on_reInitNeuralNetwork_clicked()
+{
+    if(neuralnetworks_ != NULL)
+    {
+        std::cout << "delete sndDataFeatures_" << endl;
+        neuralnetworks_ = NULL;
+
+        QMessageBox mb;
+        mb.setIcon(QMessageBox::Information);
+        mb.setText("Neural Network");
+        mb.setInformativeText("Törölve");
+        mb.exec();
+        ui->neuralNetworklabel->setText("Deleted");
+        ui->neuralNetworklabel->setStyleSheet("QLabel { color: Blue }");
+        train_ = false;
+        ui->numHiddenLayer_label->setText("0");
+        ui->numNeuron_label->setText("0");
+        ui->learningrate_label->setText("0");
+
+
+    }
+    else
+    {
+        QMessageBox mb;
+        mb.setIcon(QMessageBox::Information);
+        mb.setText("Neural Network");
+        mb.setInformativeText("Nincs mit törölni.");
+        mb.exec();
+        ui->neuralNetworklabel->setText("Nothing happened");
+        ui->neuralNetworklabel->setStyleSheet("QLabel { color: Blue }");
+    }
 }
