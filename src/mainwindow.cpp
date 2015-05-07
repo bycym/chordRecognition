@@ -15,6 +15,23 @@ MainWindow::MainWindow(QWidget *parent) :
     sampleRead_ = false;
     sndDataFeatures_ = NULL;
     databaseFeatures_ = new QVector<GetFeatures *>();
+
+
+
+
+    //////////////////////////////////
+    /// database dev stuff
+    //////////////////////////////////
+
+    void dataBaseDev();
+    dev_databaseFeatures_ = new QVector<GetFeatures *>();
+    dev_database_;
+    flip = true;
+    ui->switch_label->setText("use file");
+
+    //////////////////////////////////
+    /// database dev stuff EEEENNDDD
+    //////////////////////////////////
 /*
     connect(NeuralNetworkForm, SIGNAL(setParameters(
                                                     const int numInput,
@@ -40,7 +57,9 @@ MainWindow::~MainWindow()
     for(auto x : database_)
         delete x;
     database_.clear();
-
+    delete databaseFeatures_;
+    for(auto x : dev_database_)
+        delete x;
     delete ui;
 }
 
@@ -275,8 +294,9 @@ void MainWindow::on_neuralNetwork_Button_clicked()
 
 
 
-            // PCPLEN = 12
-            neuralnetworks_ = new NeuralNetworks(12, tags_.size(),numHiddenLayer,numHiddenNeuron,learningrate);
+            int PCPLEN = 12;
+
+            neuralnetworks_ = new NeuralNetworks(PCPLEN, tags_.size(),numHiddenLayer,numHiddenNeuron,learningrate);
             neuralnetworks_->setTag(tags_);
 
 
@@ -288,7 +308,14 @@ void MainWindow::on_neuralNetwork_Button_clicked()
         /// if it trained then dev it!
         else if(train_)
         {
-            devel();
+            if(flip)
+            {
+                devel();
+            }
+            else
+            {
+                dataBaseDev();
+            }
         }
         else
         {
@@ -452,6 +479,7 @@ void MainWindow::train()
             input.clear();
 
         }
+        delete feature;
     }
 
     train_ = true;
@@ -682,4 +710,126 @@ void MainWindow::on_reInitNeuralNetwork_clicked()
         ui->neuralNetworklabel->setText("Nothing happened");
         ui->neuralNetworklabel->setStyleSheet("QLabel { color: Blue }");
     }
+}
+
+//////////////////////////////////////////////////////
+/// Read dev directory!
+//////////////////////////////////////////////////////
+void MainWindow::on_readDir_dirDevel_clicked()
+{
+    if(fileOperator_->openDir(dev_database_))
+    {
+        ui->dbSuccessLabel_2->setText("OK");
+        ui->dbSuccessLabel_2->setStyleSheet("QLabel { color: green }");
+        sampleRead_ = true;
+
+
+        dev_databaseFeatures_->clear();
+
+        for(auto a : dev_database_)
+        {
+            dev_databaseFeatures_->push_back(new GetFeatures(a, false));
+        }
+        qDebug() << dev_databaseFeatures_->size() << " piece of features calculated";
+    }
+    else
+    {
+        ui->dbSuccessLabel_2->setText("ERROR");
+        ui->dbSuccessLabel_2->setStyleSheet("QLabel { color: red }");
+        sampleRead_ = false;
+    }
+}
+
+
+void MainWindow::dataBaseDev()
+{
+
+
+    int tagsum = 0;
+    int db = 0;
+    // D.B. teaching
+    for(int i = 0; i < dev_databaseFeatures_->size(); i++)
+    {
+        cout << endl << endl << endl <<"i : " << i << endl;
+
+
+
+
+
+
+        GetFeatures * feature = dev_databaseFeatures_->at(i);
+        std::vector<double> input;
+
+
+
+
+
+
+        for(int j = 0; j < feature->pcptrack.size(); j++)
+        {
+            for(auto pcp : feature->pcptrack.at(j).pcp)
+            {
+                input.push_back((double)pcp);
+            }
+
+            /*
+            cout << "input size: " << input.size() << endl;
+            for(auto x : input)
+                cout << x << ", ";
+            cout << endl;
+            */
+            //cout << "update input" << endl;
+            neuralnetworks_->updateInputs(input);
+            std::string tmptag = neuralnetworks_->getTag();
+
+            //cout << "compute outputs" << endl;
+            neuralnetworks_->computeOutputs();
+
+
+            cout << "tag:" << feature->dbTag <<" - output tag:"<< neuralnetworks_->getTag() << endl;
+            //qDebug() << QString::fromStdString(nn->getTag());
+
+
+            if(feature->dbTag == neuralnetworks_->getTag())
+            {
+                tagsum++;
+            }
+            db++;
+
+            input.clear();
+
+        }
+        delete feature;
+    }
+
+    cout << endl << "dev database done" << endl;
+    //cout << "Percent: " << (tagsum/dev_databaseFeatures_->size()) << endl;
+    cout << "Ok: " << tagsum << endl
+            << " All pieace: " << db << endl
+            << " dev_databaseFeatures_->size(): " << dev_databaseFeatures_->size() << endl;
+
+
+}
+
+
+//////////////////////////////////////////////////////
+/// Read dev directory! <<<<<<<<< EEEENNDDD
+//////////////////////////////////////////////////////
+
+void MainWindow::on_switch_Button_clicked()
+{
+    flip = !flip;
+    if(flip)
+    {
+        ui->switch_label->setText("use file");
+        ui->switch_label->setStyleSheet("QLabel { color: green }");
+    }
+    else
+    {
+        ui->switch_label->setText("use directory");
+        ui->switch_label->setStyleSheet("QLabel { color: blue }");
+    }
+
+
+
 }

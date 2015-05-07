@@ -49,6 +49,10 @@ private slots:
 
     void on_reInitNeuralNetwork_clicked();
 
+    void on_readDir_dirDevel_clicked();
+
+    void on_switch_Button_clicked();
+
 private:
     Ui::MainWindow *ui;
 
@@ -78,6 +82,22 @@ private:
 
     void train();
     void devel();
+
+
+
+    //////////////////////////////////
+    /// database dev stuff
+    //////////////////////////////////
+
+    void dataBaseDev();
+    QVector<GetFeatures* > * dev_databaseFeatures_;
+    QVector<SoundData*> dev_database_;
+    bool flip;
+
+
+    //////////////////////////////////
+    /// database dev stuff EEEENNDDD
+    //////////////////////////////////
 
 
 };
