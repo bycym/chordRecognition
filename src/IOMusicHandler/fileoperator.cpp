@@ -201,7 +201,7 @@ bool FileOperator::performLoadOperation(QString fn, SoundData*& sndData)
 
         unsigned int num_samp = nSamplesPerSec; // Sampling Rate / Sample Rate
 
-        if(wBitsPerSample == 16)
+        if(false) //if(wBitsPerSample == 16)
         {
             num_samp = ckDataSize/(nChannels * (wBitsPerSample/8));
             //std::cout << "(16bits) Number of Samples: " << num_samp << endl;
@@ -225,8 +225,8 @@ bool FileOperator::performLoadOperation(QString fn, SoundData*& sndData)
                     fread(&readBit1, 1, 2, fp);
                     conv0 = readBit0/32768.0;
                     conv1 = readBit1/32768.0;
-                    sndData->audio_data_f_.push_back(conv0);
-                    sndData->audio_data_f_.push_back(conv1);
+                    sndData->audio_data_f_.push_back(readBit0);
+                    sndData->audio_data_f_.push_back(readBit1);
                     //cout << readBit0<<" : "<<conv0 << endl;
                     //cout << readBit1<<" : "<< conv1 << endl;
                 }
@@ -235,7 +235,7 @@ bool FileOperator::performLoadOperation(QString fn, SoundData*& sndData)
                 {
                     fread(&readBit1, 1, 2, fp);
                     conv1 = readBit1/32768.0;
-                    sndData->audio_data_f_.push_back(conv1);
+                    sndData->audio_data_f_.push_back(readBit1);
                     //cout << readBit1<<" : "<< conv1 << endl;
 
                 }

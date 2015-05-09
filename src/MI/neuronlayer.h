@@ -16,6 +16,7 @@
 #include <math.h>
 #include <random>
 #include <QDebug>
+#define DEBUG 1
 
 class NeuronLayer
 {

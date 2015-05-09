@@ -153,7 +153,7 @@ void NeuralNetworks::updateWeights()
 {
     std::vector<double> out = inputs_;
 
-    for(auto nl : neuronlayer_)
+    for(auto& nl : neuronlayer_)
     {
         nl->updateWeights(out);
         out = nl->outputs();
@@ -171,7 +171,7 @@ void NeuralNetworks::updateInputs(std::vector<double> inp)
 void NeuralNetworks::setLearningRate(double l)
 {
     outputNeuronLayer_->setLearningrate(l);
-    for(auto n : neuronlayer_)
+    for(auto &n : neuronlayer_)
         n->setLearningrate(l);
 }
 

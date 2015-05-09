@@ -53,6 +53,8 @@ private slots:
 
     void on_switch_Button_clicked();
 
+    void on_simple_Button_clicked();
+
 private:
     Ui::MainWindow *ui;
 

@@ -108,18 +108,37 @@ std::vector<pitch> getPeaks(float * freq, int freqSize, int samplerate, bool one
         pcpCountPeaks[i]=pcpCountPeaks[i]/(NEIGHBOUR*2+1);
     }
 
-    /// TODO !!!!!!!!
+    /// normalizalas
     if(true){
-        int div = 1000;
-        //int div = 1;
+        //int div = 1000;
+        double div = 0;
         for (int i=0; i<PCPLEN; i++) {
-            pcp[i] = pcp[i] / div;
-            //std::cout << "pcp[" << i << "] = " << pcp[i] << std::endl;
+            div += pcp[i];
         }
-        for (int i=0; i<PCPLEN; i++) {
-            pcpCountPeaks[i] = pcpCountPeaks[i] / div;
-            //std::cout << "pcpCountPeaks[" << i << "] = " << pcpCountPeaks[i] << std::endl;
+        if (div == 0)
+        {
+            for (int i=0; i<PCPLEN; i++) {
+                pcp[i] = 1 / PCPLEN;
+            }
+            for (int i=0; i<PCPLEN; i++) {
+                pcpCountPeaks[i] = 1 / PCPLEN;
+            }
         }
+        else
+        {
+            for (int i=0; i<PCPLEN; i++) {
+                pcp[i] = pcp[i] / div;
+                //std::cout << "pcp[" << i << "] = " << pcp[i] << std::endl;
+            }
+            for (int i=0; i<PCPLEN; i++) {
+                div += pcpCountPeaks[i];
+            }
+            for (int i=0; i<PCPLEN; i++) {
+                pcpCountPeaks[i] = pcpCountPeaks[i] / div;
+                //std::cout << "pcpCountPeaks[" << i << "] = " << pcpCountPeaks[i] << std::endl;
+            }
+        }
+
     }
 
 

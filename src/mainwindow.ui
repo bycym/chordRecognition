@@ -333,6 +333,19 @@
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
     </property>
    </widget>
+   <widget class="QPushButton" name="simple_Button">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>240</y>
+      <width>81</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>simple</string>
+    </property>
+   </widget>
    <widget class="QPushButton" name="switch_Button">
     <property name="geometry">
      <rect>

@@ -159,7 +159,7 @@ GetFeatures::GetFeatures(SoundData*& sd, bool sample)
             long nr;
             int sum;
             nr = 0; sum = pcptrack.size();
-            std::cout << "PCPTrack size (windows): " << pcptrack.size() << endl;
+            //std::cout << "PCPTrack size (windows): " << pcptrack.size() << endl;
 
             /// pcptrack.at(i).tostring()
             /*
