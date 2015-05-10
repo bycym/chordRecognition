@@ -118,10 +118,10 @@ std::vector<pitch> getPeaks(float * freq, int freqSize, int samplerate, bool one
         if (div == 0)
         {
             for (int i=0; i<PCPLEN; i++) {
-                pcp[i] = 1 / PCPLEN;
+                pcp[i] = 0;//1 / PCPLEN;
             }
             for (int i=0; i<PCPLEN; i++) {
-                pcpCountPeaks[i] = 1 / PCPLEN;
+                pcpCountPeaks[i] = 0;//1 / PCPLEN;
             }
         }
         else

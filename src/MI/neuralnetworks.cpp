@@ -7,7 +7,7 @@ NeuralNetworks::NeuralNetworks(int numInput, int numOutput, int numHiddenLayer, 
     this->numHiddenNeuron_ = numHiddenNeuron;
     this->learningRate_ = learningrate;
     this->numOutput_ = numOutput;
-
+    this->resultTag_ = "";
 
     if(numHiddenLayer == 1)
     {
@@ -93,35 +93,46 @@ void NeuralNetworks::computeOutputs()
     else if(numHiddenLayer_ >= 2)
     {
         //NeuronLayer n1 = neuronlayer_[0];
+        std::vector<double> out;
 
         neuronlayer_[0]->updateInputs(inputs_);
         neuronlayer_[0]->computeOutputs(1);
 
-        /// tmp NeuronLayer help to pass outputs
-        /// now every n th neuron layer can pass their ouputs
-        /// to the nex neuron layer
-        NeuronLayer tmp(neuronlayer_[0]->numOutput(),
-                neuronlayer_[0]->numOutput(),
-                neuronlayer_[0]->numNeuron(), true, learningRate_);
 
-        tmp.updateInputs(neuronlayer_[0]->outputs());
-        tmp.inputToOutput();
+        for(int j = 0; j < neuronlayer_[0]->numNeuron(); j++)
+            out.push_back(neuronlayer_[0]->outputs(j));
+
         for(int i = 1; i < numHiddenLayer_; i++)
         {
             //NeuronLayer n = neuronlayer_[i];
-            neuronlayer_[i]->updateInputs(tmp.outputs());
+            neuronlayer_[i]->updateInputs(out);
             neuronlayer_[i]->computeOutputs(1);
-            tmp.updateInputs(neuronlayer_[i]->outputs());
-            tmp.inputToOutput();
+            out.clear();
+            for(int j = 0; j < neuronlayer_[i]->numNeuron(); j++)
+                out.push_back(neuronlayer_[i]->outputs(j));
         }
-        outputNeuronLayer_->updateInputs(tmp.outputs());
+        outputNeuronLayer_->updateInputs(out);
         outputNeuronLayer_->computeOutputs(1);
     }
 
-    for(int i = 0; i < numOutput_; i++)
+    this->outputs_.clear();
+    for(int i = 0; i < outputNeuronLayer_->numOutput(); i++)
     {
-        outputs_[i] = outputNeuronLayer_->outputs(i);
+        outputs_.push_back(outputNeuronLayer_->outputs(i));
     }
+
+    int index = 0;
+    double max = 0.0;
+    for(int i = 0; i < outputs_.size(); i++)
+    {
+        if(outputs_[i] > max)
+        {
+            index = i;
+            max = outputs_[i];
+        }
+    }
+    if(DEBUG) std::cout << "tags_[" << index << "]: " << tags_[index] << std::endl;
+    resultTag_ = tags_[index];
 }
 
 
@@ -141,7 +152,6 @@ void NeuralNetworks::updateErrorSignal(std::vector<double> array)
 
     std::vector<double> tmpErrorSignal = outputNeuronLayer_->updateErrorSignal(array);
 
-
     for(int i = neuronlayer_.size()-1; i >= 0; i--)
     {
         tmpErrorSignal = neuronlayer_[i]->updateErrorSignal(tmpErrorSignal);
@@ -151,12 +161,27 @@ void NeuralNetworks::updateErrorSignal(std::vector<double> array)
 
 void NeuralNetworks::updateWeights()
 {
-    std::vector<double> out = inputs_;
+    std::vector<double> out;
 
+
+    for(auto i : inputs_)
+        out.push_back(i);
+
+    /*
     for(auto& nl : neuronlayer_)
     {
         nl->updateWeights(out);
         out = nl->outputs();
+    }*/
+
+
+
+    for(int i = 0; i < neuronlayer_.size(); i++)
+    {
+        neuronlayer_[i]->updateWeights(out);
+        out.clear();
+        for(int j = 0; j < neuronlayer_[i]->numNeuron(); j++)
+            out.push_back(neuronlayer_[i]->outputs(j));
     }
     outputNeuronLayer_->updateWeights(out);
 }
@@ -195,6 +220,7 @@ bool NeuralNetworks::setTag(std::vector<std::string> t)
 
 std::string NeuralNetworks::getTag()
 {
+    /*
     int index = 0;
     double max = -2.0;
     for(int i = 0; i < outputs_.size(); i++)
@@ -204,6 +230,6 @@ std::string NeuralNetworks::getTag()
             index = i;
             max = outputs_[i];
         }
-    }
-    return tags_[index];
+    }*/
+    return resultTag_;
 }

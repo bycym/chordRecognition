@@ -35,6 +35,7 @@ bool FileOperator::open(SoundData*& sndData)
                 "Hangfájl (*.wav);;Mindenfájl (*.*)"
                 );
     bool success;
+
     if(!fn.isEmpty())
         success = performLoadOperation(fn, sndData);
     return success;

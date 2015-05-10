@@ -142,7 +142,7 @@ public:
      */
     double weights(int x, int y) const
     {
-        if(!( x >= 0 && x <= numNeuron_ && y >=0 && y <= numInput_))
+        if(!( x >= 0 && x < numNeuron_ && y >=0 && y < numInput_))
         {
             std::cerr << "Bad weights index" << endl;
             qDebug() << "Bad weights index" << endl;
@@ -152,7 +152,7 @@ public:
 
     double biases(int x) const
     {
-        if(!( x >= 0 && x <= biases_.size()))
+        if(!( x >= 0 && x < biases_.size()))
         {
             std::cerr << "Bad biases index" << endl;
             qDebug() << "Bad biases index" << endl;
@@ -162,7 +162,7 @@ public:
 
     double errorSignal(int x) const
     {
-        if(!( x >= 0 && x <= errorSignal_.size()))
+        if(!( x >= 0 && x < errorSignal_.size()))
         {
             std::cerr << "Bad out error index" << endl;
             qDebug() << "Bad out error index" << endl;

@@ -190,7 +190,7 @@ void MainWindow::on_neuralNetwork_Button_clicked()
     /// if all stipulation ok
     /// like read the database and read input file
     /// then we can create the neural network
-    if(sampleRead_ && databaseRead_)
+    if((sampleRead_ || sampleDBRead_) && databaseRead_)
     {
         bool ok = false;
         int cycle = 1;
@@ -322,17 +322,42 @@ void MainWindow::on_neuralNetwork_Button_clicked()
             ui->neuralNetworklabel->setText("OK");
             ui->neuralNetworklabel->setStyleSheet("QLabel { color: green }");
 
+            QMessageBox mb;
+            mb.setIcon(QMessageBox::Information);
+            mb.setText("Kész a tanítás.");
+            mb.setInformativeText("Mégegyszer futtatva kiértékel.");
+
+            mb.exec();
+
         }
         /// if it trained then dev it!
         else if(train_)
         {
             if(flip)
             {
-                devel();
+                if(sampleRead_)
+                    devel();
+                else
+                {
+                    QMessageBox mb;
+                    mb.setIcon(QMessageBox::Critical);
+                    mb.setText("Nem lett beolvasva kiértékelni való fájl.");
+                    mb.setInformativeText("FAIL");
+                    mb.exec();
+                }
             }
             else
             {
-                dataBaseDev();
+                if(sampleDBRead_)
+                    dataBaseDev();
+                else
+                {
+                    QMessageBox mb;
+                    mb.setIcon(QMessageBox::Critical);
+                    mb.setText("Nem lett beolvasva kiértékelni való adatbázis.");
+                    mb.setInformativeText("FAIL");
+                    mb.exec();
+                }
             }
         }
         else
@@ -416,49 +441,51 @@ void MainWindow::train()
 
 
 
-        GetFeatures * feature = databaseFeatures_->at(i);
+        //databaseFeatures_->at(i);
         std::vector<double> input;
 
 
         for(auto &t : target)
             t = 0.0;
 
-        if(feature->dbTag == tags_.at(0))
+        if(databaseFeatures_->at(i)->dbTag == tags_.at(0))
             target.at(0) = 1.0;
-        if(feature->dbTag == tags_.at(1))
+        if(databaseFeatures_->at(i)->dbTag == tags_.at(1))
             target.at(1) = 1.0;
-        if(feature->dbTag == tags_.at(2))
+        if(databaseFeatures_->at(i)->dbTag == tags_.at(2))
             target.at(2) = 1.0;
-        if(feature->dbTag == tags_.at(3))
+        if(databaseFeatures_->at(i)->dbTag == tags_.at(3))
             target.at(3) = 1.0;
-        if(feature->dbTag == tags_.at(4))
+        if(databaseFeatures_->at(i)->dbTag == tags_.at(4))
             target.at(4) = 1.0;
-        if(feature->dbTag == tags_.at(5))
+        if(databaseFeatures_->at(i)->dbTag == tags_.at(5))
             target.at(5) = 1.0;
-        if(feature->dbTag == tags_.at(6))
+        if(databaseFeatures_->at(i)->dbTag == tags_.at(6))
             target.at(6) = 1.0;
-        if(feature->dbTag == tags_.at(7))
+        if(databaseFeatures_->at(i)->dbTag == tags_.at(7))
             target.at(7) = 1.0;
-        if(feature->dbTag == tags_.at(8))
+        if(databaseFeatures_->at(i)->dbTag == tags_.at(8))
             target.at(8) = 1.0;
-        if(feature->dbTag == tags_.at(9))
+        if(databaseFeatures_->at(i)->dbTag == tags_.at(9))
             target.at(9) = 1.0;
 
 
-        for(int j = 0; j < feature->pcptrack.size(); j++)
+        for(int j = 0; j < databaseFeatures_->at(i)->pcptrack.size(); j++)
         {
-            for(auto pcp : feature->pcptrack.at(j).pcp)
+            for(auto pcp : databaseFeatures_->at(i)->pcptrack.at(j).pcp)
             {
                 input.push_back((double)pcp);
             }
 
-            /*
+/*
             cout << "input size: " << input.size() << endl;
             for(auto x : input)
                 cout << x << ", ";
             cout << endl;
-            */
+
             cout << endl << endl << endl;
+*/
+
             //cout << "update input" << endl;
             neuralnetworks_->updateInputs(input);
 
@@ -466,46 +493,41 @@ void MainWindow::train()
             neuralnetworks_->computeOutputs();
 
             //cout << "update error signal" << endl;
-            /*
+/*
             cout << "target size: " << target.size() << endl;
             for(auto x : target)
                 cout << x << ", ";
             cout << endl;
-            */
+*/
             neuralnetworks_->updateErrorSignal(target);
 
             //cout << "update weights" << endl;
             neuralnetworks_->updateWeights();
 
 
-
+/*
             cout <<endl<< "outputs:"<<endl;
             for(auto o : neuralnetworks_->outputs())
             {
                 cout << o << ", ";
             }
             cout <<endl;
-            cout << "tag:" << feature->dbTag <<" - output tag:"<< neuralnetworks_->getTag();
+            */
+            cout << "tag:" << databaseFeatures_->at(i)->dbTag <<" - output tag:"<< neuralnetworks_->getTag()<<endl;
+            /*
             //qDebug() << QString::fromStdString(nn->getTag());
-
-
+            cout << "-------------------------------------"<<endl;
+*/
 
 
             input.clear();
 
         }
-        delete feature;
+        //delete feature;
     }
 
     train_ = true;
     cout << endl << "train done" << endl;
-
-    QMessageBox mb;
-    mb.setIcon(QMessageBox::Information);
-    mb.setText("Kész a tanítás.");
-    mb.setInformativeText("Mégegyszer futtatva kiértékel.");
-
-    mb.exec();
 
 }
 
@@ -531,13 +553,13 @@ void MainWindow::devel()
     */
     int tagsum = 0;
 
-
+/*
     for(int i = 0; i<neuralnetworks_->numOutput(); i++)
     {
         std::cout << neuralnetworks_->tag(i) << ",";
     }
     std::cout << endl;
-
+*/
     std::string resultTag = "";
     std::vector<double> input;
     for(int j = 0; j < sndDataFeatures_->pcptrack.size(); j++)
@@ -561,6 +583,22 @@ void MainWindow::devel()
         neuralnetworks_->computeOutputs();
         std::string tmptag = neuralnetworks_->getTag();
 
+        /*
+        double max = 0;
+        int maxi = 0;
+        cout <<endl<< "outputs:"<<endl;
+        for(int kk = 0; kk < neuralnetworks_->outputs().size(); kk++)
+        {
+            if(neuralnetworks_->outputs().at(kk) > max)
+            {
+                max = neuralnetworks_->outputs().at(kk);
+                maxi = kk;
+            }
+            cout << neuralnetworks_->outputs().at(kk) << ", ";
+        }
+        cout <<endl;
+        cout << "max: " << max<<endl;
+*/
         /*
         if(tmptag == tags_[0])
             a_string++;
@@ -596,7 +634,7 @@ void MainWindow::devel()
 
         resultTag+= tmptag;
         resultTag+= ", ";
-        //qDebug() << QString::fromStdString(nn->getTag());
+//        qDebug() << QString::fromStdString(neuralnetworks_->getTag());
         input.clear();
     }
 
@@ -709,6 +747,7 @@ void MainWindow::on_reInitNeuralNetwork_clicked()
         ui->numHiddenLayer_label->setText("0");
         ui->numNeuron_label->setText("0");
         ui->learningrate_label->setText("0");
+        ui->trainCycle_label->setText("0");
 
 
     }
@@ -733,7 +772,7 @@ void MainWindow::on_readDir_dirDevel_clicked()
     {
         ui->dbSuccessLabel_2->setText("OK");
         ui->dbSuccessLabel_2->setStyleSheet("QLabel { color: green }");
-        sampleRead_ = true;
+        sampleDBRead_ = true;
 
 
         dev_databaseFeatures_->clear();
@@ -748,7 +787,7 @@ void MainWindow::on_readDir_dirDevel_clicked()
     {
         ui->dbSuccessLabel_2->setText("ERROR");
         ui->dbSuccessLabel_2->setStyleSheet("QLabel { color: red }");
-        sampleRead_ = false;
+        sampleDBRead_ = false;
     }
 }
 
@@ -765,21 +804,12 @@ void MainWindow::dataBaseDev()
         cout << endl << endl << endl <<"i : " << i << endl;
 
 
-
-
-
-
-        GetFeatures * feature = dev_databaseFeatures_->at(i);
         std::vector<double> input;
 
 
-
-
-
-
-        for(int j = 0; j < feature->pcptrack.size(); j++)
+        for(int j = 0; j < databaseFeatures_->at(i)->pcptrack.size(); j++)
         {
-            for(auto pcp : feature->pcptrack.at(j).pcp)
+            for(auto pcp : databaseFeatures_->at(i)->pcptrack.at(j).pcp)
             {
                 input.push_back((double)pcp);
             }
@@ -792,17 +822,16 @@ void MainWindow::dataBaseDev()
             */
             //cout << "update input" << endl;
             neuralnetworks_->updateInputs(input);
-            std::string tmptag = neuralnetworks_->getTag();
 
             //cout << "compute outputs" << endl;
             neuralnetworks_->computeOutputs();
 
 
-            cout << "tag:" << feature->dbTag <<" - output tag:"<< neuralnetworks_->getTag() << endl;
+            cout << "tag:" << databaseFeatures_->at(i)->dbTag <<" - output tag:"<< neuralnetworks_->getTag() << endl;
             //qDebug() << QString::fromStdString(nn->getTag());
 
 
-            if(feature->dbTag == neuralnetworks_->getTag())
+            if(databaseFeatures_->at(i)->dbTag == neuralnetworks_->getTag())
             {
                 tagsum++;
             }
@@ -811,7 +840,6 @@ void MainWindow::dataBaseDev()
             input.clear();
 
         }
-        delete feature;
     }
 
     cout << endl << "dev database done" << endl;

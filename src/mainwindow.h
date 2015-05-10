@@ -77,6 +77,7 @@ private:
 
     bool databaseRead_;
     bool sampleRead_;
+    bool sampleDBRead_;
     bool train_;
 
     std::vector<std::string> tags_;

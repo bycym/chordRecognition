@@ -5,6 +5,7 @@
 #include "neuronlayer.h"
 #include <vector>
 #include <iostream>
+#define DEBUG 1
 
 class NeuralNetworks
 {
@@ -32,7 +33,7 @@ private:
     std::vector<double> outputs_;
     std::vector<double> error_;
 
-
+    std::string resultTag_;
 
 
 
