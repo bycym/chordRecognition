@@ -141,6 +141,21 @@ void NeuronLayer::computeOutputs(int alg)
     // activation compute; default is sigmoid
     activationFunction(alg);
 
+
+    if(DEBUG)
+    {
+        std::cout <<"--------------------------"<<std::endl;
+        std::cout << std::endl << "compute outputs: " << std::endl;
+        for(int i = 0; i < outputs_.size(); i++)
+        {
+            std::cout << outputs_[i] << ", ";
+        }
+        std::cout << std::endl;
+        std::cout <<"--------------------------"<<std::endl;
+
+    }
+
+
     /// if its output neuron layer then compute softmax
     if(!hidden_)
         softmax();
@@ -219,7 +234,7 @@ std::vector<double> NeuronLayer::updateErrorSignal(std::vector<double> array)
         for(int i = 0; i < errorSignal_.size(); i++)
         {
             errorSignal_[i] = array[i] - outputs_[i];
-            if(DEBUG) std::cout << "errS: " << errorSignal_[i];
+            if(DEBUG) std::cout << "errS: " << errorSignal_[i]<< ", ";
         }
         if(DEBUG) std::cout << std::endl;
 
@@ -259,8 +274,8 @@ std::vector<double> NeuronLayer::updateErrorSignal(std::vector<double> array)
         if(DEBUG) std::cout << "errorsignal hidden update:" << std::endl;
         for(int i = 0; i < errorSignal_.size(); i++)
         {
-            if(DEBUG) std::cout << "errS: " << errorSignal_[i] << ", devSigmoid(outputs_[i]): "<<  devSigmoid(outputs_[i]) <<" array: " << array[i]<<std::endl;
             errorSignal_[i] =  devSigmoid(outputs_[i]) * array[i];
+            if(DEBUG) std::cout << "errS: " << errorSignal_[i] << ", devSigmoid(outputs_[i]): "<<  devSigmoid(outputs_[i]) <<" array: " << array[i]<<std::endl;
         }
         if(DEBUG) std::cout <<"--------------------------"<<std::endl;
 

@@ -193,6 +193,7 @@ void MainWindow::on_neuralNetwork_Button_clicked()
     if(sampleRead_ && databaseRead_)
     {
         bool ok = false;
+        int cycle = 1;
         int numInput = 10;
         int numOutput = 10;
         int numHiddenLayer = 1;
@@ -236,9 +237,22 @@ void MainWindow::on_neuralNetwork_Button_clicked()
             }
         }
 
+        // cycle rate
+        if(!ui->trainCycle_lineEdit->text().isEmpty())
+        {
+            bool ok = false;
+            double result = ui->trainCycle_lineEdit->text().toInt(&ok);
+            if(ok)
+                cycle = result;
+            else{
+                qDebug() << "Bad value train cycle";
+            }
+        }
+
         ui->numHiddenLayer_label->setText(QString::number(numHiddenLayer));
         ui->numNeuron_label->setText(QString::number(numHiddenNeuron));
         ui->learningrate_label->setText(QString::number(learningrate));
+        ui->trainCycle_label->setText(QString::number(cycle));
 
         /// if it didn't train yet
         if(!train_)
@@ -302,8 +316,9 @@ void MainWindow::on_neuralNetwork_Button_clicked()
             neuralnetworks_ = new NeuralNetworks(PCPLEN, tags_.size(),numHiddenLayer,numHiddenNeuron,learningrate);
             neuralnetworks_->setTag(tags_);
 
+            for(int i  = 0; i < cycle; i++)
+                train();
 
-            train();
             ui->neuralNetworklabel->setText("OK");
             ui->neuralNetworklabel->setStyleSheet("QLabel { color: green }");
 
