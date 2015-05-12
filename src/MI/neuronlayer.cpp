@@ -4,9 +4,17 @@ NeuronLayer::NeuronLayer(int numInput, int numOutput, int numNeuron, bool hidden
 {
     // random value between -1 and 1
     /// TODO: random ellenőrizni, két indiítással
-    std::random_device rd;
-    std::mt19937 mt(rd());
-    std::uniform_real_distribution<double> dist(-1, 1);
+
+
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::default_random_engine generator (seed);
+
+    std::uniform_real_distribution<double> dist (-1.00,1.00);
+
+
+    //std::random_device rd;
+    //std::mt19937 mt(rd());
+    //std::uniform_real_distribution<double> dist(-1.000, 1.000);
 
     this->hidden_ = hidden;
     this->numInput_ = numInput;
@@ -21,7 +29,7 @@ NeuronLayer::NeuronLayer(int numInput, int numOutput, int numNeuron, bool hidden
         std::vector<double> row;
         /// number of input
         for(int j = 0; j < numInput; j++){
-            double tmp = dist(mt);
+            double tmp = dist(generator);
             row.push_back(tmp);
             if(DEBUG) std::cout<< "w: " << tmp << ", ";
         }
@@ -37,7 +45,7 @@ NeuronLayer::NeuronLayer(int numInput, int numOutput, int numNeuron, bool hidden
 
     /// biases init
     for(int i = 0; i < numNeuron; i++)
-        biases_.push_back(0.00);
+        biases_.push_back(1.00);
 
     /// out error init
     for(int i = 0; i < numNeuron; i++)
@@ -116,6 +124,10 @@ void NeuronLayer::computeOutputs(int alg)
     if(DEBUG)
     {
         std::cout <<"--------------------------"<<std::endl;
+        if(hidden_ == true)
+            std::cout << "hidden" << std::endl;
+        else
+            std::cout << "output" << std::endl;
         std::cout << std::endl << "inputs: " << std::endl;
 
         for(auto i : inputs_)
@@ -130,7 +142,7 @@ void NeuronLayer::computeOutputs(int alg)
     for(int neuron = 0; neuron < numNeuron_; neuron++)
     {
         // all input * weights
-        double out = 0;
+        double out = 0.0;
         for(int i = 0; i < inputs_.size(); i++)
         {
             out += inputs_[i] * weights_[neuron][i];
@@ -138,39 +150,53 @@ void NeuronLayer::computeOutputs(int alg)
         outputs_.push_back(out);
     }
 
-    // activation compute; default is sigmoid
-    activationFunction(alg);
 
 
-    if(DEBUG)
-    {
-        std::cout <<"--------------------------"<<std::endl;
-        std::cout << std::endl << "compute outputs: " << std::endl;
-        for(int i = 0; i < outputs_.size(); i++)
-        {
-            std::cout << outputs_[i] << ", ";
-        }
-        std::cout << std::endl;
-        std::cout <<"--------------------------"<<std::endl;
 
-    }
 
 
     /// if its output neuron layer then compute softmax
     if(!hidden_)
+    {
         softmax();
 
-    if(1)
-    {
-        std::cout <<"--------------------------"<<std::endl;
-        std::cout << std::endl << "compute outputs: " << std::endl;
-        for(int i = 0; i < outputs_.size(); i++)
+        if(DEBUG)
         {
-            std::cout << outputs_[i] << ", ";
-        }
-        std::cout << std::endl;
-        std::cout <<"--------------------------"<<std::endl;
+            std::cout <<"--------------------------"<<std::endl;
+            if(hidden_ == true)
+                std::cout << "hidden" << std::endl;
+            else
+                std::cout << "output" << std::endl;
+            std::cout << std::endl << "compute outputs: " << std::endl;
+            for(int i = 0; i < outputs_.size(); i++)
+            {
+                std::cout << outputs_[i] << ", ";
+            }
+            std::cout << std::endl;
+            std::cout <<"--------------------------"<<std::endl;
 
+        }
+    }
+    else
+    {
+        // activation compute; default is sigmoid
+        activationFunction(alg);
+        if(DEBUG)
+        {
+            std::cout <<"--------------------------"<<std::endl;
+            if(hidden_ == true)
+                std::cout << "hidden" << std::endl;
+            else
+                std::cout << "output" << std::endl;
+            std::cout << std::endl << "compute outputs: " << std::endl;
+            for(int i = 0; i < outputs_.size(); i++)
+            {
+                std::cout << outputs_[i] << ", ";
+            }
+            std::cout << std::endl;
+            std::cout <<"--------------------------"<<std::endl;
+
+        }
     }
 
 }
@@ -189,13 +215,17 @@ void NeuronLayer::sigmoid()
 {
     for(int i = 0; i < outputs_.size(); i++)
     {
-        outputs_[i] = (1 / ( 1 + exp( (-1) * outputs_[i] ) ));
+        double tmp = outputs_[i];
+        //double tmp = outputs_[i] + biases_[i];
+        outputs_[i] = (1 / ( 1 + exp( (-1) *  tmp  ) ));
     }
 }
 
-double NeuronLayer::devSigmoid(double x)
+double NeuronLayer::devSigmoid(double x, int i)
 {
-    return (1 / ( 1 + exp( (-1) * x ) )) * (1- (1 / ( 1 + exp( (-1) * x ) )));
+    double tmp = x;
+    //double tmp = x + biases_[i];
+    return (1 / ( 1 + exp( (-1) * tmp ) )) * (1 - (1 / ( 1 + exp( (-1) * tmp ) )));
 }
 
 void NeuronLayer::softmax()
@@ -209,7 +239,10 @@ void NeuronLayer::softmax()
         sum += exp(outputs_[i]);
 
     for(int i = 0; i < outputs_.size(); i++)
-        outputs_[i] = exp(outputs_[i]) / sum;
+    {
+        double tmp = outputs_[i];
+        outputs_[i] = exp(tmp) / sum;
+    }
 
 }
 
@@ -233,7 +266,8 @@ std::vector<double> NeuronLayer::updateErrorSignal(std::vector<double> array)
         /// error signal = target[pattern][i] - output[pattern][i]
         for(int i = 0; i < errorSignal_.size(); i++)
         {
-            errorSignal_[i] = devSigmoid(outputs_[i]) * (array[i] - outputs_[i]);
+            errorSignal_[i] = array[i] - outputs_[i];
+            //errorSignal_[i] = array[i] - outputs_[i];
             if(DEBUG) std::cout << "errS: " << errorSignal_[i]<< ", ";
         }
         if(DEBUG) std::cout << std::endl;
@@ -274,8 +308,8 @@ std::vector<double> NeuronLayer::updateErrorSignal(std::vector<double> array)
         if(DEBUG) std::cout << "errorsignal hidden update:" << std::endl;
         for(int i = 0; i < errorSignal_.size(); i++)
         {
-            errorSignal_[i] =  devSigmoid(outputs_[i]) * array[i];
-            if(DEBUG) std::cout << "errS: " << errorSignal_[i] << ", devSigmoid(outputs_[i]): "<<  devSigmoid(outputs_[i]) <<" array: " << array[i]<<std::endl;
+            errorSignal_[i] =  devSigmoid(outputs_[i],i) * array[i];
+            if(DEBUG) std::cout << "errS: " << errorSignal_[i] << ", devSigmoid(outputs_[i]): "<<  devSigmoid(outputs_[i],i) <<" array: " << array[i]<<std::endl;
         }
         if(DEBUG) std::cout <<"--------------------------"<<std::endl;
 
@@ -314,13 +348,21 @@ void NeuronLayer::updateWeights(const std::vector<double> prevInput)
         if(DEBUG) std::cout << i << ". neuron" << std::endl;
         for(int j = 0; j < numInput_; j++)
         {
+            if(DEBUG) std::cout << "before update weights: " << weights_[i][j] << std::endl;
 
             weights_[i][j] += learningRate_ * prevInput[j] * errorSignal_[i];
+
             //if(DEBUG) std::cout << "neuron w: " << weights_[i][j] << " <- weights_[i][j] + (learningRate_ * prevInput[j] * errorSignal_[i])"<<std::endl;
             if(DEBUG) std::cout << "previnputs: " << prevInput[j] << " , errorSignal: " << errorSignal_[i] << std::endl;
             if(DEBUG) std::cout << "weights: " << weights_[i][j] << std::endl;
 
         }
+    }
+
+    for(int i = 0; i < biases_.size(); i++)
+    {
+        biases_[i] += (learningRate_ * errorSignal_[i] * (-1) );
+        if(DEBUG) std::cout << "biases: " << biases_[i] << std::endl;
     }
     if(DEBUG) std::cout <<"--------------------------"<<std::endl;
 

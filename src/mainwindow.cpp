@@ -258,13 +258,18 @@ void MainWindow::on_neuralNetwork_Button_clicked()
         if(!train_)
         {
 
-
+            QVector<QString> resultInfo;
+            resultInfo.push_back(QString::fromStdString(sndData_->waveFileName()));
             cout << "numOutput: " << numOutput <<endl;
+            resultInfo.push_back("numOutput: "+QString::fromStdString(std::to_string(numOutput)));
             cout << "numHiddenLayer: " << numHiddenLayer <<endl;
+            resultInfo.push_back("numHiddenLayer: "+QString::fromStdString(std::to_string(numHiddenLayer)));
             cout << "numHiddenNeuron: " << numHiddenNeuron <<endl;
+            resultInfo.push_back("numHiddenNeuron: "+QString::fromStdString(std::to_string(numHiddenNeuron)));
             cout << "learningrate: " << learningrate <<endl;
+            resultInfo.push_back("learningrate: "+QString::fromStdString(std::to_string(learningrate)));
 
-
+            info(resultInfo);
 
 
             //nnf_ = new NeuralNetworkForm(this);
@@ -316,9 +321,11 @@ void MainWindow::on_neuralNetwork_Button_clicked()
             neuralnetworks_ = new NeuralNetworks(PCPLEN, tags_.size(),numHiddenLayer,numHiddenNeuron,learningrate);
             neuralnetworks_->setTag(tags_);
 
+
             for(int i  = 0; i < cycle; i++)
                 train();
 
+            train_ = true;
             ui->neuralNetworklabel->setText("OK");
             ui->neuralNetworklabel->setStyleSheet("QLabel { color: green }");
 
@@ -448,6 +455,8 @@ void MainWindow::train()
         for(auto &t : target)
             t = 0.0;
 
+
+        cout << "tag:" << databaseFeatures_->at(i)->dbTag <<" - output tag:"<< neuralnetworks_->getTag()<<endl;
         if(databaseFeatures_->at(i)->dbTag == tags_.at(0))
             target.at(0) = 1.0;
         if(databaseFeatures_->at(i)->dbTag == tags_.at(1))
@@ -472,12 +481,18 @@ void MainWindow::train()
 
         for(int j = 0; j < databaseFeatures_->at(i)->pcptrack.size(); j++)
         {
+
             for(auto pcp : databaseFeatures_->at(i)->pcptrack.at(j).pcp)
             {
                 input.push_back((double)pcp);
             }
 
-/*
+            /*
+            for(int pp = 0; pp < 12; pp++)//
+            {
+                input.push_back(databaseFeatures_->at(i)->pcptrack.at(j).pcp[pp]);
+            }
+
             cout << "input size: " << input.size() << endl;
             for(auto x : input)
                 cout << x << ", ";
@@ -485,6 +500,11 @@ void MainWindow::train()
 
             cout << endl << endl << endl;
 */
+
+            cout << "target size: " << target.size() << endl;
+            for(auto x : target)
+                cout << x << ", ";
+            cout << endl;
 
             //cout << "update input" << endl;
             neuralnetworks_->updateInputs(input);
@@ -512,7 +532,7 @@ void MainWindow::train()
                 cout << o << ", ";
             }
             cout <<endl;
-            */
+*/
             cout << "tag:" << databaseFeatures_->at(i)->dbTag <<" - output tag:"<< neuralnetworks_->getTag()<<endl;
             /*
             //qDebug() << QString::fromStdString(nn->getTag());
@@ -571,7 +591,7 @@ void MainWindow::devel()
         }
 
 /*
-        cout << "input size: " << input.size() << endl;
+        cout << endl << "input size: " << input.size() << endl;
         for(auto x : input)
             cout << x << ", ";
         cout << endl;
@@ -581,9 +601,10 @@ void MainWindow::devel()
 
         //cout << "compute outputs" << endl;
         neuralnetworks_->computeOutputs();
+        //std::cout << "tag: " << neuralnetworks_->getTag() << std::endl;
         std::string tmptag = neuralnetworks_->getTag();
 
-        /*
+
         double max = 0;
         int maxi = 0;
         cout <<endl<< "outputs:"<<endl;
@@ -598,7 +619,7 @@ void MainWindow::devel()
         }
         cout <<endl;
         cout << "max: " << max<<endl;
-*/
+
         /*
         if(tmptag == tags_[0])
             a_string++;
@@ -630,7 +651,6 @@ void MainWindow::devel()
                 tagsum++;
             }
         }
-
 
         resultTag+= tmptag;
         resultTag+= ", ";
@@ -697,6 +717,7 @@ void MainWindow::devel()
     resultInfo.push_back("");
     resultInfo.push_back(QString::fromStdString(sndDataFeatures_->cs.audacity_textspur(1, false)));
     resultInfo.push_back("***********************************************");
+
 
     info(resultInfo);
 
@@ -827,7 +848,7 @@ void MainWindow::dataBaseDev()
             neuralnetworks_->computeOutputs();
 
 
-            cout << "tag:" << databaseFeatures_->at(i)->dbTag <<" - output tag:"<< neuralnetworks_->getTag() << endl;
+            //cout << "tag:" << databaseFeatures_->at(i)->dbTag <<" - output tag:"<< neuralnetworks_->getTag() << endl;
             //qDebug() << QString::fromStdString(nn->getTag());
 
 
@@ -848,6 +869,14 @@ void MainWindow::dataBaseDev()
             << " All pieace: " << db << endl
             << " dev_databaseFeatures_->size(): " << dev_databaseFeatures_->size() << endl;
 
+    QVector<QString> resultInfo;
+    resultInfo.push_back(QString::fromStdString(sndData_->waveFileName()));
+    resultInfo.push_back("dev database done");
+    resultInfo.push_back("Ok: "+QString::fromStdString(std::to_string(tagsum)));
+    resultInfo.push_back("All pieace: "+QString::fromStdString(std::to_string(db)));
+    resultInfo.push_back("dev_databaseFeatures_->size(): "+QString::fromStdString(std::to_string(dev_databaseFeatures_->size())));
+
+    info(resultInfo);
 
 }
 
@@ -905,22 +934,24 @@ void MainWindow::on_simple_Button_clicked()
     neuralnetworks_ = new NeuralNetworks(input.size(), tag.size(), numHiddenLayer,numHiddenNeuron,learningrate);
     neuralnetworks_->setTag(tag);
 
-
-    cout << "update input" << endl;
-    neuralnetworks_->updateInputs(input);
-    cout << "compute outputs" << endl;
-    neuralnetworks_->computeOutputs();
-    cout << "update error signal" << endl;
-    neuralnetworks_->updateErrorSignal(target);
-    cout << "update weights" << endl;
-    neuralnetworks_->updateWeights();
-
-    cout <<endl<< "outputs:"<<endl;
-    for(auto o : neuralnetworks_->outputs())
+    for(int i = 0; i < 10; i++)
     {
-        cout << o << ", ";
+        cout << "update input" << endl;
+        neuralnetworks_->updateInputs(input);
+        cout << "compute outputs" << endl;
+        neuralnetworks_->computeOutputs();
+        cout << "update error signal" << endl;
+        neuralnetworks_->updateErrorSignal(target);
+        cout << "update weights" << endl;
+        neuralnetworks_->updateWeights();
+
+        cout <<endl<< "outputs:"<<endl;
+        for(auto o : neuralnetworks_->outputs())
+        {
+            cout << o << ", ";
+        }
+        cout <<endl;
+        cout << "tag:" << "a" <<" - output tag:"<< neuralnetworks_->getTag();
     }
-    cout <<endl;
-    cout << "tag:" << "a" <<" - output tag:"<< neuralnetworks_->getTag();
 
 }

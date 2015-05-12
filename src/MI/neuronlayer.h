@@ -16,6 +16,7 @@
 #include <math.h>
 #include <random>
 #include <QDebug>
+#include <chrono>
 #define DEBUG 0
 
 class NeuronLayer
@@ -64,7 +65,7 @@ private:
     /// activation functions ///
 
     void sigmoid();
-    double devSigmoid(double x);
+    double devSigmoid(double x, int i);
     void softmax();
 
     /// END activation functions ///
@@ -125,7 +126,7 @@ public:
 
     double outputs(int x) const
     {
-        if(!( x >= 0 && x <= outputs_.size()))
+        if(!( x >= 0 && x < outputs_.size()))
         {
             std::cerr << "Bad outputs index" << endl;
             qDebug() << "Bad outputs index" << endl;
