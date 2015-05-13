@@ -67,7 +67,7 @@ private:
 
 
     GetFeatures * sndDataFeatures_;
-    QVector<GetFeatures* > * databaseFeatures_;
+    std::vector<GetFeatures* > * databaseFeatures_;
 
 
     // for database
@@ -101,6 +101,9 @@ private:
     //////////////////////////////////
     /// database dev stuff EEEENNDDD
     //////////////////////////////////
+    ///
+
+    int myrandom(int i){ return std::rand()%i;}
 
 
 };

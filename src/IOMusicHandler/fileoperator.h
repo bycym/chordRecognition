@@ -22,6 +22,13 @@
 #include <QDirIterator>
 #include <QMovie>
 #include <QLabel>
+
+#include <vector>
+#include <iostream>
+#include <math.h>
+#include <random>
+#include <QDebug>
+#include <chrono>
 //#include <QAudioInput>
 
 

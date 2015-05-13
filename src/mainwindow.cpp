@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
     databaseRead_ = false;
     sampleRead_ = false;
     sndDataFeatures_ = NULL;
-    databaseFeatures_ = new QVector<GetFeatures *>();
+    databaseFeatures_ = new std::vector<GetFeatures *>();
 
 
 
@@ -326,7 +326,7 @@ void MainWindow::on_neuralNetwork_Button_clicked()
                 train();
 
             train_ = true;
-            ui->neuralNetworklabel->setText("OK");
+            ui->neuralNetworklabel->setText("Trained");
             ui->neuralNetworklabel->setStyleSheet("QLabel { color: green }");
 
             QMessageBox mb;
@@ -438,12 +438,17 @@ void MainWindow::train()
     target.push_back(0.0);
     target.push_back(0.0);
 
+
+
+    //std::srand( unsigned (std::tim(0)));
+
+    std::random_shuffle(databaseFeatures_->begin(),databaseFeatures_->end());
+
+
     // D.B. teaching
     for(int i = 0; i < databaseFeatures_->size(); i++)
     {
         cout << endl << endl << endl <<"i : " << i << endl;
-
-
 
 
 
@@ -456,7 +461,7 @@ void MainWindow::train()
             t = 0.0;
 
 
-        cout << "tag:" << databaseFeatures_->at(i)->dbTag <<" - output tag:"<< neuralnetworks_->getTag()<<endl;
+//        cout << "tag:" << databaseFeatures_->at(i)->dbTag <<" - output tag:"<< neuralnetworks_->getTag()<<endl;
         if(databaseFeatures_->at(i)->dbTag == tags_.at(0))
             target.at(0) = 1.0;
         if(databaseFeatures_->at(i)->dbTag == tags_.at(1))
@@ -500,12 +505,12 @@ void MainWindow::train()
 
             cout << endl << endl << endl;
 */
-
+/*
             cout << "target size: " << target.size() << endl;
             for(auto x : target)
                 cout << x << ", ";
             cout << endl;
-
+*/
             //cout << "update input" << endl;
             neuralnetworks_->updateInputs(input);
 
@@ -543,6 +548,7 @@ void MainWindow::train()
             input.clear();
 
         }
+
         //delete feature;
     }
 
@@ -604,9 +610,11 @@ void MainWindow::devel()
         //std::cout << "tag: " << neuralnetworks_->getTag() << std::endl;
         std::string tmptag = neuralnetworks_->getTag();
 
-
+/*
         double max = 0;
         int maxi = 0;
+
+
         cout <<endl<< "outputs:"<<endl;
         for(int kk = 0; kk < neuralnetworks_->outputs().size(); kk++)
         {
@@ -619,7 +627,7 @@ void MainWindow::devel()
         }
         cout <<endl;
         cout << "max: " << max<<endl;
-
+*/
         /*
         if(tmptag == tags_[0])
             a_string++;
@@ -797,7 +805,6 @@ void MainWindow::on_readDir_dirDevel_clicked()
 
 
         dev_databaseFeatures_->clear();
-
         for(auto a : dev_database_)
         {
             dev_databaseFeatures_->push_back(new GetFeatures(a, false));
@@ -848,7 +855,7 @@ void MainWindow::dataBaseDev()
             neuralnetworks_->computeOutputs();
 
 
-            //cout << "tag:" << databaseFeatures_->at(i)->dbTag <<" - output tag:"<< neuralnetworks_->getTag() << endl;
+            cout << "tag:" << databaseFeatures_->at(i)->dbTag <<" - output tag:"<< neuralnetworks_->getTag() << endl;
             //qDebug() << QString::fromStdString(nn->getTag());
 
 
