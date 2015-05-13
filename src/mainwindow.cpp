@@ -440,8 +440,7 @@ void MainWindow::train()
 
 
 
-    //std::srand( unsigned (std::tim(0)));
-
+    /// !!! MOST IMPORTANT THING EVER !!!
     std::random_shuffle(databaseFeatures_->begin(),databaseFeatures_->end());
 
 
