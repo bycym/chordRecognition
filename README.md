@@ -7,7 +7,8 @@ Changes:
 * The original program is use libsndfile, but I wrote my own soundData and I linked it.
 * The core is Qt with QtMultimedia.
 * It uses music chordDatabase:
-    http://www.montefiore.ulg.ac.be/services/acous/STSI/file/jim2012Chords.zip
+    audio/jim2012Chords/
+    but I used wave files under the audio directory
 * It use Neural Network for database search.
 * ... ?
 
